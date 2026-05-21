@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Session Plan — Combination Play in Central Midfield</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0d9488;--teal-hi:#14b8a6;--teal-dim:rgba(13,148,136,.14);
+  --gold:#f0c040;--white:#f3f1ec;--grey:#7a8876;--grey-mid:#4a5448;
+  --dark:#0b0f0e;--surface:#131a18;--surface-2:#1a2422;--surface-3:#222e2b;
+  --green:#22c55e;--green-dim:rgba(34,197,94,.14);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.14);
+  --red:#f87171;--red-dim:rgba(248,113,113,.12);
+  --blue:#3b82f6;--purple:#a855f7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--dark);color:var(--white);font-family:'Source Sans 3',sans-serif;font-weight:300;font-size:13px;line-height:1.6}
+.page{max-width:980px;margin:0 auto;padding:24px}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(13,148,136,.015) 40px,rgba(13,148,136,.015) 41px);pointer-events:none;z-index:0}
+
+/* ── HEADER ───────────────────────────────────────────────────── */
+.header{position:relative;overflow:hidden;background:var(--surface);border:2px solid var(--teal-hi);padding:24px 28px 20px;margin-bottom:14px}
+.header::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(20,184,166,.1) 0%,transparent 50%);pointer-events:none}
+.header-inner{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;position:relative;z-index:1}
+.session-eyebrow{font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:var(--teal-hi);font-family:'Oswald',sans-serif;font-weight:600;margin-bottom:6px}
+.session-title{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;text-transform:uppercase;line-height:1.05;letter-spacing:.3px}
+.session-title em{color:var(--teal-hi);font-style:normal}
+.session-sub{font-size:12px;color:rgba(243,241,236,.5);margin-top:5px;letter-spacing:.3px}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;text-align:right}
+.meta-l{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-hi);font-family:'Oswald',sans-serif}
+.meta-v{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;color:var(--white);margin-top:1px}
+
+/* ── TOPIC STRIP ──────────────────────────────────────────────── */
+.topic-strip{display:flex;align-items:center;background:var(--teal-hi);margin-bottom:14px;overflow:hidden}
+.ts-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dark);font-weight:700;padding:8px 14px;background:rgba(0,0,0,.18);flex-shrink:0}
+.ts-topics{display:flex;gap:0;flex:1;padding:0 2px}
+.ts-topic{font-family:'Oswald',sans-serif;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;padding:8px 12px;color:var(--dark);border-right:1px solid rgba(0,0,0,.1);display:flex;align-items:center;gap:5px}
+.ts-topic:last-child{border-right:none}
+.ts-dot{width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,.3)}
+
+/* ── SESSION OVERVIEW ─────────────────────────────────────────── */
+.session-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.overview-phase{background:var(--surface-2);border:1px solid rgba(255,255,255,.07);border-top:2px solid var(--ph-c);padding:12px 14px;position:relative}
+.ov-num{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ph-c);margin-bottom:4px}
+.ov-name{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;text-transform:uppercase;color:var(--white);line-height:1.2;letter-spacing:.3px}
+.ov-type{font-size:10.5px;color:var(--grey);margin-top:3px}
+.ov-time{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--ph-c);line-height:1;margin-top:6px}
+.ov-time-unit{font-size:8px;color:var(--grey);letter-spacing:1px;margin-left:1px}
+.ov-arrow{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:6px solid var(--surface-2);z-index:2;display:none}
+
+/* ── UEFA B TUTOR RESPONSE ────────────────────────────────────── */
+.tutor-card{background:var(--surface-2);border:1px solid rgba(245,158,11,.25);border-left:3px solid var(--amber);margin-bottom:14px;overflow:hidden}
+.tutor-header{padding:11px 18px 10px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;background:rgba(245,158,11,.05)}
+.tutor-tag{font-family:'Oswald',sans-serif;font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:2px;background:var(--amber-dim);color:var(--amber);flex-shrink:0}
+.tutor-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;color:var(--white);letter-spacing:.3px}
+.tutor-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.tutor-criterion{padding:12px 16px;border-right:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+.tutor-criterion:nth-child(2){border-right:none}
+.tutor-criterion:nth-child(3){border-bottom:none}
+.tutor-criterion:nth-child(4){border-right:none;border-bottom:none}
+.tutor-crit-n{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+.tutor-crit-title{font-size:12px;font-weight:600;color:var(--white);margin-bottom:4px;line-height:1.3}
+.tutor-crit-rec{font-size:11px;color:var(--grey);line-height:1.55}
+.tutor-crit-change{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:2px;margin-top:5px;font-family:'Oswald',sans-serif}
+.change-yes{background:rgba(34,197,94,.15);color:#4ade80}
+.change-minor{background:rgba(245,158,11,.15);color:#fbbf24}
+.change-no{background:rgba(255,255,255,.07);color:var(--grey)}
+
+/* ── SECTION HEADING ──────────────────────────────────────────── */
+.section-heading{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.section-heading-line{height:1px;flex:1;background:rgba(255,255,255,.07)}
+.section-heading-text{font-family:'Oswald',sans-serif;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal-hi);flex-shrink:0}
+
+/* ── BRIDGE BLOCK ─────────────────────────────────────────────── */
+.bridge-block{background:var(--surface-2);border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--teal-hi);padding:12px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px}
+.bridge-icon{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--teal-hi);flex-shrink:0;line-height:1;margin-top:2px}
+.bridge-title{font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal-hi);margin-bottom:4px}
+.bridge-text{font-size:11.5px;color:rgba(243,241,236,.72);line-height:1.6}
+
+/* ── PRACTICE CARD ────────────────────────────────────────────── */
+.practice-card{background:var(--surface-2);border:1px solid rgba(255,255,255,.07);border-top:3px solid var(--ph-c,var(--teal-hi));margin-bottom:14px;overflow:hidden}
+.practice-header{padding:14px 20px 12px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.p-tag{font-family:'Oswald',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:2px;background:rgba(255,255,255,.07);color:var(--grey);flex-shrink:0}
+.p-name{font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;text-transform:uppercase;color:var(--white);letter-spacing:.3px;flex:1;min-width:0}
+.p-type{font-size:10px;color:var(--grey);letter-spacing:.4px;flex-shrink:0}
+.p-duration{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--ph-c,var(--teal-hi));line-height:1;flex-shrink:0}
+.p-duration span{font-size:8.5px;color:var(--grey);font-weight:400;letter-spacing:1px;margin-left:1px}
+
+.practice-body{display:grid;grid-template-columns:1fr 370px;gap:0}
+.practice-left{padding:16px 20px;border-right:1px solid rgba(255,255,255,.06)}
+.practice-right{padding:14px 16px;background:rgba(0,0,0,.1)}
+
+/* Objective */
+.objective-block{background:rgba(20,184,166,.07);border-left:2px solid var(--ph-c,var(--teal-hi));padding:9px 13px;margin-bottom:12px;border-radius:0 3px 3px 0}
+.obj-heading{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ph-c,var(--teal-hi));margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.obj-heading::before{content:'';display:block;width:12px;height:1px;background:var(--ph-c,var(--teal-hi))}
+.obj-text{font-size:12px;color:rgba(243,241,236,.82);line-height:1.6}
+
+/* Setup */
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px}
+.setup-item{}
+.setup-l{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);font-family:'Oswald',sans-serif}
+.setup-v{font-size:12px;font-weight:600;color:var(--white);font-family:'Oswald',sans-serif;margin-top:1px}
+
+/* Rules */
+.rules-heading{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(243,241,236,.55);margin-bottom:7px}
+.rules-list{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.rule{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:rgba(243,241,236,.72);line-height:1.5}
+.rule-n{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:var(--ph-c,var(--teal-hi));flex-shrink:0;width:16px;line-height:1.5}
+
+/* Coaching points */
+.cp-heading{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ph-c,var(--teal-hi));margin-bottom:8px}
+.cp-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.cp{display:flex;align-items:flex-start;gap:9px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.05)}
+.cp:last-child{border-bottom:none;padding-bottom:0}
+.cp-bullet{width:5px;height:5px;border-radius:50%;background:var(--ph-c,var(--teal-hi));flex-shrink:0;margin-top:6px}
+.cp-body{}
+.cp-title{font-size:12px;font-weight:600;color:var(--white);line-height:1.3}
+.cp-desc{font-size:11px;color:var(--grey);margin-top:2px;line-height:1.5}
+
+/* Intervention spectrum */
+.intervention-strip{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:10px 13px;margin-bottom:12px}
+.int-heading{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:7px}
+.int-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.int-col-head{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;margin-bottom:4px}
+.int-item{font-size:10.5px;color:var(--grey);line-height:1.5;margin-bottom:3px;display:flex;gap:5px;align-items:flex-start}
+.int-item::before{content:'·';color:var(--amber);flex-shrink:0}
+
+/* Progressions */
+.prog-block{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.18);padding:10px 14px;margin-bottom:10px}
+.prog-heading{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#4ade80;margin-bottom:7px}
+.prog-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:11.5px;color:rgba(243,241,236,.72);line-height:1.5}
+.prog-item:last-child{margin-bottom:0}
+.prog-n{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:#4ade80;flex-shrink:0;line-height:1.6}
+
+/* Regression */
+.reg-block{background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.18);padding:10px 14px;margin-bottom:12px}
+.reg-heading{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#fbbf24;margin-bottom:7px}
+.reg-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:11.5px;color:rgba(243,241,236,.72);line-height:1.5}
+.reg-item:last-child{margin-bottom:0}
+.reg-n{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:#fbbf24;flex-shrink:0;line-height:1.6}
+
+/* Success & problems */
+.success-card{background:var(--surface-2);border:1px solid rgba(255,255,255,.07);margin-bottom:12px;overflow:hidden}
+.success-header{padding:10px 18px 9px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
+.success-tag{font-family:'Oswald',sans-serif;font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:2px;flex-shrink:0}
+.s-tag-success{background:rgba(59,130,246,.12);color:#7ab3f5}
+.s-tag-problems{background:rgba(248,113,113,.12);color:#f87171}
+.success-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;color:var(--white);letter-spacing:.3px}
+.success-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.success-col{padding:11px 14px;border-right:1px solid rgba(255,255,255,.06)}
+.success-col:last-child{border-right:none}
+.success-col-heading{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.dot-g{width:6px;height:6px;border-radius:50%;background:#4ade80}.dot-a{background:#fbbf24}.dot-r{background:#f87171}
+.si{display:flex;align-items:flex-start;gap:5px;margin-bottom:5px;font-size:10.5px;color:rgba(243,241,236,.68);line-height:1.45}
+.si::before{content:'›';font-weight:700;flex-shrink:0;margin-top:-1px}
+.si-g::before{color:#4ade80}.si-a::before{color:#fbbf24}.si-r::before{color:#f87171}
+
+.problems-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.problem-item{padding:10px 14px;border-right:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+.problem-item:nth-child(2){border-right:none}
+.problem-item:nth-child(3){border-bottom:none}
+.problem-item:nth-child(4){border-right:none;border-bottom:none}
+.problem-q{font-size:11px;font-weight:600;color:var(--white);margin-bottom:4px;display:flex;gap:5px;line-height:1.4}
+.problem-q::before{content:'?';font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;color:#f87171;flex-shrink:0;line-height:1.3}
+.problem-a{font-size:10.5px;color:var(--grey);line-height:1.5;padding-left:14px}
+
+/* Diagram */
+.diagram-label{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ph-c,var(--teal-hi));font-family:'Oswald',sans-serif;font-weight:600;margin-bottom:5px}
+.diagram-wrap svg{width:100%;height:auto;display:block;border-radius:3px}
+.diagram-sub{font-size:9px;color:var(--grey);margin-top:5px;line-height:1.4;text-align:center}
+
+/* Management note */
+.mgmt-note{background:rgba(245,158,11,.07);border-left:2px solid var(--amber);padding:8px 12px;margin-bottom:10px;border-radius:0 3px 3px 0}
+.mgmt-heading{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+.mgmt-text{font-size:11px;color:rgba(243,241,236,.7);line-height:1.55}
+
+/* Progression header variant */
+.progression-header{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-top:2px solid #4ade80;margin-bottom:14px;overflow:hidden}
+.progression-header .practice-header{background:transparent}
+
+/* Footer */
+.footer{background:var(--surface);border:1px solid rgba(255,255,255,.07);padding:11px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.footer-item{display:flex;flex-direction:column;gap:1px}
+.footer-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-hi);font-family:'Oswald',sans-serif}
+.footer-v{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;color:var(--white)}
+.footer-div{width:1px;height:26px;background:rgba(255,255,255,.07)}
+.footer-pills{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}
+.fpill{font-size:8.5px;font-weight:600;padding:3px 8px;background:var(--teal-dim);color:var(--teal-hi);border-radius:2px;letter-spacing:.5px;font-family:'Oswald',sans-serif;text-transform:uppercase}
+
+/* ── KEYFRAMES ────────────────────────────────────────────────── */
+@keyframes ballPulse{0%,100%{r:4}50%{r:5.5}}
+@keyframes playerBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes dashFlow{0%{stroke-dashoffset:50}100%{stroke-dashoffset:0}}
+@keyframes arrowMarch{0%{stroke-dashoffset:80}100%{stroke-dashoffset:0}}
+@keyframes runRight{0%,100%{transform:translateX(0)}50%{transform:translateX(14px)}}
+@keyframes runLeft{0%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}}
+@keyframes runUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes runDown{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+@keyframes runDiagR{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,-12px)}}
+@keyframes runDiagL{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,-12px)}}
+@keyframes zonePulse{0%,100%{opacity:.06}50%{opacity:.15}}
+@keyframes badgeFlash{0%,100%{opacity:.8}50%{opacity:1;filter:brightness(1.2)}}
+@keyframes pointScore{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes counterRush{0%,100%{transform:translateY(0)}40%{transform:translateY(16px)}70%{transform:translateY(16px)}}
+@keyframes fadeInOut{0%,100%{opacity:0}35%,70%{opacity:1}}
+@keyframes pressHigh{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══ HEADER ════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="session-eyebrow">EIK · Full Session Plan · UEFA B Standard · Standalone · 90 min</div>
+      <div class="session-title">Combination Play in <em>Central Midfield</em></div>
+      <div class="session-sub">Creating goalscoring opportunities through combination — linking technical to game-realistic scenarios · 4-3-3 · Ages 13–15</div>
+    </div>
+    <div class="meta-grid">
+      <div><div class="meta-l">Duration</div><div class="meta-v">90 min</div></div>
+      <div><div class="meta-l">Players</div><div class="meta-v">14 (inc. GK)</div></div>
+      <div><div class="meta-l">Formation</div><div class="meta-v">4-3-3</div></div>
+      <div><div class="meta-l">Age Group</div><div class="meta-v">13–15</div></div>
+      <div><div class="meta-l">Pitch</div><div class="meta-v">½ 11v11</div></div>
+      <div><div class="meta-l">Standard</div><div class="meta-v">UEFA B</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOPIC STRIP ════════════════════════════════════════════════ -->
+<div class="topic-strip">
+  <div class="ts-label">Session Concepts</div>
+  <div class="ts-topics">
+    <div class="ts-topic"><div class="ts-dot"></div>One-Two · Wall Pass</div>
+    <div class="ts-topic"><div class="ts-dot"></div>Third-Man Runs</div>
+    <div class="ts-topic"><div class="ts-dot"></div>Movement On/Around/Away</div>
+    <div class="ts-topic"><div class="ts-dot"></div>Penetrate Through·Around·Over</div>
+    <div class="ts-topic"><div class="ts-dot"></div>Timing of Pass</div>
+    <div class="ts-topic"><div class="ts-dot"></div>CF Link Play</div>
+  </div>
+</div>
+
+<!-- ══ SESSION OVERVIEW ═══════════════════════════════════════════ -->
+<div class="session-overview">
+  <div class="overview-phase" style="--ph-c:#14b8a6">
+    <div class="ov-num">Practice 1</div>
+    <div class="ov-name">Transfer Through<br>Midfield</div>
+    <div class="ov-type">3v3 + 2 Bounce Players · Technical-Tactical</div>
+    <div class="ov-time">20–25<span class="ov-time-unit">MIN</span></div>
+  </div>
+  <div class="overview-phase" style="--ph-c:#f59e0b">
+    <div class="ov-num">Practice 2</div>
+    <div class="ov-name">Wave Attack<br>3v3</div>
+    <div class="ov-type">Half-to-Box · Transition · Big Picture</div>
+    <div class="ov-time">25–30<span class="ov-time-unit">MIN</span></div>
+  </div>
+  <div class="overview-phase" style="--ph-c:#a855f7">
+    <div class="ov-num">Practice 3</div>
+    <div class="ov-name">Conditioned<br>Match</div>
+    <div class="ov-type">7v6+GK · Full Integration · Expression</div>
+    <div class="ov-time">25–30<span class="ov-time-unit">MIN</span></div>
+  </div>
+</div>
+
+<!-- ══ UEFA B TUTOR RESPONSE ══════════════════════════════════════ -->
+<div class="section-heading">
+  <div class="section-heading-text">Response to UEFA B Tutor Criteria — Session Adaptations</div>
+  <div class="section-heading-line"></div>
+</div>
+
+<div class="tutor-card">
+  <div class="tutor-header">
+    <span class="tutor-tag">Tutor Feedback</span>
+    <span class="tutor-title">Four criteria reviewed — recommendations and session changes below</span>
+  </div>
+  <div class="tutor-body">
+    <div class="tutor-criterion">
+      <div class="tutor-crit-n">Criterion 1</div>
+      <div class="tutor-crit-title">Effective link from technical practice to game-realistic scenarios</div>
+      <div class="tutor-crit-rec">The original P1→P2 transition lacked an explicit link. Added a <strong>bridge moment</strong> between practices: a 60-second coach-led freeze connecting the give &amp; go seen in P1 to what players will now execute at pace and under more pressure in P2. P3 (conditioned match) then removes all structure so players apply learning freely — replicating 11v11 conditions. The combination rule (2+ touches) carries through all three practices as a consistent thread.</div>
+      <span class="tutor-crit-change change-yes">Change Made — Bridge Added</span>
+    </div>
+    <div class="tutor-criterion">
+      <div class="tutor-crit-n">Criterion 2</div>
+      <div class="tutor-crit-title">Big picture — coach across units, affect players on/around/away from the ball</div>
+      <div class="tutor-crit-rec">P2 (Wave Attack) already works across attacking and defensive units simultaneously — but the original plan focused only on attackers. Added explicit coaching notes for the <strong>defending unit behaviour</strong> and the CF progression's pressing role. The intervention strip in P2 explicitly identifies on-ball, around-ball, and off-ball players so the coach can consciously move between units during the practice. P3 (conditioned match) requires the coach to consciously observe all three units at once.</div>
+      <span class="tutor-crit-change change-yes">Change Made — Dual-Unit Notes Added</span>
+    </div>
+    <div class="tutor-criterion">
+      <div class="tutor-crit-n">Criterion 3</div>
+      <div class="tutor-crit-title">Practice management — managing opposition to create appropriate challenge</div>
+      <div class="tutor-crit-rec">In P2, the defending team's behaviour must be managed in three stages: <strong>(1)</strong> first 3 minutes — defend passively, no counter-attack allowed, so attackers get clean reps to understand the structure; <strong>(2)</strong> minutes 4–12 — counter-attack introduced, defenders at full intensity; <strong>(3)</strong> CF progression — defending team's persistent attacker presses high immediately, creating a realistic game-speed challenge. Management notes added to P2 explicitly to guide the coach on each stage.</div>
+      <span class="tutor-crit-change change-yes">Change Made — 3-Stage Mgmt Added</span>
+    </div>
+    <div class="tutor-criterion">
+      <div class="tutor-crit-n">Criterion 4</div>
+      <div class="tutor-crit-title">Coaching interventions — instruction vs guided discovery balance</div>
+      <div class="tutor-crit-rec">An <strong>intervention spectrum</strong> has been added to P2 and P3. It divides moments into three columns: when to freeze &amp; instruct (shape is wrong, unsafe), when to use questioning without stopping (player made a decision — ask "what did you see?"), and when to let play run (combination attempted even if it failed — learning through consequence). The Problems &amp; Solutions section specifies the intervention type for each problem. This directly addresses the instruction vs guided discovery balance your tutor flagged.</div>
+      <span class="tutor-crit-change change-yes">Change Made — Spectrum Added to P2 &amp; P3</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PRACTICE 1
+════════════════════════════════════════════════════════════════ -->
+<div class="section-heading">
+  <div class="section-heading-text">Practice 1 — Transfer Through Midfield</div>
+  <div class="section-heading-line"></div>
+</div>
+
+<div class="practice-card" style="--ph-c:#14b8a6">
+  <div class="practice-header">
+    <span class="p-tag">Technical-Tactical</span>
+    <div>
+      <div class="p-name">3v3 + 2 Bounce Players — Transfer Through Midfield</div>
+      <div class="p-type">Possession · Combination · Directional · All 14 Players</div>
+    </div>
+    <div class="p-duration">20–25<span>MIN</span></div>
+  </div>
+  <div class="practice-body">
+    <div class="practice-left">
+      <div class="objective-block">
+        <div class="obj-heading">Objective</div>
+        <div class="obj-text">Transfer the ball from outside bounce player A to outside bounce player B, using at least two inside players before the final pass. Both teams score the same way. 1 point per successful A-to-B transfer. The team currently in possession uses the two bounce players; on turnover the new possession team immediately uses them.</div>
+      </div>
+      <div class="setup-grid">
+        <div class="setup-item"><div class="setup-l">Area</div><div class="setup-v">20m × 15m</div></div>
+        <div class="setup-item"><div class="setup-l">Inside</div><div class="setup-v">3v3 (6 players)</div></div>
+        <div class="setup-item"><div class="setup-l">Outside</div><div class="setup-v">2 neutral bounce players</div></div>
+        <div class="setup-item"><div class="setup-l">Waiting</div><div class="setup-v">GK + 5 rotate every 5 min</div></div>
+        <div class="setup-item"><div class="setup-l">Touches</div><div class="setup-v">Free (encourage 1–2)</div></div>
+        <div class="setup-item"><div class="setup-l">Min. touches</div><div class="setup-v">2 inside players before point</div></div>
+      </div>
+      <div class="rules-heading">Rules</div>
+      <div class="rules-list">
+        <div class="rule"><div class="rule-n">1.</div>Outside players are neutral — they serve whichever team has possession.</div>
+        <div class="rule"><div class="rule-n">2.</div>Ball must touch at least 2 inside players before the scoring pass to the far outside player.</div>
+        <div class="rule"><div class="rule-n">3.</div>Outside players cannot pass directly to each other — ball must re-enter the inside area.</div>
+        <div class="rule"><div class="rule-n">4.</div>On turnover the new team may immediately reverse the transfer direction to score.</div>
+      </div>
+      <div class="cp-heading">Coaching Points</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">One-two plays &amp; wall passes — look for this first</div><div class="cp-desc">Pass to teammate and immediately move into space for the return. The outside player is the ideal wall — use them, spin, receive back and penetrate.</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Movement on, around and away from the ball</div><div class="cp-desc">Three types: towards (short option), away (drag a defender to open space), diagonal (creates a passing lane and a third-man option at the same time).</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Timing of the pass — into the run, not to the feet</div><div class="cp-desc">Pass arrives as the receiver enters the space. Too early = intercepted. Too late = receiver has stopped. Cue: "pass to where they're going."</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Three ways to penetrate: through · around · over</div><div class="cp-desc">Through: split pass beating the line. Around: use bounce player wide, then switch to far end. Over: chip to the far bounce player when ground passes are blocked.</div></div></div>
+      </div>
+      <div class="prog-block">
+        <div class="prog-heading">Progressions</div>
+        <div class="prog-item"><div class="prog-n">P1</div><div>2-touch limit inside area — forces faster decision-making and combination tempo.</div></div>
+        <div class="prog-item"><div class="prog-n">P2</div><div>All 3 inside players must touch — forces active third-man movement and off-ball runs.</div></div>
+        <div class="prog-item"><div class="prog-n">P3</div><div>Coach names the combination ("one-two!", "third man!") — point only counts if the named combination was used.</div></div>
+      </div>
+      <div class="reg-block">
+        <div class="reg-heading">Regressions</div>
+        <div class="reg-item"><div class="reg-n">R1</div><div>Reduce to 1 inside touch required — simplify if players can't retain possession at all.</div></div>
+        <div class="reg-item"><div class="reg-n">R2</div><div>Jogging defenders for first 2 minutes — introduce pressure gradually as players learn the structure.</div></div>
+      </div>
+    </div>
+    <div class="practice-right">
+      <div class="diagram-label">P1 — Transfer Through Midfield (3v3 + 2 Bounce)</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 350 490" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="t1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#14b8a6"/></marker>
+            <marker id="t2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f0c040"/></marker>
+            <marker id="t3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a855f7"/></marker>
+          </defs>
+          <rect width="350" height="490" fill="#111a18" rx="4"/>
+          <!-- Area -->
+          <rect x="40" y="90" width="270" height="310" fill="rgba(20,184,166,.04)" stroke="#2d6e5a" stroke-width="1.5" rx="2"/>
+          <!-- Grid lines -->
+          <line x1="40" y1="195" x2="310" y2="195" stroke="#2d6e5a" stroke-width=".7" stroke-dasharray="5,4" opacity=".35"/>
+          <line x1="40" y1="245" x2="310" y2="245" stroke="#2d6e5a" stroke-width=".7" stroke-dasharray="5,4" opacity=".35"/>
+          <line x1="40" y1="295" x2="310" y2="295" stroke="#2d6e5a" stroke-width=".7" stroke-dasharray="5,4" opacity=".35"/>
+          <line x1="130" y1="90" x2="130" y2="400" stroke="#2d6e5a" stroke-width=".7" stroke-dasharray="5,4" opacity=".25"/>
+          <line x1="220" y1="90" x2="220" y2="400" stroke="#2d6e5a" stroke-width=".7" stroke-dasharray="5,4" opacity=".25"/>
+          <text x="175" y="80" fill="#14b8a6" font-size="8" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600" letter-spacing=".8">20m × 15m AREA</text>
+          <!-- Outside player A (top) -->
+          <rect x="128" y="36" width="94" height="46" fill="rgba(240,192,64,.08)" stroke="#f0c040" stroke-width="1.2" stroke-dasharray="5,3" rx="3"/>
+          <circle cx="175" cy="59" r="14" fill="#b37800" stroke="#f0c040" stroke-width="1.8"/>
+          <text x="175" y="63" fill="#fff" font-size="8" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">OUT A</text>
+          <text x="175" y="27" fill="#f0c040" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600" letter-spacing=".5">BOUNCE PLAYER — NEUTRAL</text>
+          <!-- Outside player B (bottom) -->
+          <rect x="128" y="408" width="94" height="46" fill="rgba(240,192,64,.08)" stroke="#f0c040" stroke-width="1.2" stroke-dasharray="5,3" rx="3"/>
+          <circle cx="175" cy="431" r="14" fill="#b37800" stroke="#f0c040" stroke-width="1.8"/>
+          <text x="175" y="435" fill="#fff" font-size="8" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">OUT B</text>
+          <text x="175" y="468" fill="#f0c040" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600" letter-spacing=".5">BOUNCE PLAYER — NEUTRAL</text>
+          <!-- Ball at A -->
+          <circle cx="175" cy="59" r="5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <!-- A feeds P1 -->
+          <path d="M175,73 L148,105" fill="none" stroke="#f0c040" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#t2)" style="animation:dashFlow 1.6s linear infinite"/>
+          <!-- P1 (teal) receives -->
+          <circle cx="140" cy="125" r="12" fill="#0d9488" stroke="#fff" stroke-width="1.8" style="animation:playerBob 2s ease-in-out infinite"/>
+          <text x="140" y="129" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">P1</text>
+          <!-- P2 (teal) -->
+          <circle cx="228" cy="170" r="12" fill="#0d9488" stroke="#fff" stroke-width="1.8" style="animation:playerBob 2.3s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="228" y="174" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">P2</text>
+          <!-- P3 (teal) third man -->
+          <circle cx="152" cy="235" r="12" fill="#0d9488" stroke="#fff" stroke-width="1.8" style="animation:playerBob 2.1s ease-in-out infinite;animation-delay:.8s"/>
+          <text x="152" y="239" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">P3</text>
+          <!-- Opposing team -->
+          <circle cx="208" cy="125" r="11" fill="#b91c1c" stroke="#fff" stroke-width="1.5" style="animation:runLeft 2.2s ease-in-out infinite"/>
+          <text x="208" y="129" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">D1</text>
+          <circle cx="128" cy="180" r="11" fill="#b91c1c" stroke="#fff" stroke-width="1.5" style="animation:runRight 2.5s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="128" y="184" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">D2</text>
+          <circle cx="215" cy="248" r="11" fill="#b91c1c" stroke="#fff" stroke-width="1.5" style="animation:runLeft 2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="215" y="252" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">D3</text>
+          <!-- Combination: P1→P2 (give) then P1 runs (go), P2→P3 -->
+          <path d="M152,126 L216,165" fill="none" stroke="#14b8a6" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#t1)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.4s"/>
+          <!-- P1 run -->
+          <path d="M148,137 Q168,175 155,222" fill="none" stroke="#14b8a6" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#t1)" opacity=".7" style="animation:arrowMarch 2.5s linear infinite;animation-delay:.6s"/>
+          <!-- Give&Go label -->
+          <rect x="232" y="135" width="72" height="22" fill="rgba(240,192,64,.12)" stroke="rgba(240,192,64,.3)" stroke-width="1" rx="2" style="animation:badgeFlash 3s ease-in-out infinite"/>
+          <text x="268" y="145" fill="#f0c040" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">ONE-TWO</text>
+          <text x="268" y="154" fill="#f0c040" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">P1 → P2 → P1</text>
+          <!-- P2→P3 -->
+          <path d="M217,181 L162,232" fill="none" stroke="#14b8a6" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#t1)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.8s"/>
+          <!-- 3rd man label -->
+          <rect x="48" y="218" width="72" height="22" fill="rgba(168,85,247,.1)" stroke="rgba(168,85,247,.3)" stroke-width="1" rx="2" style="animation:badgeFlash 3s ease-in-out infinite;animation-delay:.8s"/>
+          <text x="84" y="228" fill="#c084fc" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">3RD MAN</text>
+          <text x="84" y="237" fill="#c084fc" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">P3 ARRIVES LATE</text>
+          <!-- Min 2-touch note -->
+          <rect x="48" y="152" width="64" height="32" fill="rgba(20,184,166,.1)" stroke="rgba(20,184,166,.3)" stroke-width="1" rx="2"/>
+          <text x="80" y="165" fill="#14b8a6" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">MIN 2 INSIDE</text>
+          <text x="80" y="175" fill="#14b8a6" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">PLAYERS TOUCH</text>
+          <!-- Scoring pass to OUT B -->
+          <path d="M160,247 L173,415" fill="none" stroke="#f0c040" stroke-width="2.8" stroke-dasharray="8,3" marker-end="url(#t2)" style="animation:dashFlow 2s linear infinite;animation-delay:1.2s"/>
+          <!-- Point badge -->
+          <rect x="186" y="316" width="110" height="38" fill="#0d9488" rx="3" style="animation:pointScore 2s ease-in-out infinite;animation-delay:1.5s"/>
+          <text x="241" y="332" fill="#fff" font-size="8.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">POINT SCORED!</text>
+          <text x="241" y="345" fill="rgba(255,255,255,.7)" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">A → 2+ INSIDE → B</text>
+          <!-- Legend -->
+          <circle cx="48" cy="476" r="8" fill="#0d9488" stroke="#fff" stroke-width="1.3"/>
+          <text x="60" y="479.5" fill="#7a8876" font-size="8" font-family="Source Sans 3,sans-serif">Possession team</text>
+          <circle cx="148" cy="476" r="8" fill="#b91c1c" stroke="#fff" stroke-width="1.3"/>
+          <text x="160" y="479.5" fill="#7a8876" font-size="8" font-family="Source Sans 3,sans-serif">Defending team</text>
+          <circle cx="246" cy="476" r="9" fill="#b37800" stroke="#f0c040" stroke-width="1.5"/>
+          <text x="259" y="479.5" fill="#7a8876" font-size="8" font-family="Source Sans 3,sans-serif">Bounce player</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <!-- Success & Problems -->
+  <div style="padding:0 20px 16px">
+    <div class="success-card">
+      <div class="success-header"><span class="success-tag s-tag-success">Success Indicators</span><span class="success-title">What to look for during Practice 1</span></div>
+      <div class="success-body">
+        <div class="success-col"><div class="success-col-heading" style="color:#4ade80"><span class="dot-g" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Working</div>
+          <div class="si si-g">Players move immediately after passing</div>
+          <div class="si si-g">Give &amp; go patterns emerging naturally</div>
+          <div class="si si-g">1 point roughly every 60–90 seconds</div>
+          <div class="si si-g">Verbal communication between players</div>
+        </div>
+        <div class="success-col"><div class="success-col-heading" style="color:#fbbf24"><span class="dot-a" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Needs Attention</div>
+          <div class="si si-a">Play stalls at bounce player — no inside movement</div>
+          <div class="si si-a">One player dominating touches</div>
+          <div class="si si-a">Square/backward passes dominating under pressure</div>
+          <div class="si si-a">Fewer than 1 point per 2–3 minutes</div>
+        </div>
+        <div class="success-col"><div class="success-col-heading" style="color:#f87171"><span class="dot-r" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Not Working — Act Now</div>
+          <div class="si si-r">No points in 5 min → use Regression R1</div>
+          <div class="si si-r">Players confused by rules → walk through one example</div>
+          <div class="si si-r">Bounce players breaking neutral role → reset clearly</div>
+        </div>
+      </div>
+    </div>
+    <div class="success-card">
+      <div class="success-header"><span class="success-tag s-tag-problems">Problems &amp; Solutions</span><span class="success-title">Fix without stopping play where possible</span></div>
+      <div class="problems-body">
+        <div class="problem-item"><div class="problem-q">Players skip 2-touch rule to score immediately</div><div class="problem-a">Call "doesn't count!" instantly and give possession to defenders. Consequence is the most effective tool — no lecture needed.</div></div>
+        <div class="problem-item"><div class="problem-q">Ball carrier holds too long — combination never starts</div><div class="problem-a">Call "one touch option!" without stopping. After the sequence: "where was the wall pass?" — guided discovery over instruction.</div></div>
+        <div class="problem-item"><div class="problem-q">Players cluster around the ball — no movement away</div><div class="problem-a">Cue: "spread!" during play. If it persists: pause, ask "if three of you are here where does the pass go?" Then replay immediately.</div></div>
+        <div class="problem-item"><div class="problem-q">Transitions chaotic when possession changes</div><div class="problem-a">Call "your ball, transfer!" the instant possession switches. Cues the new team to immediately look for the scoring pass. No stopping needed.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BRIDGE ────────────────────────────────────────────────────── -->
+<div class="bridge-block">
+  <div class="bridge-icon">→</div>
+  <div>
+    <div class="bridge-title">Bridge — Connecting P1 to P2 (60 seconds, do not skip)</div>
+    <div class="bridge-text">Before moving to Practice 2, briefly gather players and ask: <em>"What combination did you use most often to beat the defender and get the transfer done?"</em> Let two or three players answer. Then say: <em>"In the next practice you'll do exactly that — but now you're attacking a real goal at pace. The one-two you just used will open the door. Same idea, higher stakes, more space."</em> This explicit verbal link is the critical pedagogical step connecting the technical exercise to the game-realistic scenario — and it satisfies Criterion 1 of your tutor's framework.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PRACTICE 2 — WAVE ATTACK
+════════════════════════════════════════════════════════════════ -->
+<div class="section-heading">
+  <div class="section-heading-text">Practice 2 — Wave Attack 3v3</div>
+  <div class="section-heading-line"></div>
+</div>
+
+<div class="practice-card" style="--ph-c:#f59e0b">
+  <div class="practice-header">
+    <span class="p-tag">Big Picture — Transition</span>
+    <div>
+      <div class="p-name">Wave Attack 3v3 — Half Line to Edge of Box</div>
+      <div class="p-type">Attacking Transition · Counter-Attack · Dual Unit · All 14 Players</div>
+    </div>
+    <div class="p-duration">25–30<span>MIN</span></div>
+  </div>
+  <div class="practice-body">
+    <div class="practice-left">
+      <div class="objective-block">
+        <div class="obj-heading">Objective</div>
+        <div class="obj-text">Attack the opposite goal at pace using combination play. Score by shooting after at least 2 players have touched the ball. If the defence regains possession they can counter-attack immediately in the opposite direction. The practice creates a continuous wave of attacks from both ends, simulating transition and counter-attack in real match conditions.</div>
+      </div>
+      <div class="setup-grid">
+        <div class="setup-item"><div class="setup-l">Area</div><div class="setup-v">Half line → edge of box</div></div>
+        <div class="setup-item"><div class="setup-l">Goals</div><div class="setup-v">Full goals both ends</div></div>
+        <div class="setup-item"><div class="setup-l">Format</div><div class="setup-v">3v3 + GK both ends</div></div>
+        <div class="setup-item"><div class="setup-l">Players waiting</div><div class="setup-v">Groups of 3 behind each goal</div></div>
+        <div class="setup-item"><div class="setup-l">Min. touches</div><div class="setup-v">2 players before shot</div></div>
+        <div class="setup-item"><div class="setup-l">Rotation</div><div class="setup-v">After score or stop — see rules</div></div>
+      </div>
+      <div class="rules-heading">Rules</div>
+      <div class="rules-list">
+        <div class="rule"><div class="rule-n">1.</div>Attacking 3 start behind their goal and sprint forward to attack the opposite goal at pace when the coach calls "go!" or on the coach's signal.</div>
+        <div class="rule"><div class="rule-n">2.</div>Defending 3 start behind their goal. They defend and cannot advance past halfway until the attacking team cross it.</div>
+        <div class="rule"><div class="rule-n">3.</div>If attackers score: they exit pitch to the side and walk back to their starting end. Next group attacks immediately.</div>
+        <div class="rule"><div class="rule-n">4.</div>If defenders win possession: they counter-attack immediately toward the opposite goal. The attacking team must now defend.</div>
+        <div class="rule"><div class="rule-n">5.</div>The end that started the previous attack defends the next wave. The cycle is continuous.</div>
+        <div class="rule"><div class="rule-n">6.</div>Minimum 2 players must touch the ball before a shot — direct shot from the first touch of the first attacker does not count.</div>
+      </div>
+
+      <!-- Practice Management note — Criterion 3 -->
+      <div class="mgmt-note">
+        <div class="mgmt-heading">Practice Management — 3-Stage Opposition Challenge (Criterion 3)</div>
+        <div class="mgmt-text"><strong style="color:#fbbf24">Stage 1 (first 3–4 min):</strong> Defenders defend only — no counter-attack permitted. Give attackers clean reps to understand the structure, the combination rule, and the pace of the practice before adding defensive complexity.<br><strong style="color:#fbbf24">Stage 2 (min 4–20):</strong> Full rules — defenders counter-attack on possession win. Raise intensity. This is the main body of the practice.<br><strong style="color:#fbbf24">Stage 3 (CF Progression):</strong> Introduce persistent CF and pressing attacker — see below. Manage the pressing attacker's intensity — start at 50% press, then full press once attacking pairs understand the structure.</div>
+      </div>
+
+      <!-- Intervention spectrum — Criterion 4 -->
+      <div class="intervention-strip">
+        <div class="int-heading">Coaching Intervention Spectrum — Instruction vs Guided Discovery (Criterion 4)</div>
+        <div class="int-row">
+          <div>
+            <div class="int-col-head" style="color:#f87171">Freeze &amp; Instruct</div>
+            <div class="int-item">Support angle is completely wrong — ball carrier has zero options</div>
+            <div class="int-item">Player shoots without 2-touch rule — stop, reset, explain consequence</div>
+            <div class="int-item">Dangerous play or safety issue</div>
+          </div>
+          <div>
+            <div class="int-col-head" style="color:#fbbf24">Question Without Stopping</div>
+            <div class="int-item">After a lost ball: "what did you see before you passed?"</div>
+            <div class="int-item">After a failed combination: "when would have been a better moment to play that?"</div>
+            <div class="int-item">After a good move: "what made that work?" — reinforce the principle</div>
+          </div>
+          <div>
+            <div class="int-col-head" style="color:#4ade80">Let Play Run</div>
+            <div class="int-item">Combination attempted but intercepted — player is learning through consequence</div>
+            <div class="int-item">Player makes unexpected creative decision — allow expression</div>
+            <div class="int-item">Practice is flowing with good pace — do not interrupt</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dual unit coaching note — Criterion 2 -->
+      <div class="mgmt-note" style="border-left-color:#14b8a6;background:rgba(20,184,166,.06)">
+        <div class="mgmt-heading" style="color:#14b8a6">Multi-Unit Coaching Focus — On/Around/Away from Ball (Criterion 2)</div>
+        <div class="mgmt-text"><strong style="color:#14b8a6">On the ball:</strong> first touch direction of the carrier — do they face forward or turn backwards? Quality of combination pass.<br><strong style="color:#14b8a6">Around the ball:</strong> supporting attacker angle and distance — 45° support, close enough to receive but not too close to be marked. Are they showing for the give &amp; go?<br><strong style="color:#14b8a6">Away from the ball:</strong> third attacker's movement — timed run in behind, creating the third-man option. Do they move before the ball arrives at the support player?<br><strong style="color:#14b8a6">Defensive unit:</strong> are defenders tracking the third man? Are they pressing as a unit or individually? Coach the defending 3 as actively as the attacking 3.</div>
+      </div>
+
+      <div class="cp-heading">Coaching Points</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Attack at pace — urgency from first touch</div><div class="cp-desc">The moment they receive the ball to start the wave, the mentality is "forward." Every touch should advance the attack. Cue: "run at them, not around them."</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">First player sets the direction — others react</div><div class="cp-desc">The carrier decides: go inside, go outside, or play the one-two. The other two read the decision and adjust their runs accordingly — not a scripted pattern but a read-and-react.</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Create the 2v1 before the shot opportunity</div><div class="cp-desc">The combination is a means to an end — use the give &amp; go or the third-man run to create a numerical advantage that leads directly to a shooting position. Don't combine for its own sake.</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Defend as a unit — press together, drop together</div><div class="cp-desc">Defenders must communicate and press as a coordinated 3 — one presses, two cover. Isolated pressing creates easy combinations for the attackers. The defensive coaching is as important as the attacking coaching.</div></div></div>
+      </div>
+
+      <div class="prog-block">
+        <div class="prog-heading">Progression — Persistent CF + Pressing Attacker</div>
+        <div class="prog-item"><div class="prog-n">CF</div><div><strong style="color:#f3f1ec">Format changes to 2+CF vs 2+pressing attacker.</strong> Each team has a persistent centre forward who stays on the pitch. Attacking team: 2 players attack from behind goal, CF stays in the playing area as a link player (bounce passes only — CF cannot shoot). Defending team: their persistent attacker immediately presses the 2 attackers high to deny the direct pass into the CF. This mirrors a 4-3-3 striker receiving a ball under pressure from a holding midfielder — the combination principle is identical to P1 but now at full pace against a high press.</div></div>
+        <div class="prog-item"><div class="prog-n">MGT</div><div>Start the pressing attacker at 50% intensity so the attacking pairs can experience the CF combination at least twice before full press is applied. Escalate to full press after 3–4 minutes.</div></div>
+      </div>
+      <div class="reg-block">
+        <div class="reg-heading">Regressions</div>
+        <div class="reg-item"><div class="reg-n">R1</div><div>Remove the counter-attack — defenders only defend for the first 3 minutes while structure is being learned.</div></div>
+        <div class="reg-item"><div class="reg-n">R2</div><div>Reduce to 3v2 (remove one defender) — give attackers a numerical advantage to build confidence and reps before going to equal numbers.</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Two diagrams stacked -->
+    <div class="practice-right">
+      <div class="diagram-label">P2 — Wave Attack (Base Practice)</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 350 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="w1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="w2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#14b8a6"/></marker>
+            <marker id="w3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+          </defs>
+          <rect width="350" height="400" fill="#111a18" rx="4"/>
+          <!-- Pitch area — half line to penalty box -->
+          <rect x="20" y="14" width="310" height="372" fill="none" stroke="#2d6e5a" stroke-width="1.5" opacity=".8"/>
+          <!-- Halfway line -->
+          <line x1="20" y1="200" x2="330" y2="200" stroke="#2d6e5a" stroke-width="1.2" stroke-dasharray="6,4"/>
+          <text x="175" y="196" fill="#2d6e5a" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" letter-spacing=".5" opacity=".8">HALFWAY LINE</text>
+          <!-- Top goal -->
+          <rect x="20" y="14" width="310" height="14" fill="#f59e0b" opacity=".08"/>
+          <rect x="120" y="14" width="110" height="10" fill="none" stroke="#5ae080" stroke-width="1.8"/>
+          <text x="175" y="10" fill="#5ae080" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">GOAL</text>
+          <!-- GK top -->
+          <circle cx="175" cy="34" r="9" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="175" y="37.5" fill="#111" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <!-- Bottom goal -->
+          <rect x="20" y="376" width="310" height="10" fill="#f59e0b" opacity=".08"/>
+          <rect x="120" y="376" width="110" height="10" fill="none" stroke="#5ae080" stroke-width="1.8"/>
+          <text x="175" y="396" fill="#5ae080" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">GOAL</text>
+          <!-- GK bottom -->
+          <circle cx="175" cy="366" r="9" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="175" y="369.5" fill="#111" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+
+          <!-- Penalty areas (edge of box markers) -->
+          <line x1="55" y1="100" x2="295" y2="100" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+          <line x1="55" y1="300" x2="295" y2="300" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+          <text x="302" y="103" fill="#f59e0b" font-size="6.5" font-family="Oswald,sans-serif" opacity=".7">EDGE OF BOX</text>
+          <text x="302" y="303" fill="#f59e0b" font-size="6.5" font-family="Oswald,sans-serif" opacity=".7">EDGE OF BOX</text>
+
+          <!-- ATTACKING TEAM (amber) starting behind bottom goal, attacking up -->
+          <!-- Wait group behind bottom -->
+          <circle cx="135" cy="385" r="8" fill="#f59e0b" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <circle cx="175" cy="387" r="8" fill="#f59e0b" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <circle cx="215" cy="385" r="8" fill="#f59e0b" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <text x="175" y="398" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">NEXT WAVE WAITS</text>
+          <!-- Active attacking 3 running forward -->
+          <circle cx="128" cy="310" r="11" fill="#c97c00" stroke="#fff" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite"/>
+          <text x="128" y="314" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A1</text>
+          <circle cx="175" cy="295" r="11" fill="#c97c00" stroke="#fff" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="175" y="299" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A2</text>
+          <circle cx="222" cy="310" r="11" fill="#c97c00" stroke="#fff" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="222" y="314" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A3</text>
+          <!-- Ball at A2 -->
+          <circle cx="175" cy="295" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <!-- A2 give & go to A1 -->
+          <path d="M164,292 L139,308" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#w1)" style="animation:dashFlow 1.6s linear infinite"/>
+          <!-- A2 runs -->
+          <path d="M172,284 Q160,250 155,220" fill="none" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#w1)" opacity=".7" style="animation:arrowMarch 2.5s linear infinite;animation-delay:.4s"/>
+          <!-- A1 returns to A2's run -->
+          <path d="M134,297 Q143,258 152,222" fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#w2)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.7s"/>
+          <!-- A3 third man run -->
+          <path d="M222,298 Q210,248 190,158" fill="none" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#w1)" opacity=".6" style="animation:arrowMarch 2.8s linear infinite;animation-delay:.9s"/>
+          <!-- Combination badge -->
+          <rect x="24" y="250" width="82" height="28" fill="rgba(245,158,11,.12)" stroke="rgba(245,158,11,.3)" stroke-width="1" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="65" y="261" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GIVE &amp; GO</text>
+          <text x="65" y="272" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A2 → A1 → A2</text>
+
+          <!-- DEFENDING TEAM (blue) starting behind top goal -->
+          <circle cx="135" cy="18" r="8" fill="#1d4ed8" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <circle cx="175" cy="16" r="8" fill="#1d4ed8" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <circle cx="215" cy="18" r="8" fill="#1d4ed8" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <!-- Active defenders -->
+          <circle cx="135" cy="155" r="11" fill="#1d4ed8" stroke="#fff" stroke-width="1.8" style="animation:runDown 2.2s ease-in-out infinite"/>
+          <text x="135" y="159" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">D1</text>
+          <circle cx="175" cy="168" r="11" fill="#1d4ed8" stroke="#fff" stroke-width="1.8" style="animation:runDown 2.2s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="175" y="172" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">D2</text>
+          <circle cx="215" cy="155" r="11" fill="#1d4ed8" stroke="#fff" stroke-width="1.8" style="animation:runDown 2.2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="215" y="159" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">D3</text>
+
+          <!-- Score / exit label -->
+          <rect x="22" y="76" width="100" height="26" fill="#0d9488" rx="2" opacity=".9" style="animation:badgeFlash 3s ease-in-out infinite;animation-delay:1.5s"/>
+          <text x="72" y="87" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">SCORE → EXIT</text>
+          <text x="72" y="97" fill="rgba(255,255,255,.8)" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif">WALK BACK TO START</text>
+
+          <!-- Counter arrow (if defenders win) -->
+          <rect x="228" y="110" width="100" height="26" fill="rgba(248,113,113,.12)" stroke="rgba(248,113,113,.3)" stroke-width="1" rx="2"/>
+          <text x="278" y="121" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">WIN BALL →</text>
+          <text x="278" y="131" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">COUNTER-ATTACK!</text>
+
+          <!-- Legend -->
+          <circle cx="24" cy="346" r="7" fill="#c97c00" stroke="#fff" stroke-width="1.2"/>
+          <text x="35" y="349.5" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">Attacking wave</text>
+          <circle cx="115" cy="346" r="7" fill="#1d4ed8" stroke="#fff" stroke-width="1.2"/>
+          <text x="126" y="349.5" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">Defenders</text>
+          <circle cx="198" cy="346" r="7" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="209" y="349.5" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">GK</text>
+        </svg>
+      </div>
+      <div class="diagram-sub" style="margin-bottom:10px">Base 3v3 wave · attackers enter from behind goal · defend at halfway line</div>
+
+      <div class="diagram-label">P2 Progression — Persistent CF + High Press</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 350 360" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="cf1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="cf2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a855f7"/></marker>
+            <marker id="cf3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+            <marker id="cf4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#14b8a6"/></marker>
+          </defs>
+          <rect width="350" height="360" fill="#111a18" rx="4"/>
+          <!-- Pitch -->
+          <rect x="20" y="14" width="310" height="332" fill="none" stroke="#2d6e5a" stroke-width="1.5" opacity=".8"/>
+          <line x1="20" y1="180" x2="330" y2="180" stroke="#2d6e5a" stroke-width="1.2" stroke-dasharray="6,4"/>
+          <text x="175" y="176" fill="#2d6e5a" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".8">HALFWAY</text>
+          <!-- Goals -->
+          <rect x="120" y="14" width="110" height="10" fill="none" stroke="#5ae080" stroke-width="1.8"/>
+          <rect x="120" y="336" width="110" height="10" fill="none" stroke="#5ae080" stroke-width="1.8"/>
+          <!-- GKs -->
+          <circle cx="175" cy="33" r="9" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="175" y="36.5" fill="#111" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <circle cx="175" cy="325" r="9" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="175" y="328.5" fill="#111" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <!-- Edge of box -->
+          <line x1="55" y1="92" x2="295" y2="92" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+          <line x1="55" y1="268" x2="295" y2="268" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+
+          <!-- PERSISTENT CF (amber) — stays on pitch, link player -->
+          <circle cx="175" cy="128" r="13" fill="#c97c00" stroke="#f0c040" stroke-width="2.5"/>
+          <text x="175" y="132" fill="#fff" font-size="8" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">CF</text>
+          <!-- CF zone label -->
+          <rect x="24" y="108" width="76" height="24" fill="rgba(240,192,64,.1)" stroke="rgba(240,192,64,.25)" stroke-width="1" rx="2"/>
+          <text x="62" y="118.5" fill="#f0c040" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">PERSISTENT CF</text>
+          <text x="62" y="127.5" fill="#f0c040" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif">BOUNCE ONLY</text>
+
+          <!-- 2 Attackers advancing from below -->
+          <circle cx="138" cy="258" r="11" fill="#c97c00" stroke="#fff" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite"/>
+          <text x="138" y="262" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A1</text>
+          <circle cx="212" cy="258" r="11" fill="#c97c00" stroke="#fff" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="212" y="262" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A2</text>
+          <!-- Ball at A1 -->
+          <circle cx="138" cy="258" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- DEFENDING TEAM persistent attacker presses high -->
+          <circle cx="175" cy="218" r="11" fill="#b91c1c" stroke="#fff" stroke-width="1.8" style="animation:pressHigh 2.2s ease-in-out infinite"/>
+          <text x="175" y="222" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">PRESS</text>
+          <!-- Press label -->
+          <rect x="224" y="200" width="100" height="26" fill="rgba(248,113,113,.1)" stroke="rgba(248,113,113,.25)" stroke-width="1" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="274" y="211" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">HIGH PRESS</text>
+          <text x="274" y="221" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">DENY CF PASS</text>
+          <!-- Press arrow -->
+          <path d="M175,207 L175,190" fill="none" stroke="#f87171" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#cf3)" style="animation:dashFlow 1.5s linear infinite"/>
+
+          <!-- A1 plays into CF — line through pressure -->
+          <path d="M141,247 Q155,190 170,143" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#cf1)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.3s"/>
+          <!-- CF lays back to A2 -->
+          <path d="M178,128 Q200,170 209,245" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#cf2)" style="animation:dashFlow 2s linear infinite;animation-delay:.8s"/>
+          <!-- A2 shoots -->
+          <path d="M209,234 Q200,150 185,90" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#cf1)" style="animation:arrowMarch 2.5s linear infinite;animation-delay:1.2s"/>
+          <!-- Sequence label -->
+          <rect x="24" y="148" width="100" height="42" fill="rgba(168,85,247,.08)" stroke="rgba(168,85,247,.25)" stroke-width="1" rx="2"/>
+          <text x="74" y="161" fill="#c084fc" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">SEQUENCE</text>
+          <text x="74" y="172" fill="#c084fc" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">A1 → CF → A2</text>
+          <text x="74" y="183" fill="#c084fc" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">A2 SHOOTS</text>
+
+          <!-- 2 defenders behind goal (waiting) -->
+          <circle cx="148" cy="40" r="8" fill="#1d4ed8" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <circle cx="202" cy="40" r="8" fill="#1d4ed8" stroke="#fff" stroke-width="1" opacity=".5"/>
+          <text x="175" y="65" fill="#1d4ed8" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">DEFENDING PAIR</text>
+
+          <!-- Legend -->
+          <circle cx="24" cy="348" r="8" fill="#c97c00" stroke="#f0c040" stroke-width="2"/>
+          <text x="36" y="352" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">CF (persistent)</text>
+          <circle cx="118" cy="348" r="8" fill="#c97c00" stroke="#fff" stroke-width="1.5"/>
+          <text x="130" y="352" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">Attacker (A1/A2)</text>
+          <circle cx="220" cy="348" r="8" fill="#b91c1c" stroke="#fff" stroke-width="1.5"/>
+          <text x="232" y="352" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">High press</text>
+        </svg>
+      </div>
+      <div class="diagram-sub">CF progression: 2+CF vs 2+pressing attacker · CF bounce-only · creates A→CF→A combination</div>
+    </div>
+  </div>
+
+  <!-- P2 Success & Problems -->
+  <div style="padding:0 20px 16px">
+    <div class="success-card">
+      <div class="success-header"><span class="success-tag s-tag-success">Success Indicators</span><span class="success-title">What to look for during Practice 2</span></div>
+      <div class="success-body">
+        <div class="success-col"><div class="success-col-heading" style="color:#4ade80"><span class="dot-g" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Working</div>
+          <div class="si si-g">Attackers arrive at speed with urgency — no slow walk-in</div>
+          <div class="si si-g">Combinations recognisable — give &amp; go or third-man visibly used</div>
+          <div class="si si-g">Counter-attacks happening quickly when defenders win ball</div>
+          <div class="si si-g">CF progression: CF receiving, laying off, combining quickly</div>
+          <div class="si si-g">Defenders communicating and pressing as a coordinated unit</div>
+        </div>
+        <div class="success-col"><div class="success-col-heading" style="color:#fbbf24"><span class="dot-a" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Needs Attention</div>
+          <div class="si si-a">Attackers walking in — no urgency at the start of the wave</div>
+          <div class="si si-a">Direct shots without 2-touch rule being met</div>
+          <div class="si si-a">CF holding the ball too long — not laying off quickly</div>
+          <div class="si si-a">Defenders pressing individually rather than as a unit</div>
+        </div>
+        <div class="success-col"><div class="success-col-heading" style="color:#f87171"><span class="dot-r" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Not Working — Act Now</div>
+          <div class="si si-r">No successful attacks in 4+ attempts → use R2 (3v2)</div>
+          <div class="si si-r">CF confusion on role → briefly clarify: "bounce only, no shot"</div>
+          <div class="si si-r">High press causing complete breakdown → reduce to 50% press</div>
+        </div>
+      </div>
+    </div>
+    <div class="success-card">
+      <div class="success-header"><span class="success-tag s-tag-problems">Problems &amp; Solutions</span><span class="success-title">In-practice interventions for Practice 2</span></div>
+      <div class="problems-body">
+        <div class="problem-item"><div class="problem-q">Attackers go too early — no combination, straight shot</div><div class="problem-a">Call "doesn't count" immediately. Don't stop. After the rep: "what combination gave you the 2v1?" — question without stopping, guided discovery.</div></div>
+        <div class="problem-item"><div class="problem-q">Defenders just watching — not pressing as a unit</div><div class="problem-a">This is a coaching moment for the defensive unit. Brief freeze: "show me — where are you three?" Reposition as a unit. Replay. One instruction, not a lecture.</div></div>
+        <div class="problem-item"><div class="problem-q">CF receiving and holding ball — not laying off</div><div class="problem-a">Call "one touch CF!" as a live cue. After the rep, ask the CF: "what were your options when the ball arrived?" Guided discovery — let them identify the lay-off.</div></div>
+        <div class="problem-item"><div class="problem-q">High press completely preventing any combination</div><div class="problem-a">Temporarily reduce pressing attacker to 50% intensity. Coach the attackers: "the press is blocking the direct pass — what's your alternative?" Then restore full press.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BRIDGE 2 ───────────────────────────────────────────────────── -->
+<div class="bridge-block">
+  <div class="bridge-icon">→</div>
+  <div>
+    <div class="bridge-title">Bridge — Connecting P2 to P3 (60 seconds)</div>
+    <div class="bridge-text">Ask: <em>"In the wave game, which combination opened the goal for you — the one-two with the CF or the third-man run?"</em> Take two answers. Then: <em>"Now we play a proper game. You'll have more players, more space, and both teams trying to score. But the combinations are still your primary tool. When you see the opportunity — use it."</em> This completes the technical→unit→game arc and opens P3 with the players' own language and experience.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PRACTICE 3 — CONDITIONED MATCH
+════════════════════════════════════════════════════════════════ -->
+<div class="section-heading">
+  <div class="section-heading-text">Practice 3 — Conditioned Match</div>
+  <div class="section-heading-line"></div>
+</div>
+
+<div class="practice-card" style="--ph-c:#a855f7">
+  <div class="practice-header">
+    <span class="p-tag">Full Integration — Expression</span>
+    <div>
+      <div class="p-name">Conditioned Match — 7v6+GK · Combination to Goal</div>
+      <div class="p-type">Game-Realistic · All Principles Live · 14 Players</div>
+    </div>
+    <div class="p-duration">25–30<span>MIN</span></div>
+  </div>
+  <div class="practice-body">
+    <div class="practice-left">
+      <div class="objective-block">
+        <div class="obj-heading">Objective</div>
+        <div class="obj-text">Play a conditioned match on the full half pitch. The single condition mirrors the whole session: a goal only counts if at least 2 players have touched the ball before the shot is taken. All combinations from P1 and P2 are now available simultaneously and freely chosen by players. No freeze coaching for the first 20 minutes. The final 10 minutes is completely open — no conditions, all goals count.</div>
+      </div>
+      <div class="setup-grid">
+        <div class="setup-item"><div class="setup-l">Format</div><div class="setup-v">7v6+GK</div></div>
+        <div class="setup-item"><div class="setup-l">Pitch</div><div class="setup-v">Full half pitch</div></div>
+        <div class="setup-item"><div class="setup-l">Condition</div><div class="setup-v">2 players touch before shot</div></div>
+        <div class="setup-item"><div class="setup-l">Defending goal</div><div class="setup-v">2 mini-goals on halfway</div></div>
+        <div class="setup-item"><div class="setup-l">Coaching</div><div class="setup-v">Observe first 20 min; open last 10</div></div>
+        <div class="setup-item"><div class="setup-l">Subs</div><div class="setup-v">Rolling — no player out &gt;4 min</div></div>
+      </div>
+      <div class="rules-heading">Rules</div>
+      <div class="rules-list">
+        <div class="rule"><div class="rule-n">1.</div>Goal only counts if 2 or more players touch ball before the shot — direct shots from first touch do not count.</div>
+        <div class="rule"><div class="rule-n">2.</div>Defending team score by winning possession and playing into 2 mini-goals on halfway — replicating transition to attack.</div>
+        <div class="rule"><div class="rule-n">3.</div>No freeze coaching for first 20 minutes — coaches observe, question after sequences, call combinations aloud positively.</div>
+        <div class="rule"><div class="rule-n">4.</div>Final 10 minutes: open game — no condition, any goal counts. Players express freely.</div>
+        <div class="rule"><div class="rule-n">5.</div>End-of-session debrief: coach asks each player to name one combination they used and one they want to improve.</div>
+      </div>
+
+      <!-- Intervention spectrum for P3 — Criterion 4 -->
+      <div class="intervention-strip">
+        <div class="int-heading">Coaching Intervention Spectrum — P3 (Criterion 4)</div>
+        <div class="int-row">
+          <div>
+            <div class="int-col-head" style="color:#f87171">Freeze &amp; Instruct</div>
+            <div class="int-item">Shape is broken across two or three players — systemic problem requiring a clear correction</div>
+            <div class="int-item">Combination rule consistently ignored — one brief, sharp reset</div>
+          </div>
+          <div>
+            <div class="int-col-head" style="color:#fbbf24">Question Without Stopping</div>
+            <div class="int-item">After lost ball: "what did you see?" or "what was the alternative?"</div>
+            <div class="int-item">After good combination: "what made that possible?" — reinforce verbally</div>
+            <div class="int-item">Acknowledge creativity: name it loudly — "that's a third-man run!"</div>
+          </div>
+          <div>
+            <div class="int-col-head" style="color:#4ade80">Let Play Run</div>
+            <div class="int-item">Players are experimenting freely — do not interrupt flow</div>
+            <div class="int-item">Unexpected combination or creative solution — let it play out</div>
+            <div class="int-item">Good pace and engagement — silence is the best tool</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-heading">Coaching Points</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Combination play creates space — use it to shoot</div><div class="cp-desc">The combination is the tool. The shot is the goal. Don't combine indefinitely — recognise when the combination has created the shooting opportunity and take it.</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Read the game — choose the right combination</div><div class="cp-desc">There is no single right answer. A give &amp; go suits a tight space. A third-man run suits a defender playing flat. Positional rotation suits a compact block. Players should recognise the situation and select.</div></div></div>
+        <div class="cp"><div class="cp-bullet"></div><div class="cp-body"><div class="cp-title">Express yourself — creativity is celebrated</div><div class="cp-desc">If something unexpected works, name it and praise it. The condition creates structure; within that structure there is complete creative freedom. A failed creative attempt is always better than no attempt.</div></div></div>
+      </div>
+
+      <div class="prog-block">
+        <div class="prog-heading">Progressions</div>
+        <div class="prog-item"><div class="prog-n">P1</div><div>Coach names a specific combination before each restart — players must attempt that combination in the next sequence. Builds intentional selection habit.</div></div>
+        <div class="prog-item"><div class="prog-n">P2</div><div>Combination goal = 2pts; non-combination goal = 1pt. Creates incentive to attempt more complex patterns.</div></div>
+      </div>
+      <div class="reg-block">
+        <div class="reg-heading">Regressions</div>
+        <div class="reg-item"><div class="reg-n">R1</div><div>Remove the condition entirely — open match. Reintroduce condition after 5 minutes when players are comfortable.</div></div>
+      </div>
+
+      <!-- Debrief note -->
+      <div class="mgmt-note" style="border-left-color:#a855f7;background:rgba(168,85,247,.06)">
+        <div class="mgmt-heading" style="color:#c084fc">End-of-Session Debrief (5 min)</div>
+        <div class="mgmt-text">Gather players in a circle. Ask individually: <strong style="color:#c084fc">"Name one combination you used today and one moment you'd do differently."</strong> This satisfies Criterion 4 (guided discovery — metacognitive awareness) and closes the session pedagogically. Coaches share one observation each — focused on movement and decision-making quality, not outcome.</div>
+      </div>
+    </div>
+
+    <div class="practice-right">
+      <div class="diagram-label">P3 — Conditioned Match (7v6+GK)</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 350 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="m1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a855f7"/></marker>
+            <marker id="m2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="m3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#e85d1a"/></marker>
+            <marker id="m4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#14b8a6"/></marker>
+          </defs>
+          <rect width="350" height="440" fill="#111a18" rx="4"/>
+          <!-- Pitch -->
+          <rect x="14" y="14" width="322" height="412" fill="none" stroke="#2d6e5a" stroke-width="1.5" opacity=".7"/>
+          <line x1="14" y1="14" x2="336" y2="14" stroke="#2d6e5a" stroke-width="1.8"/>
+          <!-- Penalty area -->
+          <rect x="72" y="350" width="206" height="76" fill="none" stroke="#2d6e5a" stroke-width="1" opacity=".6"/>
+          <!-- Goal -->
+          <rect x="130" y="418" width="90" height="8" fill="none" stroke="#5ae080" stroke-width="2"/>
+          <!-- GK -->
+          <circle cx="175" cy="408" r="9" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="175" y="411.5" fill="#111" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <!-- Mini-goals on halfway -->
+          <rect x="14" y="218" width="8" height="20" fill="#f59e0b" rx="1"/>
+          <rect x="328" y="218" width="8" height="20" fill="#f59e0b" rx="1"/>
+          <text x="28" y="231" fill="#f59e0b" font-size="6.5" font-family="Oswald,sans-serif" opacity=".8">MINI</text>
+          <text x="315" y="231" fill="#f59e0b" font-size="6.5" text-anchor="end" font-family="Oswald,sans-serif" opacity=".8">MINI</text>
+          <text x="175" y="218" fill="#2d6e5a" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">HALFWAY</text>
+          <!-- Shooting zone arc -->
+          <path d="M72,350 Q175,295 278,350" fill="rgba(168,85,247,.06)" stroke="#a855f7" stroke-width="1.3" stroke-dasharray="6,3" style="animation:zonePulse 2.5s ease-in-out infinite"/>
+          <text x="175" y="338" fill="#c084fc" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">2-TOUCH BEFORE SHOT</text>
+
+          <!-- 7 attackers in 4-3-3 -->
+          <!-- Wide forwards -->
+          <circle cx="30" cy="98" r="10" fill="#7c3aed" stroke="#fff" stroke-width="1.5" style="animation:playerBob 2s ease-in-out infinite"/>
+          <text x="30" y="101.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">11</text>
+          <circle cx="320" cy="98" r="10" fill="#7c3aed" stroke="#fff" stroke-width="1.5" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="320" y="101.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">7</text>
+          <!-- Striker -->
+          <circle cx="175" cy="78" r="10" fill="#7c3aed" stroke="#fff" stroke-width="1.5" style="animation:playerBob 2.4s ease-in-out infinite;animation-delay:.7s"/>
+          <text x="175" y="81.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">9</text>
+          <!-- Midfield 3 in combination -->
+          <circle cx="110" cy="158" r="10" fill="#7c3aed" stroke="#fff" stroke-width="1.5" style="animation:runDiagR 2.2s ease-in-out infinite"/>
+          <text x="110" y="161.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">8</text>
+          <circle cx="175" cy="145" r="10" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/>
+          <text x="175" y="148.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">6</text>
+          <circle cx="175" cy="145" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <circle cx="240" cy="158" r="10" fill="#7c3aed" stroke="#fff" stroke-width="1.5" style="animation:runDiagL 2.2s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="240" y="161.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">10</text>
+
+          <!-- Combination in progress: 6→8 one-two, then 6 third-man into box -->
+          <path d="M165,143 L120,155" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#m1)" style="animation:dashFlow 1.6s linear infinite"/>
+          <path d="M170,135 Q168,105 170,85" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#m2)" opacity=".7" style="animation:arrowMarch 2.5s linear infinite;animation-delay:.4s"/>
+          <path d="M116,147 Q138,120 167,88" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#m1)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.7s"/>
+          <!-- Shot -->
+          <path d="M170,83 Q172,160 173,380" fill="none" stroke="#e85d1a" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#m3)" style="animation:dashFlow 2s linear infinite;animation-delay:1.1s"/>
+          <!-- Badge -->
+          <rect x="188" y="96" width="80" height="22" fill="#7c3aed" rx="2" opacity=".85" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="228" y="107" fill="#fff" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">3RD MAN → SHOOT</text>
+          <text x="228" y="114" fill="rgba(255,255,255,.7)" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif">2-touch rule met</text>
+
+          <!-- 6 defenders -->
+          <circle cx="105" cy="280" r="10" fill="#1d4ed8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="140" cy="272" r="10" fill="#1d4ed8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="175" cy="270" r="10" fill="#1d4ed8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="210" cy="272" r="10" fill="#1d4ed8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="125" cy="302" r="10" fill="#1d4ed8" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="225" cy="280" r="10" fill="#1d4ed8" stroke="#fff" stroke-width="1.5"/>
+
+          <!-- Legend -->
+          <circle cx="18" cy="430" r="7" fill="#7c3aed" stroke="#fff" stroke-width="1.2"/>
+          <text x="29" y="433.5" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">Attacking team (7)</text>
+          <circle cx="140" cy="430" r="7" fill="#1d4ed8" stroke="#fff" stroke-width="1.2"/>
+          <text x="151" y="433.5" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">Defending team (6)</text>
+          <circle cx="252" cy="430" r="7" fill="#5ae080" stroke="#fff" stroke-width="1.2"/>
+          <text x="263" y="433.5" fill="#7a8876" font-size="7.5" font-family="Source Sans 3,sans-serif">GK</text>
+        </svg>
+      </div>
+
+      <!-- P3 Success -->
+      <div style="margin-top:10px">
+        <div class="success-card">
+          <div class="success-header"><span class="success-tag s-tag-success">Success Indicators</span><span class="success-title">P3 — Conditioned Match</span></div>
+          <div class="success-body">
+            <div class="success-col"><div class="success-col-heading" style="color:#4ade80"><span class="dot-g" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Working</div>
+              <div class="si si-g">Multiple different combinations emerging — not the same pattern every time</div>
+              <div class="si si-g">Players verbalising combinations as they use them</div>
+              <div class="si si-g">Open final 10 mins still shows combination habits without the condition</div>
+            </div>
+            <div class="success-col"><div class="success-col-heading" style="color:#fbbf24"><span class="dot-a" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Needs Attention</div>
+              <div class="si si-a">Same two players monopolising all combinations</div>
+              <div class="si si-a">Condition being ignored — direct shots from individual players</div>
+            </div>
+            <div class="success-col"><div class="success-col-heading" style="color:#f87171"><span class="dot-r" style="width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px"></span>Not Working — Act Now</div>
+              <div class="si si-r">No combination attempts at all — remove condition (R1) and reintroduce after 5 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+<div class="footer">
+  <div class="footer-item"><div class="footer-l">Club</div><div class="footer-v">Essinge IK</div></div>
+  <div class="footer-div"></div>
+  <div class="footer-item"><div class="footer-l">Session</div><div class="footer-v">Combination Play — Central Midfield</div></div>
+  <div class="footer-div"></div>
+  <div class="footer-item"><div class="footer-l">Practices</div><div class="footer-v">3 (P1 → P2 → P3)</div></div>
+  <div class="footer-div"></div>
+  <div class="footer-item"><div class="footer-l">Total Duration</div><div class="footer-v">~90 min</div></div>
+  <div class="footer-div"></div>
+  <div class="footer-item"><div class="footer-l">Standard</div><div class="footer-v">UEFA B</div></div>
+  <div class="footer-pills">
+    <span class="fpill">Give &amp; Go</span>
+    <span class="fpill">Third-Man</span>
+    <span class="fpill">CF Link</span>
+    <span class="fpill">Wave Attack</span>
+    <span class="fpill">2-Touch Rule</span>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

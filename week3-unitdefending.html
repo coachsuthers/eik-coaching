@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Plan — Unit Defending: Handball Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0c0f0c;--s1:#141a14;--s2:#1b231b;--s3:#232e23;
+  --green:#16a34a;--green-hi:#22c55e;--green-dim:rgba(22,163,74,.14);
+  --lime:#84cc16;--lime-dim:rgba(132,204,22,.13);
+  --gold:#eab308;--gold-dim:rgba(234,179,8,.14);
+  --red:#dc2626;--red-hi:#f87171;--red-dim:rgba(220,38,38,.14);
+  --blue:#2563a8;--blue-hi:#60a5fa;--blue-dim:rgba(37,99,168,.14);
+  --white:#f0ede6;--grey:#6b7a60;--grey-mid:#3a4438;
+  --amber:#f59e0b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--white);font-family:'Source Sans 3',sans-serif;font-weight:300;font-size:13px;line-height:1.6;overflow-x:hidden}
+.page{max-width:1180px;margin:0 auto;padding:24px}
+
+/* Pitch stripe texture */
+body::before{content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 68px,rgba(22,163,74,.016) 68px,rgba(22,163,74,.016) 69px);
+  pointer-events:none;z-index:0}
+
+/* ── HEADER ───────────────────────────────────────────────────── */
+.header{position:relative;overflow:hidden;background:var(--s1);border:2px solid var(--green-hi);padding:24px 28px 20px;margin-bottom:14px}
+.header::before{content:'';position:absolute;inset:0;background:linear-gradient(118deg,rgba(22,163,74,.12) 0%,transparent 52%);pointer-events:none}
+.header::after{content:'';position:absolute;right:0;top:0;bottom:0;width:260px;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 180'%3E%3Crect x='1' y='1' width='258' height='178' fill='none' stroke='white' stroke-width='2'/%3E%3Cline x1='129' y1='1' x2='129' y2='179' stroke='white' stroke-width='1'/%3E%3Ccircle cx='129' cy='90' r='32' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-size:contain;background-repeat:no-repeat;background-position:right center;pointer-events:none}
+.header-inner{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;position:relative;z-index:1}
+.eyebrow{font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:var(--green-hi);font-family:'Oswald',sans-serif;font-weight:600;margin-bottom:6px}
+.session-title{font-family:'Oswald',sans-serif;font-size:27px;font-weight:700;text-transform:uppercase;line-height:1.05;letter-spacing:.3px}
+.session-title em{color:var(--green-hi);font-style:normal}
+.session-sub{font-size:12px;color:rgba(240,237,230,.5);margin-top:5px;letter-spacing:.3px}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;text-align:right}
+.ml{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--green-hi);font-family:'Oswald',sans-serif}
+.mv{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;color:var(--white);margin-top:1px}
+
+/* ── THREE PRINCIPLES STRIP ───────────────────────────────────── */
+.principles-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.pt{background:var(--s2);border:1px solid rgba(255,255,255,.08);border-top:3px solid var(--ptc);padding:14px 16px;position:relative;overflow:hidden}
+.pt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(var(--ptrg),.07) 0%,transparent 60%);pointer-events:none}
+.pt-bg{font-family:'Oswald',sans-serif;font-size:52px;font-weight:700;color:var(--ptc);opacity:.1;line-height:1;position:absolute;right:10px;top:6px}
+.pt-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ptc);font-family:'Oswald',sans-serif;font-weight:600;margin-bottom:5px}
+.pt-name{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;text-transform:uppercase;color:var(--white);letter-spacing:.5px;line-height:1.1;position:relative;z-index:1}
+.pt-desc{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.55;position:relative;z-index:1}
+.pt-badge{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:2px;display:inline-block;margin-top:7px;font-family:'Oswald',sans-serif;position:relative;z-index:1}
+
+/* ── HANDBALL CONNECTION ──────────────────────────────────────── */
+.handball-connection{background:var(--s2);border:1px solid rgba(132,204,22,.25);border-left:3px solid var(--lime);padding:14px 18px;margin-bottom:14px}
+.hc-heading{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--lime);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.hc-heading::before{content:'';display:block;width:18px;height:1px;background:var(--lime)}
+.hc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.hc-item{display:flex;flex-direction:column;gap:4px;padding:8px 10px;background:rgba(132,204,22,.06);border:1px solid rgba(132,204,22,.15);border-radius:3px}
+.hc-mechanic{font-family:'Oswald',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--lime);line-height:1.2}
+.hc-principle{font-size:10px;color:var(--grey);line-height:1.45;margin-top:2px}
+.hc-arrow{font-family:'Oswald',sans-serif;font-size:9px;color:var(--lime);opacity:.5;margin:2px 0}
+
+/* ── SECTION HEADING ──────────────────────────────────────────── */
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.sh-line{height:1px;flex:1;background:rgba(255,255,255,.07)}
+.sh-text{font-family:'Oswald',sans-serif;font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--green-hi);flex-shrink:0}
+
+/* ── PRACTICE CARD ────────────────────────────────────────────── */
+.card{background:var(--s2);border:1px solid rgba(255,255,255,.08);border-top:3px solid var(--green-hi);overflow:hidden;margin-bottom:14px}
+.card-header{padding:14px 20px 12px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.c-tag{font-family:'Oswald',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:2px;background:var(--green-dim);color:var(--green-hi);flex-shrink:0}
+.c-name{font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;text-transform:uppercase;color:var(--white);letter-spacing:.3px;flex:1;min-width:0}
+.c-sub{font-size:10px;color:var(--grey);letter-spacing:.4px;flex-shrink:0}
+.c-dur{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--green-hi);line-height:1;flex-shrink:0}
+.c-dur span{font-size:8.5px;color:var(--grey);font-weight:400;letter-spacing:1px;margin-left:1px}
+
+/* Two-col body */
+.c-body{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:0;align-items:start}
+.c-left{padding:16px 20px;border-right:1px solid rgba(255,255,255,.07);min-width:0}
+.c-right{padding:14px 16px;background:rgba(0,0,0,.14);position:sticky;top:16px;align-self:start}
+
+/* Objective */
+.obj{border-left:2px solid var(--green-hi);padding:8px 12px;margin-bottom:10px;border-radius:0 3px 3px 0;background:rgba(22,163,74,.07)}
+.obj-l{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--green-hi);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.obj-l::before{content:'';display:block;width:12px;height:1px;background:var(--green-hi)}
+.obj-t{font-size:12px;color:rgba(240,237,230,.82);line-height:1.6}
+
+/* Player distribution */
+.pdist{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:8px 12px;margin-bottom:10px}
+.pd-h{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 10px}
+.pd-item{display:flex;flex-direction:column;gap:1px}
+.pd-l{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);font-family:'Oswald',sans-serif}
+.pd-v{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;color:var(--white)}
+
+/* Setup */
+.setup-g{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:4px 10px;margin-bottom:12px;align-items:baseline}
+.sl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);font-family:'Oswald',sans-serif;white-space:nowrap}
+.sv{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;color:var(--white)}
+
+/* Rules */
+.rules-h{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,237,230,.5);margin-bottom:7px}
+.rules{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}
+.rule{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:rgba(240,237,230,.72);line-height:1.5}
+.rn{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:var(--green-hi);flex-shrink:0;width:16px;line-height:1.5}
+.rule-note{font-size:10px;color:var(--grey);font-style:italic;margin-top:1px;padding-left:22px}
+
+/* Split point mechanic callout */
+.mechanic-box{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.25);border-left:2px solid var(--gold);padding:8px 12px;margin-bottom:10px;border-radius:0 3px 3px 0}
+.mb-h{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.mb-t{font-size:11.5px;color:rgba(240,237,230,.75);line-height:1.6}
+
+/* Wide player mechanic */
+.wide-box{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.2);border-left:2px solid var(--blue-hi);padding:8px 12px;margin-bottom:10px;border-radius:0 3px 3px 0}
+.wb-h{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--blue-hi);margin-bottom:6px}
+.wb-t{font-size:11.5px;color:rgba(240,237,230,.75);line-height:1.6}
+
+/* Coaching points */
+.cp-h{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green-hi);margin-bottom:8px}
+.cp-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.cp{display:flex;align-items:flex-start;gap:9px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.05)}
+.cp:last-child{border-bottom:none;padding-bottom:0}
+.cp-dot{width:5px;height:5px;border-radius:50%;background:var(--green-hi);flex-shrink:0;margin-top:6px}
+.cp-title{font-size:12px;font-weight:600;color:var(--white);line-height:1.3}
+.cp-desc{font-size:11px;color:var(--grey);margin-top:2px;line-height:1.5}
+.cp-tag{font-size:8.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:1px 6px;border-radius:2px;display:inline-block;margin-top:3px;font-family:'Oswald',sans-serif}
+
+/* Q-block */
+.q-block{background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.2);padding:8px 12px;margin-bottom:10px}
+.q-h{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--blue-hi);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.q-h::before{content:'?';font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;color:var(--blue-hi);opacity:.6}
+.q-item{font-size:11.5px;color:rgba(240,237,230,.75);line-height:1.55;margin-bottom:4px;display:flex;gap:6px;align-items:flex-start;font-style:italic}
+.q-item::before{content:'"';color:var(--blue-hi);font-weight:700;flex-shrink:0;font-style:normal}
+.q-when{font-size:10px;color:var(--grey);font-style:normal;margin-top:1px}
+
+/* Progression / regression */
+.prog{background:rgba(132,204,22,.05);border:1px solid rgba(132,204,22,.18);padding:10px 14px;margin-bottom:10px}
+.prog-h{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:7px}
+.pi{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;font-size:11.5px;color:rgba(240,237,230,.72);line-height:1.5}
+.pi:last-child{margin-bottom:0}
+.pn{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:var(--lime);flex-shrink:0;line-height:1.6}
+.reg{background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.18);padding:10px 14px;margin-bottom:12px}
+.reg-h{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:#fbbf24;margin-bottom:7px}
+.ri{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;font-size:11.5px;color:rgba(240,237,230,.72);line-height:1.5}
+.ri:last-child{margin-bottom:0}
+.rni{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:#fbbf24;flex-shrink:0;line-height:1.6}
+
+/* Success / Problems */
+.sc{background:var(--s2);border:1px solid rgba(255,255,255,.07);margin-bottom:12px;overflow:hidden}
+.sc-header{padding:9px 16px 8px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
+.stag{font-family:'Oswald',sans-serif;font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:2px;flex-shrink:0}
+.stag-s{background:rgba(96,165,250,.12);color:var(--blue-hi)}
+.stag-p{background:rgba(248,113,113,.12);color:var(--red-hi)}
+.sc-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;color:var(--white);letter-spacing:.3px}
+.sc-body{display:grid;grid-template-columns:1fr 1fr 1fr}
+.s-col{padding:10px 13px;border-right:1px solid rgba(255,255,255,.06);min-width:0}
+.s-col:last-child{border-right:none}
+.sc-col-head{font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.dot-g{width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.dot-a{background:#fbbf24;flex-shrink:0;width:6px;height:6px;border-radius:50%}
+.dot-r{background:#f87171;flex-shrink:0;width:6px;height:6px;border-radius:50%}
+.si{display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;font-size:10.5px;color:rgba(240,237,230,.68);line-height:1.45}
+.si::before{content:'›';font-weight:700;flex-shrink:0;margin-top:-1px}
+.si-g::before{color:#4ade80}.si-a::before{color:#fbbf24}.si-r::before{color:#f87171}
+.pb{display:grid;grid-template-columns:1fr 1fr}
+.prob{padding:10px 13px;border-right:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);min-width:0}
+.prob:nth-child(2){border-right:none}
+.prob:nth-child(3){border-bottom:none}
+.prob:nth-child(4){border-right:none;border-bottom:none}
+.prob-q{font-size:11px;font-weight:600;color:var(--white);margin-bottom:4px;display:flex;gap:5px;line-height:1.4}
+.prob-q::before{content:'?';font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;color:var(--red-hi);flex-shrink:0;line-height:1.3}
+.prob-a{font-size:10.5px;color:var(--grey);line-height:1.5;padding-left:14px}
+
+/* Mgmt note */
+.mgmt{border-left:2px solid var(--amber);padding:8px 12px;margin-bottom:10px;border-radius:0 3px 3px 0;background:rgba(245,158,11,.06)}
+.mgmt-h{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+.mgmt-t{font-size:11px;color:rgba(240,237,230,.7);line-height:1.55}
+
+/* Diagram */
+.dlabel{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-hi);font-family:'Oswald',sans-serif;font-weight:600;margin-bottom:5px}
+.dwrap svg{width:100%;height:auto;display:block;border-radius:3px;max-height:520px}
+.dsub{font-size:9px;color:var(--grey);margin-top:5px;line-height:1.4;text-align:center}
+
+/* Footer */
+.footer{background:var(--s1);border:1px solid rgba(255,255,255,.08);padding:11px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:14px}
+.fl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--green-hi);font-family:'Oswald',sans-serif}
+.fv{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;color:var(--white)}
+.fdiv{width:1px;height:26px;background:rgba(255,255,255,.08)}
+.fpills{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}
+.fpill{font-size:8.5px;font-weight:600;padding:3px 8px;background:var(--green-dim);color:var(--green-hi);border-radius:2px;letter-spacing:.5px;font-family:'Oswald',sans-serif;text-transform:uppercase}
+
+/* ── ANIMATIONS ───────────────────────────────────────────────── */
+@keyframes ballPulse{0%,100%{r:4}50%{r:6}}
+@keyframes playerBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes dashFlow{0%{stroke-dashoffset:50}100%{stroke-dashoffset:0}}
+@keyframes arrowMarch{0%{stroke-dashoffset:90}100%{stroke-dashoffset:0}}
+@keyframes shiftR{0%,100%{transform:translateX(0)}50%{transform:translateX(12px)}}
+@keyframes shiftL{0%,100%{transform:translateX(0)}50%{transform:translateX(-12px)}}
+@keyframes bankShiftR{0%,100%{transform:translateX(0)}50%{transform:translateX(16px)}}
+@keyframes bankShiftL{0%,100%{transform:translateX(0)}50%{transform:translateX(-16px)}}
+@keyframes handHold{0%,100%{stroke-opacity:.8}50%{stroke-opacity:.3}}
+@keyframes splitPulse{0%,100%{opacity:.15}50%{opacity:.45}}
+@keyframes zonePulse{0%,100%{opacity:.06}50%{opacity:.16}}
+@keyframes badgeFlash{0%,100%{opacity:.8}50%{opacity:1;filter:brightness(1.2)}}
+@keyframes wideRun{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px)}70%{transform:translateY(-22px)}}
+@keyframes breakOut{0%,100%{transform:translate(0,0)}50%{transform:translate(0,-24px)}}
+@keyframes riskBadge{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.05);opacity:1}}
+@keyframes throwArc{0%{stroke-dashoffset:80}100%{stroke-dashoffset:0}}
+@keyframes fadeInOut{0%,100%{opacity:0}35%,70%{opacity:1}}
+
+@media(max-width:860px){
+  .c-body{grid-template-columns:1fr!important}
+  .c-left{border-right:none!important;border-bottom:1px solid rgba(255,255,255,.07)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══ HEADER ════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="eyebrow">EIK · Session Plan · UEFA B Standard · Unit Defending · 20 Players</div>
+      <div class="session-title">Unit Defending —<br><em>Applying the Principles</em></div>
+      <div class="session-sub">Delay · Cover &amp; Balance · Pressing · Handball game as defensive unit metaphor · Ages 13–15</div>
+    </div>
+    <div class="meta-grid">
+      <div><div class="ml">Duration</div><div class="mv">60–75 min</div></div>
+      <div><div class="ml">Players</div><div class="mv">20</div></div>
+      <div><div class="ml">Pitch</div><div class="mv">⅔ × ¼ of 11v11</div></div>
+      <div><div class="ml">Age Group</div><div class="mv">13–15</div></div>
+      <div><div class="ml">Practice</div><div class="mv">P1 — Handball</div></div>
+      <div><div class="ml">Standard</div><div class="mv">UEFA B</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ THREE PRINCIPLES ═══════════════════════════════════════════ -->
+<div class="principles-strip">
+  <div class="pt" style="--ptc:#f87171;--ptrg:248,113,113">
+    <div class="pt-bg">1</div>
+    <div class="pt-label">Principle One</div>
+    <div class="pt-name">Delay</div>
+    <div class="pt-desc">Slow the attack — buy time for the defensive unit to organise. In handball: the front bank holds hands and moves as one, denying forward progress, not breaking early to chase the ball. Breaking hands = the delay has ended prematurely.</div>
+    <span class="pt-badge" style="background:var(--red-dim);color:var(--red-hi)">Front bank holding shape</span>
+  </div>
+  <div class="pt" style="--ptc:#60a5fa;--ptrg:96,165,250">
+    <div class="pt-bg">2</div>
+    <div class="pt-label">Principle Two</div>
+    <div class="pt-name">Cover &amp; Balance</div>
+    <div class="pt-desc">The back bank provides cover behind the front bank and balances the shape laterally — replicating a back four behind a midfield four. When the front bank shifts to track the ball, the back bank must mirror the shift to maintain depth and cover.</div>
+    <span class="pt-badge" style="background:var(--blue-dim);color:var(--blue-hi)">Back bank mirroring the front</span>
+  </div>
+  <div class="pt" style="--ptc:#84cc16;--ptrg:132,204,22">
+    <div class="pt-bg">3</div>
+    <div class="pt-label">Principle Three</div>
+    <div class="pt-name">Pressing</div>
+    <div class="pt-desc">A player breaks from their bank to press the ball-carrier — earning their team a chance to win possession. But breaking hands creates a gap in the bank. The press is the highest-risk, highest-reward decision: is the trigger clear enough to justify the gap?</div>
+    <span class="pt-badge" style="background:var(--lime-dim);color:var(--lime)">Breaking from the unit = risk vs reward</span>
+  </div>
+</div>
+
+<!-- ══ HANDBALL → FOOTBALL CONNECTIONS ═══════════════════════════ -->
+<div class="handball-connection">
+  <div class="hc-heading">Why Handball? — How Each Mechanic Directly Mirrors Football</div>
+  <div class="hc-grid">
+    <div class="hc-item">
+      <div class="hc-mechanic">Holding hands in the bank</div>
+      <div class="hc-arrow">↓ replicates</div>
+      <div class="hc-principle">Defensive compactness — the visual, physical sensation of being connected to your unit. When you feel the gap, you feel the vulnerability.</div>
+    </div>
+    <div class="hc-item">
+      <div class="hc-mechanic">Wide neutral players</div>
+      <div class="hc-arrow">↓ replicates</div>
+      <div class="hc-principle">Touchline width in football — the defence must shift laterally to account for wide options, stretching the unit and exposing gaps between players.</div>
+    </div>
+    <div class="hc-item">
+      <div class="hc-mechanic">Pass splitting the bank = point</div>
+      <div class="hc-arrow">↓ replicates</div>
+      <div class="hc-principle">A through-ball or split pass penetrating the defensive line — the most dangerous moment in football. Players feel the consequence immediately.</div>
+    </div>
+    <div class="hc-item">
+      <div class="hc-mechanic">Breaking from unit to press</div>
+      <div class="hc-arrow">↓ replicates</div>
+      <div class="hc-principle">The delay vs press decision — breaking from shape to win the ball is only correct if there is a clear trigger. Without one, the gap is exploited.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PRACTICE 1
+════════════════════════════════════════════════════════════════ -->
+<div class="sh">
+  <div class="sh-text">Practice 1 — Handball Unit Defence</div>
+  <div class="sh-line"></div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="c-tag">Unit Defending · All Principles</span>
+    <div>
+      <div class="c-name">Handball — Two Banks of 4 + Wide Neutrals</div>
+      <div class="c-sub">⅔ × ¼ Pitch · Delay · Cover &amp; Balance · Pressing · 20 Players</div>
+    </div>
+    <div class="c-dur">25–30<span>MIN</span></div>
+  </div>
+
+  <div class="c-body">
+    <div class="c-left">
+
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">Two teams of 10 play handball on a small pitch. Each team defends with two banks of 4 players who hold hands within their bank. Two wide neutral players (one each side) run the full length of the pitch and can be used by whichever team has possession — forcing the defending banks to shift laterally. Attackers score only by header or volley. Defenders score by splitting the attack's chain of passes or forcing a handling error. Players discover — through feeling the gap in their own hands — when and why the unit breaks down.</div>
+      </div>
+
+      <div class="pdist">
+        <div class="pd-h">Player Distribution — 20 Players</div>
+        <div class="pd-grid">
+          <div class="pd-item"><div class="pd-l">Team A (outfield)</div><div class="pd-v">8 players</div></div>
+          <div class="pd-item"><div class="pd-l">Team B (outfield)</div><div class="pd-v">8 players</div></div>
+          <div class="pd-item"><div class="pd-l">Wide neutrals</div><div class="pd-v">2 players (1 each side)</div></div>
+          <div class="pd-item"><div class="pd-l">Each team defending</div><div class="pd-v">2 banks of 4</div></div>
+          <div class="pd-item"><div class="pd-l">Each team attacking</div><div class="pd-v">All 8 + 2 wide neutrals</div></div>
+          <div class="pd-item"><div class="pd-l">Rotate wide neutrals</div><div class="pd-v">Every 5 minutes</div></div>
+        </div>
+      </div>
+
+      <div class="setup-g">
+        <div class="sl">Pitch size</div><div class="sv">⅔ length × ¼ width of 11v11</div>
+        <div class="sl">Goals</div><div class="sv">Cones or poles — one each end</div>
+        <div class="sl">Ball</div><div class="sv">Handball or small football</div>
+        <div class="sl">Scoring</div><div class="sv">Header or volley only</div>
+        <div class="sl">Bank start</div><div class="sv">Holding hands within each bank</div>
+        <div class="sl">Bank split</div><div class="sv">Organic — evolves as game develops</div>
+      </div>
+
+      <div class="rules-h">Rules of Play</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div><div>Players cannot run with the ball — catch and release immediately.</div></div>
+        <div class="rule"><div class="rn">2.</div><div>Ball cannot be thrown above head height when building play. It may only travel above head height as a goal attempt (header or volley).</div></div>
+        <div class="rule"><div class="rn">3.</div><div>If the ball hits the floor at any point, possession switches to the other team from that spot.</div></div>
+        <div class="rule"><div class="rn">4.</div><div>Goals only count from a header or volley — no catching and touching the goal.</div></div>
+        <div class="rule"><div class="rn">5.</div><div>Defending team must start each defensive phase with both banks holding hands within their bank — four players connected, two banks.</div></div>
+        <div class="rule"><div class="rn">6.</div><div>Both banks start close together. As play develops they may separate naturally — the front bank tracks the ball, the back bank provides depth.</div></div>
+        <div class="rule"><div class="rn">7.</div><div>Wide neutral players can receive from and pass to either team — they are shared. They may move the full length of the pitch at any time.</div></div>
+        <div class="rule"><div class="rn">8.</div><div>A defender may break from their bank to press the ball-carrier. This earns a chance to win the ball — but leaves a gap in the bank that is immediately exploitable.</div></div>
+      </div>
+
+      <div class="mechanic-box">
+        <div class="mb-h">Key Mechanic — The Split Point</div>
+        <div class="mb-t">If the attacking team completes a pass that travels through a gap in either defensive bank — between two connected players — the coach calls <strong style="color:var(--gold)">"split!"</strong> and notes 1pt to the attacking team. Play continues without stopping. The coach debriefs the split at the next natural break: <em>"where was the gap, whose hands broke apart, and what had the bank been doing in the three passes before it?"</em> This is the core learning moment — players feel the physical consequence of breaking hands before the coach names the defensive principle behind it.</div>
+      </div>
+
+      <div class="wide-box">
+        <div class="wb-h">Wide Neutral Mechanic — Forcing Lateral Shift</div>
+        <div class="wb-t">The two wide players (one on each sideline) are shared by both teams — they always help whoever has the ball. When the attacking team passes to a wide player, the defending bank must shift sideways to account for the new threat angle. This replicates how a football defence must shift compactly to track the ball to the wing. The critical coaching moment: <em>does the whole bank shift together (hands still connected), or do one or two players chase and the others stay — breaking the unit?</em> The wide player forces this decision every time they receive.</div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-h">Player-Led Questions — Ask During Natural Breaks</div>
+        <div class="q-item">When you broke hands to chase the ball — what happened to the space behind you?<div class="q-when">After a split point. Let the player who broke hands answer. They will identify the gap themselves.</div></div>
+        <div class="q-item">When the wide player received — did your bank move together or did it stretch?<div class="q-when">After a successful wide pass that forced a gap. Ask the bank collectively.</div></div>
+        <div class="q-item">Which is harder — holding hands or knowing when to break?<div class="q-when">After ~10 minutes of play. Opens the conversation about delay vs press as a decision.</div></div>
+        <div class="q-item">When does it feel right to break from the bank — what are you waiting for?<div class="q-when">Ask the whole group. Guide toward: heavy touch, passed behind, dropped ball — the trigger.</div></div>
+      </div>
+
+      <div class="cp-h">Coaching Points</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Hold hands until the trigger — the hands are your shape</div>
+          <div class="cp-desc">While hands are connected, the unit is compact. The moment a player releases hands to press, the unit has an open joint. This should only happen when there is a clear trigger — a dropped ball, a heavy touch, a player turning their back. Premature release = premature gap.</div>
+          <span class="cp-tag" style="background:var(--red-dim);color:var(--red-hi)">Delay</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Back bank mirrors the front — cover is about depth, not proximity</div>
+          <div class="cp-desc">When the front bank shifts right to track the ball, the back bank must shift right too — maintaining the same relative depth behind them. If the back bank stays central while the front shifts, a diagonal pass over the top is open. Coaching cue: <em>"your shadow follows you — so should the back bank."</em></div>
+          <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">The wide player is your widest threat — shift early, shift together</div>
+          <div class="cp-desc">The moment the ball goes to the wide neutral, the whole bank — not just the nearest player — must slide across. One player sliding while others hold breaks the chain exactly as a through-ball would. Shift as a unit or not at all.</div>
+          <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Breaking from the bank is a team decision, not a personal one</div>
+          <div class="cp-desc">When a player decides to press, their bank-partner must immediately close the gap left behind — stepping in to hold the chain. This is cover in its most physical form. Before breaking, the pressing player should call it: <em>"pressing!"</em> — so their partner knows to close.</div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Pressing</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Two banks splitting is not a failure — it is cover developing organically</div>
+          <div class="cp-desc">When the front bank pushes up to press and the back bank holds deep, the two banks are replicating a midfield and back four. This organic split is the principle working correctly — the back bank provides depth and cover behind the press. Name it when you see it: <em>"that's your midfield and back four right there."</em></div>
+          <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+        </div></div>
+      </div>
+
+      <div class="mgmt">
+        <div class="mgmt-h">Practice Management — 3 Stages</div>
+        <div class="mgmt-t"><strong style="color:#fbbf24">Stage 1 (first 5 min) — Holding hands only.</strong> No breaking allowed. Both banks must hold throughout. This establishes the baseline: players feel what a connected unit is. Ask: "how does it feel when someone pulls away?" Give them the sensation before the decision.<br><br>
+        <strong style="color:#fbbf24">Stage 2 (min 5–20) — Full rules.</strong> Breaking allowed. Split points tracked by coach. Wide neutrals active. Let the game produce the problems — don't intervene, just call "split!" when it happens and note it. Debrief at each natural break.<br><br>
+        <strong style="color:#fbbf24">Stage 3 (min 20–25) — Press call required.</strong> Before breaking from the bank, player must shout <em>"pressing!"</em> — this forces the decision to be communicated and gives the bank-partner time to cover. Any break without the call gives the opposition a free split point.</div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div>Remove the holding-hands rule — banks must hold shape without the physical connection. Now it's a decision, not a constraint. Players discover whether they've internalised the principle or relied on the hands.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>Introduce a second ball — coach throws it in when play slows. The defending team must reorganise their banks quickly to the new ball position. Replicates defensive transition under urgency.</div></div>
+        <div class="pi"><div class="pn">P3</div><div>Allow throws above head height. The back bank must now defend lofted balls as well as ground-level threats — replicating defending crosses and aerial balls into a back four.</div></div>
+      </div>
+      <div class="reg">
+        <div class="reg-h">Regressions</div>
+        <div class="ri"><div class="rni">R1</div><div>Reduce to one bank of 4 defending — simplify to a single line defending before introducing depth with two banks.</div></div>
+        <div class="ri"><div class="rni">R2</div><div>Remove wide neutrals — attackers confined to central area only. Removes the lateral shift challenge until the front-to-back cover principle is established.</div></div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT: DIAGRAM ─────────────────────────────────────── -->
+    <div class="c-right">
+      <div class="dlabel">Handball — Full Setup with Split Point &amp; Wide Neutral Examples</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 660" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="h1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+            <marker id="h2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+            <marker id="h3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#eab308"/></marker>
+            <marker id="h4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#60a5fa"/></marker>
+            <marker id="h5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#84cc16"/></marker>
+          </defs>
+          <rect width="400" height="660" fill="#0e150e" rx="4"/>
+
+          <!-- ── PITCH ── -->
+          <!-- Outer boundary -->
+          <rect x="34" y="20" width="332" height="620" fill="rgba(22,163,74,.03)" stroke="#1d3a1d" stroke-width="1.8"/>
+          <!-- Halfway -->
+          <line x1="34" y1="330" x2="366" y2="330" stroke="#1d3a1d" stroke-width="1.2"/>
+          <!-- Goal zones (shaded) -->
+          <rect x="34" y="20" width="332" height="32" fill="rgba(22,163,74,.08)"/>
+          <rect x="34" y="608" width="332" height="32" fill="rgba(22,163,74,.08)"/>
+
+          <!-- Goals -->
+          <line x1="140" y1="20" x2="260" y2="20" stroke="#22c55e" stroke-width="3"/>
+          <text x="200" y="16" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">GOAL A</text>
+          <line x1="140" y1="640" x2="260" y2="640" stroke="#22c55e" stroke-width="3"/>
+          <text x="200" y="656" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">GOAL B</text>
+
+          <!-- Wide channel markers -->
+          <rect x="34" y="20" width="28" height="620" fill="#60a5fa" opacity=".04"/>
+          <rect x="338" y="20" width="28" height="620" fill="#60a5fa" opacity=".04"/>
+          <text x="48" y="335" fill="#60a5fa" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" transform="rotate(-90,48,335)" opacity=".7">WIDE CHANNEL</text>
+          <text x="352" y="335" fill="#60a5fa" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" transform="rotate(90,352,335)" opacity=".7">WIDE CHANNEL</text>
+
+          <!-- ══ WIDE NEUTRAL PLAYERS ══ -->
+          <!-- Left wide (blue outline) -->
+          <circle cx="48" cy="200" r="11" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2" style="animation:wideRun 2.8s ease-in-out infinite"/>
+          <text x="48" y="203.5" fill="#60a5fa" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">W</text>
+          <text x="48" y="220" fill="#60a5fa" font-size="6" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">NEUTRAL</text>
+          <!-- Right wide -->
+          <circle cx="352" cy="240" r="11" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2" style="animation:wideRun 3s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="352" y="243.5" fill="#60a5fa" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">W</text>
+          <text x="352" y="258" fill="#60a5fa" font-size="6" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">NEUTRAL</text>
+
+          <!-- ══ ATTACKING TEAM (green) — 8 players spread ══ -->
+          <circle cx="120" cy="100" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2s ease-in-out infinite"/>
+          <circle cx="200" cy="85" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.3s"/>
+          <circle cx="280" cy="100" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.1s ease-in-out infinite;animation-delay:.6s"/>
+          <circle cx="145" cy="155" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="255" cy="160" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="200" cy="200" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 1.9s ease-in-out infinite;animation-delay:.9s"/>
+          <circle cx="100" cy="185" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="300" cy="175" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <!-- Ball at A2 (centre) -->
+          <circle cx="200" cy="200" r="5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- Throw to wide left -->
+          <path d="M194,197 Q120,185 62,202" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#h4)" style="animation:throwArc 2s linear infinite"/>
+          <text x="128" y="185" fill="#60a5fa" font-size="6.5" font-family="Oswald,sans-serif" font-weight="600">pass to wide</text>
+
+          <!-- ══ FRONT BANK — 4 defenders (red), HOLDING HANDS ══ -->
+          <!-- Front bank players — shifting right due to wide threat -->
+          <circle cx="120" cy="295" r="11" fill="#991b1b" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite"/>
+          <text x="120" y="298.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F1</text>
+          <circle cx="168" cy="290" r="11" fill="#991b1b" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.1s"/>
+          <text x="168" y="293.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F2</text>
+          <circle cx="216" cy="290" r="11" fill="#991b1b" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="216" y="293.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F3</text>
+          <circle cx="264" cy="295" r="11" fill="#991b1b" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="264" y="298.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F4</text>
+          <!-- Hands line — front bank connected -->
+          <line x1="131" y1="292" x2="157" y2="291" stroke="#f87171" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite"/>
+          <line x1="179" y1="291" x2="205" y2="291" stroke="#f87171" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite;animation-delay:.3s"/>
+          <line x1="227" y1="291" x2="253" y2="292" stroke="#f87171" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite;animation-delay:.6s"/>
+          <!-- Front bank label -->
+          <text x="192" y="277" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" opacity=".8">FRONT BANK — DELAY</text>
+
+          <!-- ══ BACK BANK — 4 defenders (orange/gold) ══ -->
+          <circle cx="125" cy="370" r="11" fill="#854d0e" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.15s"/>
+          <text x="125" y="373.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B1</text>
+          <circle cx="173" cy="365" r="11" fill="#854d0e" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.25s"/>
+          <text x="173" y="368.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B2</text>
+          <circle cx="221" cy="365" r="11" fill="#854d0e" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.35s"/>
+          <text x="221" y="368.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B3</text>
+          <circle cx="269" cy="370" r="11" fill="#854d0e" stroke="#fff" stroke-width="1.5" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.45s"/>
+          <text x="269" y="373.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B4</text>
+          <!-- Hands line — back bank connected -->
+          <line x1="136" y1="367" x2="162" y2="366" stroke="#eab308" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite;animation-delay:.2s"/>
+          <line x1="184" y1="366" x2="210" y2="366" stroke="#eab308" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite;animation-delay:.5s"/>
+          <line x1="232" y1="366" x2="258" y2="367" stroke="#eab308" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite;animation-delay:.8s"/>
+          <!-- Back bank label -->
+          <text x="197" y="354" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" opacity=".8">BACK BANK — COVER &amp; BALANCE</text>
+
+          <!-- Depth arrow between banks -->
+          <path d="M192,306 L192,353" fill="none" stroke="rgba(96,165,250,.4)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#h4)"/>
+          <text x="200" y="332" fill="#60a5fa" font-size="6" font-family="Oswald,sans-serif" opacity=".6">depth</text>
+
+          <!-- ══ SPLIT POINT EXAMPLE ══ -->
+          <!-- Gap between F2 and F3 highlighted -->
+          <rect x="178" y="274" width="40" height="34" fill="#eab308" opacity=".06" style="animation:splitPulse 1.5s ease-in-out infinite"/>
+          <line x1="178" y1="274" x2="178" y2="308" stroke="#eab308" stroke-width="1" stroke-dasharray="2,2" opacity=".4"/>
+          <line x1="218" y1="274" x2="218" y2="308" stroke="#eab308" stroke-width="1" stroke-dasharray="2,2" opacity=".4"/>
+          <!-- Split pass through the gap -->
+          <path d="M200,210 L198,282" fill="none" stroke="#eab308" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#h3)" style="animation:dashFlow 1.5s linear infinite;animation-delay:.3s"/>
+          <!-- Split badge -->
+          <rect x="220" y="260" width="70" height="26" fill="#854d00" rx="3" style="animation:badgeFlash 1.8s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="255" y="271" fill="#eab308" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">SPLIT!</text>
+          <text x="255" y="281" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">+1 ATT PT</text>
+          <path d="M220,273 L207,285" fill="none" stroke="#eab308" stroke-width="1" stroke-dasharray="2,2" opacity=".5"/>
+
+          <!-- ══ BREAK-FROM-UNIT EXAMPLE ══ -->
+          <!-- F1 breaking to press attacker at top left -->
+          <circle cx="120" cy="295" r="11" fill="#991b1b" stroke="#84cc16" stroke-width="2.5" style="animation:breakOut 2.5s ease-in-out infinite;animation-delay:1.5s"/>
+          <!-- Break arrow -->
+          <path d="M120,283 L115,218" fill="none" stroke="#84cc16" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#h5)" opacity=".6" style="animation:arrowMarch 2s linear infinite;animation-delay:1.5s"/>
+          <!-- Gap created label -->
+          <rect x="36" y="285" width="70" height="26" fill="rgba(220,38,38,.15)" stroke="rgba(220,38,38,.3)" stroke-width="1" rx="2" style="animation:riskBadge 2.5s ease-in-out infinite;animation-delay:1.5s"/>
+          <text x="71" y="296" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F1 BREAKS!</text>
+          <text x="71" y="306" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">GAP OPENS</text>
+          <!-- Gap between F1 break and F2 -->
+          <rect x="70" y="279" width="50" height="28" fill="#dc2626" opacity=".06" style="animation:splitPulse 1.5s ease-in-out infinite;animation-delay:.5s"/>
+          <!-- "PRESSING!" call badge -->
+          <rect x="54" y="258" width="60" height="14" fill="#1a3a12" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite;animation-delay:1.5s"/>
+          <text x="84" y="267.5" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">"PRESSING!"</text>
+
+          <!-- ══ BANK SHIFT due to wide player ══ -->
+          <!-- Arrow showing bank must shift right when wide left receives -->
+          <path d="M96,298 Q90,295 64,202" fill="none" stroke="rgba(96,165,250,.4)" stroke-width="1.2" stroke-dasharray="3,2"/>
+          <text x="56" y="248" fill="#60a5fa" font-size="6" font-family="Oswald,sans-serif" opacity=".6" transform="rotate(-65,56,248)">bank must shift</text>
+
+          <!-- ══ SCORING ATTEMPT — header at bottom ══ -->
+          <!-- Attacking player below back bank -->
+          <circle cx="200" cy="460" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.4s ease-in-out infinite"/>
+          <!-- Lofted throw -->
+          <path d="M200,195 Q220,380 202,449" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#h1)" opacity=".5" style="animation:throwArc 3s linear infinite;animation-delay:.5s"/>
+          <text x="238" y="360" fill="#22c55e" font-size="6.5" font-family="Oswald,sans-serif" opacity=".7">lofted ball</text>
+          <text x="238" y="369" fill="#22c55e" font-size="6.5" font-family="Oswald,sans-serif" opacity=".7">for header →</text>
+          <!-- Header arrow to goal -->
+          <path d="M200,449 L200,635" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#h1)" style="animation:dashFlow 2s linear infinite;animation-delay:1s"/>
+          <rect x="208" y="540" width="64" height="16" fill="#14532d" rx="2" style="animation:badgeFlash 3s ease-in-out infinite;animation-delay:1s"/>
+          <text x="240" y="551.5" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">HEADER GOAL</text>
+
+          <!-- ══ STAGE ANNOTATIONS ══ -->
+          <!-- Stage 1 label -->
+          <rect x="36" y="490" width="130" height="40" fill="rgba(22,163,74,.07)" stroke="rgba(22,163,74,.2)" stroke-width="1" rx="2"/>
+          <text x="101" y="506" fill="#22c55e" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 1 (0–5 min)</text>
+          <text x="101" y="517" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Hold hands only</text>
+          <text x="101" y="526" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">No breaking</text>
+
+          <rect x="234" y="490" width="130" height="40" fill="rgba(245,158,11,.07)" stroke="rgba(245,158,11,.2)" stroke-width="1" rx="2"/>
+          <text x="299" y="506" fill="#fbbf24" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 2 (5–20 min)</text>
+          <text x="299" y="517" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Full rules · splits tracked</text>
+          <text x="299" y="526" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Debrief at breaks</text>
+
+          <rect x="135" y="540" width="130" height="40" fill="rgba(132,204,22,.07)" stroke="rgba(132,204,22,.2)" stroke-width="1" rx="2"/>
+          <text x="200" y="556" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 3 (20–25 min)</text>
+          <text x="200" y="567" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">"Pressing!" call required</text>
+          <text x="200" y="576" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Silent break = free split pt</text>
+
+          <!-- ══ LEGEND ══ -->
+          <line x1="36" y1="600" x2="36" y2="648" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <circle cx="48" cy="610" r="7" fill="#15803d" stroke="#fff" stroke-width="1.2"/>
+          <text x="59" y="613.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Attackers</text>
+          <circle cx="120" cy="610" r="7" fill="#991b1b" stroke="#f87171" stroke-width="1.8"/>
+          <text x="131" y="613.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Front bank (delay)</text>
+          <circle cx="234" cy="610" r="7" fill="#854d0e" stroke="#eab308" stroke-width="1.8"/>
+          <text x="245" y="613.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Back bank (cover)</text>
+          <circle cx="48" cy="632" r="8" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2"/>
+          <text x="59" y="635.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Wide neutral (W)</text>
+          <line x1="134" y1="632" x2="154" y2="632" stroke="#eab308" stroke-width="2.5" style="animation:handHold 1.8s ease-in-out infinite"/>
+          <text x="158" y="635.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Holding hands</text>
+          <line x1="250" y1="632" x2="270" y2="632" stroke="#eab308" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#h3)"/>
+          <text x="274" y="635.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Split pass</text>
+        </svg>
+      </div>
+      <div class="dsub">Red = front bank (Delay) · Gold = back bank (Cover &amp; Balance) · Blue circles = wide neutrals (shared) · Gold flash zone = split point gap · Green outline on F1 = breaking to press</div>
+    </div>
+  </div>
+
+  <!-- Success / Problems full-width below -->
+  <div style="padding:0 0 0">
+    <div class="sc">
+      <div class="sc-header"><span class="stag stag-s">Success Indicators</span><span class="sc-title">Practice 1 — What to observe</span></div>
+      <div class="sc-body">
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#4ade80"><span class="dot-g"></span>&nbsp;Working Well</div>
+          <div class="si si-g">Both banks shifting laterally together when ball goes wide — hands staying connected during the shift</div>
+          <div class="si si-g">Back bank visibly deeper than front bank — depth is being maintained organically</div>
+          <div class="si si-g">Players calling "pressing!" before breaking from their bank</div>
+          <div class="si si-g">Two banks naturally separating — front tracks ball, back holds deep</div>
+          <div class="si si-g">Players discussing which bank should press during natural breaks</div>
+          <div class="si si-g">Split points decreasing over time as unit becomes better connected</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#fbbf24"><span class="dot-a"></span>&nbsp;Needs Attention</div>
+          <div class="si si-a">Banks not shifting together — one player follows ball, others stay central</div>
+          <div class="si si-a">Back bank drifting up alongside front bank — depth disappears</div>
+          <div class="si si-a">Wide player receives and no shift happens — banks ignoring the wide threat</div>
+          <div class="si si-a">Players breaking without calling — ask: "who covered the gap you left?"</div>
+          <div class="si si-a">Both banks pressing simultaneously — no depth in the defensive shape</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#f87171"><span class="dot-r"></span>&nbsp;Not Working — Act Now</div>
+          <div class="si si-r">Players don't understand the split point rule → stop, walk through one split in slow motion, restart</div>
+          <div class="si si-r">Banks completely ignoring each other → R1 (one bank only), establish the principle, then add the second bank</div>
+          <div class="si si-r">Constant splits — attackers scoring at will → R2 (remove wide neutrals) and focus on central connectivity first</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-header"><span class="stag stag-p">Problems &amp; Solutions</span><span class="sc-title">In-practice fixes — without stopping play where possible</span></div>
+      <div class="pb">
+        <div class="prob">
+          <div class="prob-q">Bank doesn't shift when ball goes to wide neutral — stays central</div>
+          <div class="prob-a">At the next break: "if the wide player has the ball here — point to where the gap is in your bank." Players identify the open angle. Then: "so what does your bank need to do when the ball goes wide?" Let them answer and demonstrate.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Players breaking from the bank without warning — gaps appear without cover</div>
+          <div class="prob-a">Call "gap!" live (without stopping) every time a break creates an opening. After the attack: "who heard the gap call? What did you do?" The bank-partner identifies whether they covered. Stage 3 (mandatory "pressing!" call) fixes this structurally.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Both banks rushing up — no depth, attackers easily chip over the top</div>
+          <div class="prob-a">After the goal or split: "which bank should have stayed back?" Let the back bank players answer. Ask the back bank: "what is your job when the front bank presses?" Guided discovery of the cover role. Do not tell them — let them reach "stay back and cover."</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Players treating it as a fun game without defensive intent — not working the principles</div>
+          <div class="prob-a">This is fine for the first 2–3 minutes. After the first debrief, name the connection explicitly: "holding hands in that bank — that is exactly what your back four should feel like in a football match. When you break hands, you've broken your defensive line." The metaphor lands once they've felt the consequence.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+
+<!-- ══ BRIDGE P1 → P2 ═════════════════════════════════════════════ -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--green-hi);padding:12px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px">
+  <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--green-hi);flex-shrink:0;line-height:1;margin-top:2px">→</div>
+  <div>
+    <div style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-hi);margin-bottom:4px">Bridge — P1 to P2 (90 seconds, do not skip)</div>
+    <div style="font-size:11.5px;color:rgba(240,237,230,.72);line-height:1.6">Gather all 20 players. Ask: <em style="color:var(--white)">"When did holding hands actually help you defend — and when did someone break the chain too early?"</em> Take two or three answers. Let players name the moments themselves. Then: <em style="color:var(--white)">"The hands are gone now. Same two banks, same two wide players, same pitch — but this time it's football. You have to keep that shape with your movement and your voice instead of your hands. The principle hasn't changed. Only the tool has."</em> This is the critical pedagogical moment — players own the transfer from the metaphor to the real game.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PRACTICE 2
+════════════════════════════════════════════════════════════════ -->
+<div class="sh">
+  <div class="sh-text">Practice 2 — Two-Bank Unit Defence with Ball</div>
+  <div class="sh-line"></div>
+</div>
+
+<div class="card" style="border-top-color:var(--gold)">
+  <div class="card-header">
+    <span class="c-tag" style="background:var(--gold-dim);color:var(--gold)">Unit Defence · Football</span>
+    <div>
+      <div class="c-name">Two-Bank 4v4+GK — Ball on the Floor</div>
+      <div class="c-sub">Same Pitch · Same Banks · No Hands · 20 Players</div>
+    </div>
+    <div class="c-dur" style="color:var(--gold)">25–30<span>MIN</span></div>
+  </div>
+
+  <div class="c-body">
+    <div class="c-left">
+
+      <!-- What transfers from P1 -->
+      <div style="background:rgba(132,204,22,.06);border:1px solid rgba(132,204,22,.18);border-left:2px solid var(--lime);padding:9px 13px;margin-bottom:12px;border-radius:0 3px 3px 0">
+        <div style="font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:5px">What Transfers Directly from P1</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:11px;color:rgba(240,237,230,.7);line-height:1.5">
+          <div>✓ Same pitch size and shape</div>
+          <div>✓ Two banks of 4 defenders</div>
+          <div>✓ Two shared wide neutral players</div>
+          <div>✓ Split-pass point mechanic (same rule)</div>
+          <div>✓ Banks start close, split organically</div>
+          <div>✓ "Pressing!" call before breaking from unit</div>
+        </div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">Same two banks of 4 defend against 8 attackers and a GK — but now with a football on the floor. The hands are gone; shape must be held through movement, communication and positional awareness alone. The defending team also has a GK behind both banks. Attackers build through both banks to score on the main goal. Defenders earn points by forcing the ball wide and winning possession, then counter-attacking to a small goal on the halfway line. The split-pass point rule carries over directly from P1.</div>
+      </div>
+
+      <div class="pdist">
+        <div class="pd-h">Player Distribution — 20 Players</div>
+        <div class="pd-grid">
+          <div class="pd-item"><div class="pd-l">Attackers (Team A)</div><div class="pd-v">8 outfield</div></div>
+          <div class="pd-item"><div class="pd-l">Defenders (Team B)</div><div class="pd-v">7 outfield + 1 GK</div></div>
+          <div class="pd-item"><div class="pd-l">Wide neutrals</div><div class="pd-v">2 players (shared)</div></div>
+          <div class="pd-item"><div class="pd-l">Front bank</div><div class="pd-v">4 defenders</div></div>
+          <div class="pd-item"><div class="pd-l">Back bank</div><div class="pd-v">3 defenders</div></div>
+          <div class="pd-item"><div class="pd-l">Rotation</div><div class="pd-v">Swap A/B every 8 min</div></div>
+        </div>
+      </div>
+
+      <div class="setup-g">
+        <div class="sl">Pitch</div><div class="sv">Same as P1 — ⅔ × ¼ of 11v11</div>
+        <div class="sl">Main goal</div><div class="sv">Full goal + GK at defending end</div>
+        <div class="sl">Counter goal</div><div class="sv">Small cone goal on halfway line</div>
+        <div class="sl">Attacker start</div><div class="sv">Own half — build from there</div>
+        <div class="sl">Bank start</div><div class="sv">Front bank at edge of box; back bank ~10m behind</div>
+        <div class="sl">Ball</div><div class="sv">Standard football — on the floor</div>
+      </div>
+
+      <div class="rules-h">Rules of Play</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div><div>Normal football rules — attackers build with the ball on the floor to score on the main goal.</div></div>
+        <div class="rule"><div class="rn">2.</div><div>Defending team starts in two banks of 4 (or 4+3). No holding hands — shape is held by positional discipline and communication only.</div></div>
+        <div class="rule"><div class="rn">3.</div><div><strong style="color:var(--white)">Split-pass rule (from P1):</strong> if a pass travels cleanly through the gap between two bank players and a teammate receives it in behind the bank — coach calls "split!" and attackers earn 1pt. Play continues.</div></div>
+        <div class="rule"><div class="rn">4.</div><div>Wide neutral players can receive from and pass to either team. They may dribble along their channel but cannot cut inside past the wide channel boundary.</div></div>
+        <div class="rule"><div class="rn">5.</div><div>If the ball goes to a wide neutral and the attack subsequently scores from a cross or cut-back — the goal counts double (2pts). This rewards the defence tracking the wide threat and penalises them for ignoring it.</div></div>
+        <div class="rule"><div class="rn">6.</div><div>If defenders win possession, they can counter-attack and score in the small cone goal on the halfway line (1pt). They have 6 seconds from winning the ball to reach the halfway goal.</div></div>
+        <div class="rule"><div class="rn">7.</div><div>A defender who breaks from their bank to press must call <strong style="color:var(--white)">"pressing!"</strong> before engaging. No call = attackers receive a free split point.</div></div>
+        <div class="rule"><div class="rn">8.</div><div>Teams swap attacking and defending roles every 8 minutes. Scores reset.</div></div>
+      </div>
+
+      <!-- P1 → P2 mechanic changes -->
+      <div class="mechanic-box">
+        <div class="mb-h">Key Change from P1 — How the Split Mechanic Translates</div>
+        <div class="mb-t">In P1, the physical gap between held hands was the split. In P2, the gap between two bank players' <strong style="color:var(--gold)">defensive positions</strong> is the split — the same principle, now maintained by awareness rather than touch. The coach still calls <strong style="color:var(--gold)">"split!"</strong> when a pass threads the gap cleanly. The debrief question is identical: <em>"where was the gap, who should have closed it, and what caused it to open — pressing too early, wrong shift direction, or one player not tracking the ball?"</em> Players will notice the gap feels different without hands to alert them — this is the discovery moment of P2.</div>
+      </div>
+
+      <div class="wide-box">
+        <div class="wb-h">Wide Neutral — Now Able to Cross or Cut Back</div>
+        <div class="wb-t">In P2 the wide neutral can deliver a cross or cut-back into the box after receiving — not just pass back inside. This creates a new defensive challenge: does the nearest bank player leave their position to close the wide player, or do they hold shape and risk a cross? This is the classic width vs compactness decision that a defensive unit faces in every game. Back bank must now track runs into the box from crosses — replicating what a back four does when a wide player delivers.</div>
+      </div>
+
+      <!-- Intervention spectrum -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:10px 13px;margin-bottom:12px">
+        <div style="font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Coaching Interventions — P2</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 16px">
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#f87171;margin-bottom:4px">Freeze &amp; Show</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px">· Shape completely absent — brief freeze, reposition banks by hand, restart</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px">· Same gap exploited 3+ times — freeze, show the gap, ask who owns it</div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#fbbf24;margin-bottom:4px">Question Live</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;margin-bottom:3px">· After split: "whose gap was that — and where were you?"</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;margin-bottom:3px">· After break-from-unit: "who covered when you pressed?"</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5">· After wide cross: "why did the wide player get that cross off?"</div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#4ade80;margin-bottom:4px">Let Run</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;margin-bottom:3px">· Banks organising vocally — let them self-correct</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;margin-bottom:3px">· Counter-attack flowing — full sequence plays out</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5">· Principles applied correctly — name it, don't explain it</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-h">Coaching Points — P2</div>
+      <div class="cp-list">
+
+        <div class="cp"><div class="cp-dot" style="background:var(--gold)"></div><div>
+          <div class="cp-title">Shape without hands — voice replaces touch</div>
+          <div class="cp-desc">The hands in P1 told you when someone moved away. Now your voice does that job. Constant communication is not optional — it is the mechanism that holds the unit together. Every time you move, call it. Every time you press, call it. Silent defending is broken defending.</div>
+          <span class="cp-tag" style="background:var(--red-dim);color:var(--red-hi)">Delay</span>
+        </div></div>
+
+        <div class="cp"><div class="cp-dot" style="background:var(--gold)"></div><div>
+          <div class="cp-title">Front bank delays — back bank reads and mirrors</div>
+          <div class="cp-desc">The front bank's job remains delay — slow the attack, hold the line, force an extra touch. The back bank must read the front bank's movement and mirror it at depth: if the front shifts right, the back shifts right at the same time. The back bank watching their own attacker instead of mirroring the front bank is the most common error in P2.</div>
+          <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+        </div></div>
+
+        <div class="cp"><div class="cp-dot" style="background:var(--gold)"></div><div>
+          <div class="cp-title">When the ball goes wide — both banks shift, GK communicates</div>
+          <div class="cp-desc">A pass to the wide neutral is the signal for both banks to shift toward that side — narrowing the central lane and covering the near post. The GK is the eyes of the unit: they call "wide left!" or "shift right!" to trigger the movement. If only one bank shifts, a diagonal cross-field pass beats the other bank immediately.</div>
+          <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+        </div></div>
+
+        <div class="cp"><div class="cp-dot" style="background:var(--gold)"></div><div>
+          <div class="cp-title">Press trigger is a football moment — not a handball moment</div>
+          <div class="cp-desc">In P1 the trigger was the ball hitting the floor or a bad throw. In P2 it is: heavy touch, turned back, pressure from behind the attacker. The pressing player identifies the trigger before breaking — not after. If they break without a trigger, the gap opens for nothing. The "pressing!" call forces the identification before the commitment.</div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Pressing</span>
+        </div></div>
+
+        <div class="cp"><div class="cp-dot" style="background:var(--gold)"></div><div>
+          <div class="cp-title">Win the ball — transition immediately</div>
+          <div class="cp-desc">When the defending unit wins possession, the counter-attack to the halfway goal must happen within 6 seconds. Defenders who have just won the ball tend to hold it — the habit from defending. Cue: "win it, go!" — the transition must be as fast as the press was disciplined.</div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Pressing</span>
+        </div></div>
+
+      </div>
+
+      <div class="q-block">
+        <div class="q-h">Player-Led Questions — P2</div>
+        <div class="q-item">Without holding hands — how did you know when someone had moved out of position?<div class="q-when">Ask after first split in P2. The answer should be "I didn't" — which makes the case for communication without needing to tell them.</div></div>
+        <div class="q-item">When the back bank shifted right — did you check the front bank first or did you just react to the ball?<div class="q-when">Ask the back bank collectively. Distinguishes reactive movement from coordinated unit movement.</div></div>
+        <div class="q-item">Compare how it felt to hold the shape in P1 with how it feels now. What's harder — and why?<div class="q-when">Mid-practice question. Opens the metacognitive reflection on what the hands were doing for the unit.</div></div>
+        <div class="q-item">When you pressed and won the ball — was the counter-attack ready, or did your team take too long?<div class="q-when">After a slow counter. Let the team self-assess the transition speed.</div></div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div><strong style="color:var(--white)">Remove the split-pass point rule.</strong> Defenders now hold shape purely for defensive reasons — not to avoid a point deduction. This tests whether the principle has been internalised or was only maintained because of the scoring incentive.</div></div>
+        <div class="pi"><div class="pn">P2</div><div><strong style="color:var(--white)">Overload attacker.</strong> Add a ninth attacker (bring one wide neutral into the central area as a floating attacker). Defending team now faces 9v7 — the unit must hold shape under numerical disadvantage. Replicates a real match where the opposition is dominating possession.</div></div>
+        <div class="pi"><div class="pn">P3</div><div><strong style="color:var(--white)">Transition condition.</strong> When defenders win the ball, both banks must cross the halfway line together before scoring — replicating a coordinated defensive unit becoming an attacking unit while maintaining shape.</div></div>
+      </div>
+
+      <div class="reg">
+        <div class="reg-h">Regressions</div>
+        <div class="ri"><div class="rni">R1</div><div>Allow players to hold hands again for 2 minutes to re-establish the shape — then remove hands again. Use if the unit completely loses its form when transitioning from P1 to P2.</div></div>
+        <div class="ri"><div class="rni">R2</div><div>Reduce attackers to 6 (remove 2) — give the defending banks a numerical advantage to find their shape before going to equal numbers.</div></div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT: DIAGRAM ─────────────────────────────────────── -->
+    <div class="c-right">
+      <div class="dlabel" style="color:var(--gold)">P2 — Two-Bank Unit Defence with Ball on Floor</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 680" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p2h1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+            <marker id="p2h2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#eab308"/></marker>
+            <marker id="p2h3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+            <marker id="p2h4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#60a5fa"/></marker>
+            <marker id="p2h5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#84cc16"/></marker>
+            <marker id="p2h6" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#fbbf24"/></marker>
+          </defs>
+          <rect width="400" height="680" fill="#0e150e" rx="4"/>
+
+          <!-- ── PITCH ── -->
+          <rect x="34" y="20" width="332" height="636" fill="rgba(22,163,74,.03)" stroke="#1d3a1d" stroke-width="1.8"/>
+
+          <!-- Halfway line + counter goal -->
+          <line x1="34" y1="338" x2="366" y2="338" stroke="#1d3a1d" stroke-width="1.2"/>
+          <text x="200" y="326" fill="#1d3a1d" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".8">HALFWAY</text>
+
+          <!-- Counter goal (cone) on halfway -->
+          <rect x="158" y="333" width="84" height="10" fill="rgba(132,204,22,.15)" stroke="#84cc16" stroke-width="1.8"/>
+          <text x="200" y="355" fill="#84cc16" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">COUNTER GOAL (+1 pt · 6 sec)</text>
+
+          <!-- Main goal (bottom) -->
+          <rect x="34" y="640" width="332" height="16" fill="rgba(22,163,74,.06)"/>
+          <line x1="140" y1="646" x2="260" y2="646" stroke="#22c55e" stroke-width="3"/>
+          <text x="200" y="658" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">MAIN GOAL</text>
+
+          <!-- Penalty area -->
+          <rect x="90" y="580" width="220" height="76" fill="none" stroke="#1d3a1d" stroke-width="1.2" opacity=".8"/>
+
+          <!-- GK -->
+          <circle cx="200" cy="634" r="11" fill="#166534" stroke="#22c55e" stroke-width="2"/>
+          <text x="200" y="637.5" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <text x="200" y="654" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">ORGANISES</text>
+          <!-- GK call arrow to back bank -->
+          <path d="M200,622 L200,560" fill="none" stroke="rgba(34,197,94,.3)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#p2h1)"/>
+          <rect x="206" y="595" width="58" height="14" fill="rgba(22,163,74,.15)" rx="2" style="animation:fadeInOut 3s ease-in-out infinite"/>
+          <text x="235" y="604.5" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">SHIFT RIGHT!</text>
+
+          <!-- Wide channels -->
+          <rect x="34" y="20" width="28" height="636" fill="#60a5fa" opacity=".04"/>
+          <rect x="338" y="20" width="28" height="636" fill="#60a5fa" opacity=".04"/>
+
+          <!-- Wide neutral left — ball in their feet (football now) -->
+          <circle cx="48" cy="210" r="12" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2.5" style="animation:wideRun 2.8s ease-in-out infinite"/>
+          <text x="48" y="213.5" fill="#60a5fa" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">W</text>
+          <!-- Ball at wide player feet -->
+          <circle cx="57" cy="222" r="4" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <text x="48" y="230" fill="#60a5fa" font-size="6" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">ball at feet</text>
+
+          <!-- Wide neutral right -->
+          <circle cx="352" cy="250" r="12" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2.5" style="animation:wideRun 3.2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="352" y="253.5" fill="#60a5fa" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">W</text>
+
+          <!-- ══ ATTACKERS (8, green) ══ -->
+          <circle cx="118" cy="80" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2s ease-in-out infinite"/>
+          <circle cx="200" cy="65" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.3s"/>
+          <circle cx="282" cy="80" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.1s ease-in-out infinite;animation-delay:.6s"/>
+          <circle cx="148" cy="145" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="252" cy="150" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="200" cy="195" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 1.9s ease-in-out infinite;animation-delay:.9s"/>
+          <circle cx="100" cy="175" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="300" cy="168" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+
+          <!-- Pass from centre to wide left (forcing bank shift) -->
+          <path d="M194,193 Q118,200 62,212" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#p2h4)" style="animation:dashFlow 1.8s linear infinite"/>
+          <text x="128" y="192" fill="#60a5fa" font-size="6.5" font-family="Oswald,sans-serif" font-weight="600">forces bank shift →</text>
+
+          <!-- Cross delivery from wide left into box -->
+          <path d="M55,222 Q100,330 190,490" fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#p2h4)" opacity=".55" style="animation:arrowMarch 2.5s linear infinite;animation-delay:.8s"/>
+          <text x="68" y="375" fill="#60a5fa" font-size="6.5" font-family="Oswald,sans-serif" opacity=".6" transform="rotate(-70,68,375)">cross/cut-back</text>
+          <text x="68" y="384" fill="#60a5fa" font-size="6.5" font-family="Oswald,sans-serif" opacity=".6" transform="rotate(-70,68,384)">= 2pts if goal</text>
+
+          <!-- ══ FRONT BANK — 4 defenders (red), NO HANDS, SHIFTING RIGHT ══ -->
+          <!-- All shifted right to track wide left ball -->
+          <circle cx="138" cy="310" r="12" fill="#991b1b" stroke="#f87171" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite"/>
+          <text x="138" y="313.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F1</text>
+          <circle cx="188" cy="305" r="12" fill="#991b1b" stroke="#f87171" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.12s"/>
+          <text x="188" y="308.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F2</text>
+          <circle cx="238" cy="305" r="12" fill="#991b1b" stroke="#f87171" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.24s"/>
+          <text x="238" y="308.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F3</text>
+          <circle cx="288" cy="310" r="12" fill="#991b1b" stroke="#f87171" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.36s"/>
+          <text x="288" y="313.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F4</text>
+
+          <!-- NO HANDS indicator — dotted gap lines between players -->
+          <line x1="150" y1="307" x2="176" y2="306" stroke="#f87171" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+          <line x1="200" y1="306" x2="226" y2="306" stroke="#f87171" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+          <line x1="250" y1="306" x2="276" y2="307" stroke="#f87171" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+          <!-- "No hands" label -->
+          <text x="213" y="292" fill="#f87171" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">FRONT BANK — SHAPE BY VOICE</text>
+
+          <!-- ══ BACK BANK — 3 defenders + GK depth (gold) ══ -->
+          <circle cx="148" cy="398" r="12" fill="#854d0e" stroke="#eab308" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.15s"/>
+          <text x="148" y="401.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B1</text>
+          <circle cx="208" cy="392" r="12" fill="#854d0e" stroke="#eab308" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.28s"/>
+          <text x="208" y="395.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B2</text>
+          <circle cx="268" cy="398" r="12" fill="#854d0e" stroke="#eab308" stroke-width="1.8" style="animation:bankShiftR 2.8s ease-in-out infinite;animation-delay:.42s"/>
+          <text x="268" y="401.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B3</text>
+          <!-- No hands back bank -->
+          <line x1="160" y1="394" x2="196" y2="393" stroke="#eab308" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+          <line x1="220" y1="393" x2="256" y2="394" stroke="#eab308" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+          <text x="208" y="378" fill="#eab308" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">BACK BANK — COVER &amp; BALANCE</text>
+
+          <!-- Depth arrow F→B banks -->
+          <path d="M194,322 L194,379" fill="none" stroke="rgba(96,165,250,.35)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#p2h4)"/>
+          <text x="202" y="354" fill="#60a5fa" font-size="6" font-family="Oswald,sans-serif" opacity=".55">depth</text>
+
+          <!-- ══ SPLIT POINT EXAMPLE — gap between F2 and F3 ══ -->
+          <!-- Gap zone -->
+          <rect x="198" y="288" width="42" height="34" fill="#eab308" opacity=".06" style="animation:splitPulse 1.5s ease-in-out infinite"/>
+          <!-- Split pass through gap -->
+          <path d="M200,195 Q212,250 216,292" fill="none" stroke="#eab308" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#p2h2)" style="animation:dashFlow 1.5s linear infinite;animation-delay:.4s"/>
+          <!-- Split badge -->
+          <rect x="226" y="274" width="72" height="26" fill="#854d00" rx="3" style="animation:badgeFlash 1.8s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="262" y="285" fill="#eab308" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">SPLIT! +1 ATT</text>
+          <text x="262" y="295" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">play continues</text>
+          <path d="M226,284 L212,294" fill="none" stroke="#eab308" stroke-width="1" stroke-dasharray="2,2" opacity=".5"/>
+
+          <!-- ══ F1 PRESSING with call ══ -->
+          <circle cx="138" cy="310" r="12" fill="#991b1b" stroke="#84cc16" stroke-width="2.5" style="animation:breakOut 2.5s ease-in-out infinite;animation-delay:2s"/>
+          <path d="M134,297 Q90,240 66,218" fill="none" stroke="#84cc16" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#p2h5)" opacity=".65" style="animation:arrowMarch 2.2s linear infinite;animation-delay:2s"/>
+          <rect x="54" y="270" width="66" height="22" fill="rgba(132,204,22,.12)" stroke="rgba(132,204,22,.3)" stroke-width="1" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite;animation-delay:2s"/>
+          <text x="87" y="279" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">"PRESSING!"</text>
+          <text x="87" y="288" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">F1 calls first</text>
+
+          <!-- F2 covers gap left by F1 -->
+          <circle cx="188" cy="305" r="12" fill="#991b1b" stroke="#fbbf24" stroke-width="2.5" style="animation:shiftL 2s ease-in-out infinite;animation-delay:2.2s"/>
+          <text x="160" y="326" fill="#fbbf24" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">F2 covers</text>
+
+          <!-- ══ COUNTER-ATTACK ══ -->
+          <!-- Defender wins ball mid-pitch, drives to halfway goal -->
+          <path d="M200,450 Q198,390 198,352" fill="none" stroke="#84cc16" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#p2h5)" opacity=".6" style="animation:arrowMarch 2.5s linear infinite;animation-delay:1.2s"/>
+          <rect x="208" y="415" width="72" height="22" fill="rgba(132,204,22,.1)" stroke="rgba(132,204,22,.25)" stroke-width="1" rx="2" style="animation:badgeFlash 3s ease-in-out infinite;animation-delay:1.2s"/>
+          <text x="244" y="424" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">WIN BALL →</text>
+          <text x="244" y="433" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">COUNTER 6 SEC</text>
+
+          <!-- 6-second badge on counter goal -->
+          <rect x="144" y="313" width="112" height="14" fill="#166534" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="200" y="323" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">COUNTER GOAL — 6 SECONDS</text>
+
+          <!-- ══ STAGE ANNOTATIONS ══ -->
+          <rect x="36" y="460" width="130" height="40" fill="rgba(22,163,74,.07)" stroke="rgba(22,163,74,.2)" stroke-width="1" rx="2"/>
+          <text x="101" y="476" fill="#22c55e" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 1 (0–5 min)</text>
+          <text x="101" y="487" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Attackers 60% intensity</text>
+          <text x="101" y="496" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Banks find positions</text>
+
+          <rect x="234" y="460" width="130" height="40" fill="rgba(245,158,11,.07)" stroke="rgba(245,158,11,.2)" stroke-width="1" rx="2"/>
+          <text x="299" y="476" fill="#fbbf24" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 2 (5–20 min)</text>
+          <text x="299" y="487" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Full intensity · all rules</text>
+          <text x="299" y="496" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Split points tracked</text>
+
+          <rect x="135" y="510" width="130" height="40" fill="rgba(132,204,22,.07)" stroke="rgba(132,204,22,.2)" stroke-width="1" rx="2"/>
+          <text x="200" y="526" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 3 (20–30 min)</text>
+          <text x="200" y="537" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Remove split-point rule</text>
+          <text x="200" y="546" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Shape held on principle alone</text>
+
+          <!-- ══ LEGEND ══ -->
+          <circle cx="48" cy="584" r="7" fill="#15803d" stroke="#fff" stroke-width="1.2"/>
+          <text x="59" y="587.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Attackers</text>
+          <circle cx="130" cy="584" r="7" fill="#991b1b" stroke="#f87171" stroke-width="1.8"/>
+          <text x="141" y="587.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Front bank</text>
+          <circle cx="214" cy="584" r="7" fill="#854d0e" stroke="#eab308" stroke-width="1.8"/>
+          <text x="225" y="587.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Back bank</text>
+          <circle cx="300" cy="584" r="8" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2"/>
+          <text x="312" y="587.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Wide W</text>
+          <circle cx="48" cy="606" r="7" fill="#166534" stroke="#22c55e" stroke-width="1.8"/>
+          <text x="59" y="609.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">GK (organises)</text>
+          <line x1="135" y1="606" x2="155" y2="606" stroke="#eab308" stroke-width="1.5" stroke-dasharray="3,2" opacity=".6"/>
+          <text x="159" y="609.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">No hands — gap</text>
+          <line x1="248" y1="606" x2="268" y2="606" stroke="#eab308" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#p2h2)"/>
+          <text x="272" y="609.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Split pass</text>
+        </svg>
+      </div>
+      <div class="dsub">Front bank (red) + back bank (gold) shift right together as ball goes to wide left neutral · Dashed gaps between players = no hands, shape by voice · Split pass annotated with +1pt badge · F1 pressing with call shown in lime</div>
+    </div>
+  </div>
+
+  <!-- Success / Problems -->
+  <div style="padding:0 0 0">
+    <div class="sc" style="border-top-color:var(--gold)">
+      <div class="sc-header"><span class="stag stag-s">Success Indicators</span><span class="sc-title">Practice 2 — What to observe</span></div>
+      <div class="sc-body">
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#4ade80"><span class="dot-g"></span>&nbsp;Working Well</div>
+          <div class="si si-g">Both banks shifting together when ball goes wide — without being told</div>
+          <div class="si si-g">GK calling direction aloud ("shift right!", "close near post!")</div>
+          <div class="si si-g">"Pressing!" called before every break from unit</div>
+          <div class="si si-g">Split points fewer than in P1 — unit shape is more disciplined</div>
+          <div class="si si-g">Counter-attacks happening within 6 seconds of winning possession</div>
+          <div class="si si-g">Back bank tracking runners into the box from crosses</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#fbbf24"><span class="dot-a"></span>&nbsp;Needs Attention</div>
+          <div class="si si-a">Banks shifting at different times — front shifts, back stays</div>
+          <div class="si si-a">GK silent — not organising; address directly at a break</div>
+          <div class="si si-a">Wide player receiving with no defensive reaction — bank ignoring width</div>
+          <div class="si si-a">Split points increasing vs P1 — shape worse without hands</div>
+          <div class="si si-a">Counter-attack slow — defenders winning ball then holding it</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#f87171"><span class="dot-r"></span>&nbsp;Not Working — Act Now</div>
+          <div class="si si-r">Complete loss of shape → R1 (hands back on for 2 min to reset)</div>
+          <div class="si si-r">Wide goal being scored repeatedly → ask back bank: "what's your job when a cross comes in?"</div>
+          <div class="si si-r">No counter-attack happening at all → reduce to R2 (6 attackers) so defending team get more possession wins</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-header"><span class="stag stag-p">Problems &amp; Solutions</span><span class="sc-title">Practice 2 — in-practice fixes</span></div>
+      <div class="pb">
+        <div class="prob">
+          <div class="prob-q">Shape worse than P1 — more splits without the hands</div>
+          <div class="prob-a">Expected and valid. At the next break: "the hands were making the gap visible — now you need to feel it another way. What tells you someone has moved out of position?" Guide toward: communication, peripheral vision, agreed spacing. Let them name the solution.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Back bank not mirroring front bank — drifts independently</div>
+          <div class="prob-a">Ask the back bank: "when the front bank moves — what's your job?" If they say "track my attacker" — correct it: "your job is to mirror the front bank and stay 10m deeper. Your attacker's run doesn't change that — someone else in the back bank covers." Clarify the position-based vs man-marking distinction.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Wide cross scoring double points repeatedly — back bank not tracking</div>
+          <div class="prob-a">Brief freeze: ask the back bank to show where they are when the cross arrives. Then ask: "where's the ball going? Where do you need to be?" Physical repositioning, then play restarts. One instruction, no lecture.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Players forgetting to call "pressing!" before breaking — rule ignored</div>
+          <div class="prob-a">Every time it happens, immediately award a split point to the attackers and call it aloud: "no call — split point." The consequence is consistent and instant. After 2–3 times the habit forms through consequence rather than instruction.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     BRIDGE P1 → P2
+════════════════════════════════════════════════════════════ -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--green-hi);padding:12px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px">
+  <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--green-hi);flex-shrink:0;line-height:1;margin-top:2px">→</div>
+  <div>
+    <div style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-hi);margin-bottom:4px">Bridge — P1 to P2 (90 seconds, do not skip)</div>
+    <div style="font-size:11.5px;color:rgba(240,237,230,.72);line-height:1.6">Gather the group. Ask: <em style="color:var(--white)">"When you were holding hands and the ball went wide — what did your whole bank have to do?"</em> Let two players answer (shift together). Then: <em style="color:var(--white)">"Now we put the ball on the floor. No more holding hands — but the same rule applies. Your bank still needs to shift together, stay connected, and hold your shape. The only difference is that now the proof is in the game — not in your hands."</em> Swap the handball for a football and restart from the same pitch. Do not move any cones.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PRACTICE 2
+════════════════════════════════════════════════════════════ -->
+<div class="sh">
+  <div class="sh-text">Practice 2 — Unit Defence with Football</div>
+  <div class="sh-line"></div>
+</div>
+
+<div class="card" style="border-top-color:var(--gold)">
+  <div class="card-header">
+    <span class="c-tag" style="background:var(--gold-dim);color:var(--gold)">Unit Defence · Football</span>
+    <div>
+      <div class="c-name">Two Banks of 4 — Football on the Floor</div>
+      <div class="c-sub">Same Pitch · All Principles · No Hands · GK + Goal · 20 Players</div>
+    </div>
+    <div class="c-dur" style="color:var(--gold)">25–30<span>MIN</span></div>
+  </div>
+
+  <div class="c-body">
+    <div class="c-left">
+
+      <!-- P1→P2 transfer box -->
+      <div style="background:rgba(132,204,22,.06);border:1px solid rgba(132,204,22,.2);border-left:2px solid var(--lime);padding:9px 13px;margin-bottom:12px;border-radius:0 3px 3px 0">
+        <div style="font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:5px">What carries over from Practice 1</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px">
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>Same pitch, same wide channels, same wide neutral players</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>Two banks of 4 defensive structure</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>"Split!" call when a pass penetrates between two defenders</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>"Pressing!" call required before breaking from shape</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>Front bank delays, back bank covers — organic split develops</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">NEW</span>Ball on the floor — football, not handball</div>
+        </div>
+      </div>
+
+      <div class="obj" style="background:rgba(234,179,8,.06);border-left-color:var(--gold)">
+        <div class="obj-l" style="color:var(--gold)">Objective</div>
+        <div class="obj-t">The same two banks of 4 now defend with a real football on the floor. No hands — unit connectivity must come from movement, communication and shape rather than physical contact. A GK defends a real goal at the defending end. Attackers try to break through the banks and score. The same split-point rule applies: a pass that travels through a gap between two bank players scores a point. Defenders score by winning possession and playing through to the wide neutrals or into a mini-goal on halfway.</div>
+      </div>
+
+      <div class="pdist">
+        <div class="pd-h">Player Distribution — 20 Players · Same as P1</div>
+        <div class="pd-grid">
+          <div class="pd-item"><div class="pd-l">Team A (outfield)</div><div class="pd-v">8 players</div></div>
+          <div class="pd-item"><div class="pd-l">Team B (outfield)</div><div class="pd-v">8 players</div></div>
+          <div class="pd-item"><div class="pd-l">Wide neutrals</div><div class="pd-v">2 (same as P1)</div></div>
+          <div class="pd-item"><div class="pd-l">GK</div><div class="pd-v">1 per team, rotates</div></div>
+          <div class="pd-item"><div class="pd-l">Bank structure</div><div class="pd-v">Front 4 + Back 4</div></div>
+          <div class="pd-item"><div class="pd-l">Rotate wide neutrals</div><div class="pd-v">Every 5–6 min</div></div>
+        </div>
+      </div>
+
+      <div class="setup-g">
+        <div class="sl">Pitch</div><div class="sv">Same as P1 — no cones moved</div>
+        <div class="sl">Goal</div><div class="sv">Full goal + GK at defending end</div>
+        <div class="sl">Counter goal</div><div class="sv">Mini-goal or cones on halfway</div>
+        <div class="sl">Ball</div><div class="sv">Football — on the floor only</div>
+        <div class="sl">Wide neutrals</div><div class="sv">Serve both teams — same role as P1</div>
+        <div class="sl">Bank start</div><div class="sv">Two flat banks, no hands — shape only</div>
+      </div>
+
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div><div>Normal football rules — dribble, pass and shoot. Ball must stay on the floor (no lofted balls above knee height in build-up play).</div></div>
+        <div class="rule"><div class="rn">2.</div><div>Defending team organises as two banks of 4. No physical contact between bank players — shape held through positioning and communication alone.</div></div>
+        <div class="rule"><div class="rn">3.</div><div>A through-ball that travels cleanly between two bank players earns attackers 1pt. Coach calls <strong style="color:var(--gold)">"split!"</strong> — play continues. Point noted for debrief.</div></div>
+        <div class="rule"><div class="rn">4.</div><div>A goal scored earns attackers 2pts. A goal after a split-pass assist earns 3pts.</div></div>
+        <div class="rule"><div class="rn">5.</div><div>If defenders win possession they can counter-attack: play into a wide neutral (1pt) or score in the mini-goal on halfway (2pts).</div></div>
+        <div class="rule"><div class="rn">6.</div><div>Wide neutrals can receive and pass for either team — same as P1. They must stay in their wide channel.</div></div>
+        <div class="rule"><div class="rn">7.</div><div>A bank player who breaks forward to press must call <strong style="color:var(--lime)">"pressing!"</strong> first — their bank-partner closest to the gap must immediately step across to cover the space left behind.</div></div>
+        <div class="rule"><div class="rn">8.</div><div>Halfway line rule: once an attacker dribbles past both banks, the defending team cannot recover — the GK faces the threat alone. This replicates a broken defensive line.</div></div>
+      </div>
+
+      <!-- Key mechanic: no hands -->
+      <div class="mechanic-box" style="background:rgba(234,179,8,.07);border-left-color:var(--gold)">
+        <div class="mb-h" style="color:var(--gold)">The Key Difference from P1 — No Hands</div>
+        <div class="mb-t">In P1 the holding-hands rule made the unit physical and tangible — players felt the gap when a hand broke away. In P2 that physical signal is gone. Players must now hold the shape purely through scanning, communication and anticipation — exactly as in a real match. This is the step from understanding the principle to applying it. The first 3–4 minutes of P2 will almost always show a deterioration of shape as players adjust. Name this directly: <em style="color:var(--white)">"You've lost the safety net — now you need to trust each other without the hands. That's football."</em></div>
+      </div>
+
+      <!-- GK role -->
+      <div class="wide-box">
+        <div class="wb-h">GK Role — Unit Organiser</div>
+        <div class="wb-t">The GK is the only player with a full view of both banks. Their job throughout P2 is to call the bank into shape: <em>"back bank drop!", "front bank left!", "gap between 2 and 3!"</em> — constantly. Coach the GK specifically during P2: if they are silent for more than 10 seconds while a threat is developing, call their name and ask "what do you see?" This replicates the GK's organising role in a real match and directly develops the communication habit that was absent in the 6-4 loss.</div>
+      </div>
+
+      <!-- Intervention spectrum -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:10px 13px;margin-bottom:12px">
+        <div style="font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Coaching Intervention Spectrum — P2</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 16px">
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#f87171;margin-bottom:4px">Freeze &amp; Show</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Both banks completely flat — no depth at all. Freeze, physically reposition back bank deeper, replay immediately</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px"><span style="color:var(--amber)">·</span>GK completely silent for full sequence — brief direct instruction to GK only</div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#fbbf24;margin-bottom:4px">Question at Breaks</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px"><span style="color:var(--amber)">·</span>After split: "which two players let that pass through — where were your feet?"</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px"><span style="color:var(--amber)">·</span>After back bank doesn't cover: "back bank — when the front pressed, what was your job?"</div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#4ade80;margin-bottom:4px">Let Play Run</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Banks self-organising verbally — this is exactly what should happen</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Front bank pressing on trigger, back bank holding — name it positively: "that's your midfield and back four"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-h" style="color:var(--gold)">Coaching Points — Applying the Principles Without Hands</div>
+      <div class="cp-list">
+
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--red-hi)"></div>
+          <div>
+            <div class="cp-title">Delay: the front bank holds shape — don't dive in</div>
+            <div class="cp-desc">Without the hands to hold them, the front bank's instinct will be to press immediately. Coach the front bank to set their body shape first — side-on, low, channelling the attacker — before committing to a tackle. The delay buys the back bank time to set their cover positions. A rushed press that fails leaves 8 players in front of the attacker instead of 4.</div>
+            <span class="cp-tag" style="background:var(--red-dim);color:var(--red-hi)">Delay</span>
+          </div>
+        </div>
+
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--blue-hi)"></div>
+          <div>
+            <div class="cp-title">Cover: back bank drops when front bank steps up</div>
+            <div class="cp-desc">Every time a front bank player steps up to engage, the back bank player directly behind them must drop half a step deeper and shift to the cover angle. This is the automatic reaction — step up in front, drop back behind. If both banks press simultaneously there is no cover and a single pass eliminates both lines. Coaching cue to the back bank: <em>"if your front player steps up — you step back."</em></div>
+            <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+          </div>
+        </div>
+
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--blue-hi)"></div>
+          <div>
+            <div class="cp-title">Balance: both banks shift together when ball moves wide</div>
+            <div class="cp-desc">When the ball reaches a wide neutral, the entire unit — both banks — must shift across together. The shape must travel with the ball. If only one or two players shift, the gap appears on the weak side. Coaching cue: <em>"the unit is one body — it moves together or it breaks."</em> The wide neutral in P2 is an even bigger threat because they can now dribble as well as pass.</div>
+            <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+          </div>
+        </div>
+
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--lime)"></div>
+          <div>
+            <div class="cp-title">Pressing: the "pressing!" call is now the trigger for the back bank</div>
+            <div class="cp-desc">When a front bank player calls "pressing!" and breaks forward, the back bank must hear it as an instruction — not just information. It means: the player to the left or right of the gap must shift across immediately. This is the cover principle in live action. If the back bank is slow to react, the gap stays open and the split is easy. Drill this as a conditioned reflex: "pressing!" call = immediate cover shift from back bank.</div>
+            <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Pressing</span>
+          </div>
+        </div>
+
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--green-hi)"></div>
+          <div>
+            <div class="cp-title">GK organises the whole unit — not just the goal</div>
+            <div class="cp-desc">The GK is the eyes of the team. They should be calling the bank positions continuously: <em>"front bank — push up!", "back bank — hold!", "gap left of three!"</em> Players in the banks are focused on their immediate opponent; the GK has the picture. This is the most transferable football skill of the whole session — a communicating GK fixes defensive problems before they become goals.</div>
+            <span class="cp-tag" style="background:var(--green-dim);color:var(--green-hi)">Unit Organisation</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 3-stage management -->
+      <div class="mgmt">
+        <div class="mgmt-h">Practice Management — 3 Stages</div>
+        <div class="mgmt-t">
+          <strong style="color:#fbbf24">Stage 1 (first 5 min) — Slow build.</strong> Attackers play at 70% — no pressing from attackers, just patient possession building. Gives defending banks time to find their positions without hands before facing full pressure. Ask at 3 minutes: "how does it feel without the hands? What's missing?"<br><br>
+          <strong style="color:#fbbf24">Stage 2 (min 5–20) — Full intensity.</strong> All rules live. Split points tracked. Both wide neutrals fully active. Coach observes and questions. Maximum two freezes across this phase.<br><br>
+          <strong style="color:#fbbf24">Stage 3 (min 20–25) — Free play.</strong> Remove the bank structure entirely — defenders can organise however they choose. Watch whether the two-bank shape persists organically as a preferred structure. This is the evidence of deep learning: they choose the shape because it works, not because it was imposed.
+        </div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div>Allow lofted balls — wide neutrals can cross. Back bank must now defend crosses as well as ground-level splits. Directly replicates defending in a real match.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>Increase to 5v8+GK — add an extra attacker to overload the banks. Forces balance decisions as the unit is numerically stretched. Defenders must identify who is surplus and communicate coverage.</div></div>
+        <div class="pi"><div class="pn">P3</div><div>Remove the split-point rule — just play. The defensive structure should now hold without the scoring incentive. Observe whether the principle has been internalised.</div></div>
+      </div>
+
+      <div class="reg">
+        <div class="reg-h">Regressions</div>
+        <div class="ri"><div class="rni">R1</div><div>Reintroduce holding hands for 2 minutes — reset the physical reference point, then remove hands again. Use if shape collapses completely in the first few minutes.</div></div>
+        <div class="ri"><div class="rni">R2</div><div>Remove the back bank — defend with one bank of 4 only. Establish the front bank's delay and press before adding the depth of a second bank.</div></div>
+      </div>
+
+      <!-- Player-led questions -->
+      <div class="q-block">
+        <div class="q-h">Player-Led Questions — Ask During Natural Breaks</div>
+        <div class="q-item">Without the hands — how do you know if your bank is still connected?<div class="q-when">Ask within the first 5 minutes. Guide toward: scanning, communication, knowing where your bank-partner is.</div></div>
+        <div class="q-item">Back bank — when the front player stepped up to press, where did you go? What should you have done?<div class="q-when">After a split that followed a press. Back bank player identifies the cover position they missed.</div></div>
+        <div class="q-item">Wide player received and the whole unit had to shift — did both banks shift together? Who led it?<div class="q-when">After a wide threat caused a gap. Identifies whether the shift was coordinated or individual.</div></div>
+        <div class="q-item">In Stage 3 when we removed the banks — did you still defend the same way? Why or why not?<div class="q-when">After Stage 3. The most important question of the session — did the structure become a habit?</div></div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT: DIAGRAM ─────────────────────────────────────── -->
+    <div class="c-right">
+      <div class="dlabel">P2 — Football on the Floor (Two Banks · GK · Wide Neutrals)</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 680" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p2h1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+            <marker id="p2h2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#eab308"/></marker>
+            <marker id="p2h3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+            <marker id="p2h4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#60a5fa"/></marker>
+            <marker id="p2h5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#84cc16"/></marker>
+          </defs>
+          <rect width="400" height="680" fill="#0e150e" rx="4"/>
+
+          <!-- ── PITCH ── -->
+          <rect x="34" y="16" width="332" height="648" fill="rgba(22,163,74,.03)" stroke="#1d3a1d" stroke-width="1.8"/>
+          <!-- Halfway line -->
+          <line x1="34" y1="340" x2="366" y2="340" stroke="#1d3a1d" stroke-width="1.2"/>
+          <text x="200" y="334" fill="#1d3a1d" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".8">HALFWAY</text>
+
+          <!-- Mini counter goal on halfway -->
+          <rect x="152" y="338" width="96" height="8" fill="none" stroke="#eab308" stroke-width="2"/>
+          <text x="200" y="360" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">COUNTER GOAL — DEF +2</text>
+
+          <!-- Penalty area and goal at bottom -->
+          <rect x="84" y="568" width="232" height="80" fill="none" stroke="#1d3a1d" stroke-width="1.2" opacity=".7"/>
+          <rect x="144" y="648" width="112" height="10" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <text x="200" y="667" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600">GOAL — 2pt (3pt after split)</text>
+
+          <!-- GK -->
+          <circle cx="200" cy="634" r="12" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+          <text cx="200" cy="634" fill="#22c55e" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700"><tspan x="200" dy="0" dominant-baseline="middle">GK</tspan></text>
+          <!-- GK call badge -->
+          <rect x="218" y="618" width="110" height="20" fill="rgba(20,83,45,.8)" stroke="rgba(34,197,94,.3)" stroke-width="1" rx="2" style="animation:badgeFlash 3s ease-in-out infinite"/>
+          <text x="273" y="629" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">"FRONT BANK — HOLD!"</text>
+
+          <!-- Wide channels -->
+          <rect x="34" y="16" width="28" height="648" fill="#60a5fa" opacity=".04"/>
+          <rect x="338" y="16" width="28" height="648" fill="#60a5fa" opacity=".04"/>
+          <text x="48" y="345" fill="#60a5fa" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" transform="rotate(-90,48,345)" opacity=".7">WIDE CHANNEL</text>
+          <text x="352" y="345" fill="#60a5fa" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" transform="rotate(90,352,345)" opacity=".7">WIDE CHANNEL</text>
+
+          <!-- ══ WIDE NEUTRALS ══ -->
+          <circle cx="48" cy="210" r="11" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2" style="animation:wideRun 2.8s ease-in-out infinite"/>
+          <text x="48" y="213.5" fill="#60a5fa" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">W</text>
+          <circle cx="352" cy="245" r="11" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2" style="animation:wideRun 3s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="352" y="248.5" fill="#60a5fa" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">W</text>
+
+          <!-- ══ ATTACKERS — 8 players spread across pitch ══ -->
+          <circle cx="120" cy="80" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2s ease-in-out infinite"/>
+          <circle cx="200" cy="65" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.3s"/>
+          <circle cx="280" cy="80" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 2.1s ease-in-out infinite;animation-delay:.6s"/>
+          <circle cx="145" cy="145" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="255" cy="150" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="200" cy="195" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3" style="animation:playerBob 1.9s ease-in-out infinite;animation-delay:.9s"/>
+          <circle cx="98" cy="170" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <circle cx="302" cy="170" r="10" fill="#15803d" stroke="#fff" stroke-width="1.3"/>
+          <!-- Ball -->
+          <circle cx="200" cy="195" r="5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- ══ FRONT BANK — 4 defenders (red), NO HANDS, shape only ══ -->
+          <!-- Front bank shifted slightly right — ball is centre-right -->
+          <circle cx="128" cy="298" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite"/>
+          <text x="128" y="301.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F1</text>
+          <circle cx="176" cy="293" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.1s"/>
+          <text x="176" y="296.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F2</text>
+          <circle cx="224" cy="293" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="224" y="296.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F3</text>
+          <circle cx="272" cy="298" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="272" y="301.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">F4</text>
+
+          <!-- NO HANDS indicator — dashed gap line between players -->
+          <line x1="139" y1="295" x2="165" y2="294" stroke="#f87171" stroke-width="1" stroke-dasharray="2,3" opacity=".4"/>
+          <line x1="187" y1="294" x2="213" y2="294" stroke="#f87171" stroke-width="1" stroke-dasharray="2,3" opacity=".4"/>
+          <line x1="235" y1="294" x2="261" y2="295" stroke="#f87171" stroke-width="1" stroke-dasharray="2,3" opacity=".4"/>
+
+          <!-- Front bank label -->
+          <text x="200" y="280" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" opacity=".8">FRONT BANK — DELAY (no hands)</text>
+
+          <!-- ══ BACK BANK — 4 defenders (gold) ══ -->
+          <!-- Back bank slightly deeper — organic separation from front -->
+          <circle cx="124" cy="388" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.15s"/>
+          <text x="124" y="391.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B1</text>
+          <circle cx="172" cy="382" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.25s"/>
+          <text x="172" y="385.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B2</text>
+          <circle cx="228" cy="382" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.35s"/>
+          <text x="228" y="385.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B3</text>
+          <circle cx="276" cy="388" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.45s"/>
+          <text x="276" y="391.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B4</text>
+
+          <!-- Back bank dashed gaps (no hands) -->
+          <line x1="135" y1="384" x2="161" y2="383" stroke="#eab308" stroke-width="1" stroke-dasharray="2,3" opacity=".4"/>
+          <line x1="183" y1="383" x2="217" y2="383" stroke="#eab308" stroke-width="1" stroke-dasharray="2,3" opacity=".4"/>
+          <line x1="239" y1="383" x2="265" y2="384" stroke="#eab308" stroke-width="1" stroke-dasharray="2,3" opacity=".4"/>
+
+          <!-- Back bank label -->
+          <text x="200" y="370" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" opacity=".8">BACK BANK — COVER &amp; BALANCE (no hands)</text>
+
+          <!-- Separation between banks — depth indicator -->
+          <path d="M200,309 L200,370" fill="none" stroke="rgba(96,165,250,.35)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#p2h4)"/>
+          <text x="208" y="342" fill="#60a5fa" font-size="6" font-family="Oswald,sans-serif" opacity=".6">depth</text>
+
+          <!-- ══ THROUGH BALL — SPLIT POINT EXAMPLE ══ -->
+          <!-- Gap between F2 and F3 — ball played through -->
+          <rect x="185" y="278" width="40" height="32" fill="#eab308" opacity=".06" style="animation:splitPulse 1.5s ease-in-out infinite"/>
+          <path d="M200,210 L200,290" fill="none" stroke="#eab308" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#p2h2)" style="animation:dashFlow 1.5s linear infinite;animation-delay:.3s"/>
+          <rect x="218" y="274" width="68" height="24" fill="#78350f" rx="2" style="animation:badgeFlash 1.8s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="252" y="284" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">SPLIT!</text>
+          <text x="252" y="292" fill="#eab308" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif">+1 ATT POINT</text>
+          <path d="M218,283 L205,288" fill="none" stroke="#eab308" stroke-width="1" stroke-dasharray="2,2" opacity=".5"/>
+
+          <!-- ══ PRESS EXAMPLE — F4 breaking with cover ══ -->
+          <!-- F4 steps up, "pressing!" called -->
+          <path d="M272,286 L282,218" fill="none" stroke="#84cc16" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#p2h5)" opacity=".6" style="animation:arrowMarch 2s linear infinite;animation-delay:1s"/>
+          <rect x="282" y="256" width="64" height="14" fill="#1a2e06" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite;animation-delay:1s"/>
+          <text x="314" y="265.5" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">"PRESSING!"</text>
+          <!-- B4 drops to cover F4's vacated space -->
+          <path d="M276,376 Q278,335 278,313" fill="none" stroke="#eab308" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#p2h2)" opacity=".5" style="animation:arrowMarch 2.2s linear infinite;animation-delay:1.2s"/>
+          <text x="290" y="352" fill="#eab308" font-size="6.5" font-family="Oswald,sans-serif" opacity=".7">B4 covers</text>
+
+          <!-- ══ WIDE NEUTRAL FORCING SHIFT ══ -->
+          <!-- Ball played to left wide W -->
+          <path d="M192,193 Q110,185 62,213" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#p2h4)" style="animation:throwArc 2s linear infinite"/>
+          <text x="118" y="182" fill="#60a5fa" font-size="6.5" font-family="Oswald,sans-serif" font-weight="600">ball wide →</text>
+          <!-- Shift arrow for both banks -->
+          <path d="M200,295 L134,293" fill="none" stroke="rgba(248,113,113,.5)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#p2h3)"/>
+          <path d="M200,385 L130,383" fill="none" stroke="rgba(234,179,8,.5)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#p2h2)"/>
+          <text x="162" y="312" fill="#f87171" font-size="6" font-family="Oswald,sans-serif" opacity=".7">front shifts ←</text>
+          <text x="162" y="400" fill="#eab308" font-size="6" font-family="Oswald,sans-serif" opacity=".7">back shifts ←</text>
+
+          <!-- ══ COUNTER ATTACK ARROW (when def wins ball) ══ -->
+          <path d="M200,395 Q200,368 200,355" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#p2h1)" opacity=".4" style="animation:arrowMarch 2.5s linear infinite;animation-delay:2s"/>
+          <text x="212" y="375" fill="#22c55e" font-size="6.5" font-family="Oswald,sans-serif" opacity=".6">counter →</text>
+
+          <!-- ══ STAGE ANNOTATIONS ══ -->
+          <rect x="36" y="455" width="118" height="44" fill="rgba(22,163,74,.07)" stroke="rgba(22,163,74,.2)" stroke-width="1" rx="2"/>
+          <text x="95" y="471" fill="#22c55e" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 1 (0–5 min)</text>
+          <text x="95" y="481" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Attackers 70% — slow</text>
+          <text x="95" y="490" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">build, no pressure</text>
+
+          <rect x="164" y="455" width="72" height="44" fill="rgba(245,158,11,.07)" stroke="rgba(245,158,11,.2)" stroke-width="1" rx="2"/>
+          <text x="200" y="471" fill="#fbbf24" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 2</text>
+          <text x="200" y="481" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Full intensity</text>
+          <text x="200" y="490" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">All rules live</text>
+
+          <rect x="246" y="455" width="118" height="44" fill="rgba(132,204,22,.07)" stroke="rgba(132,204,22,.2)" stroke-width="1" rx="2"/>
+          <text x="305" y="471" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">STAGE 3 (free)</text>
+          <text x="305" y="481" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">Banks removed —</text>
+          <text x="305" y="490" fill="#6b7a60" font-size="6.5" text-anchor="middle" font-family="Source Sans 3,sans-serif">free organisation</text>
+
+          <!-- P1 vs P2 comparison strip -->
+          <rect x="36" y="510" width="328" height="50" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.07)" stroke-width="1" rx="2"/>
+          <text x="200" y="524" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" letter-spacing=".5">P1 → P2 TRANSITION</text>
+          <text x="106" y="538" fill="#6b7a60" font-size="7" text-anchor="middle" font-family="Source Sans 3,sans-serif">P1: Hands hold the shape</text>
+          <text x="106" y="548" fill="#6b7a60" font-size="7" text-anchor="middle" font-family="Source Sans 3,sans-serif">(physical signal)</text>
+          <text x="200" y="543" fill="#84cc16" font-size="12" text-anchor="middle">→</text>
+          <text x="295" y="538" fill="#eef2f7" font-size="7" text-anchor="middle" font-family="Source Sans 3,sans-serif">P2: Communication holds</text>
+          <text x="295" y="548" fill="#eef2f7" font-size="7" text-anchor="middle" font-family="Source Sans 3,sans-serif">the shape (football signal)</text>
+
+          <!-- LEGEND -->
+          <line x1="36" y1="572" x2="36" y2="660" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <circle cx="48" cy="582" r="7" fill="#15803d" stroke="#fff" stroke-width="1.2"/>
+          <text x="59" y="585.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Attackers</text>
+          <circle cx="140" cy="582" r="7" fill="#991b1b" stroke="#f87171" stroke-width="1.8"/>
+          <text x="151" y="585.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Front bank (delay)</text>
+          <circle cx="252" cy="582" r="7" fill="#78350f" stroke="#eab308" stroke-width="1.8"/>
+          <text x="263" y="585.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Back bank (cover)</text>
+          <circle cx="48" cy="602" r="8" fill="#1a3a5c" stroke="#60a5fa" stroke-width="2"/>
+          <text x="59" y="605.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Wide neutral (W)</text>
+          <circle cx="148" cy="602" r="7" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+          <text x="148" y="605.5" fill="#22c55e" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <text x="159" y="605.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">GK (organises)</text>
+          <line x1="250" y1="602" x2="270" y2="602" stroke="#f87171" stroke-width="1" stroke-dasharray="2,3" opacity=".7"/>
+          <text x="274" y="605.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">No hands (shape only)</text>
+          <line x1="36" y1="622" x2="56" y2="622" stroke="#eab308" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#p2h2)"/>
+          <text x="60" y="625.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Split-pass (thru bank)</text>
+          <line x1="194" y1="622" x2="214" y2="622" stroke="#84cc16" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#p2h5)"/>
+          <text x="218" y="625.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Press break</text>
+          <line x1="290" y1="622" x2="310" y2="622" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#p2h1)"/>
+          <text x="314" y="625.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Counter-attack</text>
+        </svg>
+      </div>
+      <div class="dsub">Red = front bank (Delay) · Gold = back bank (Cover &amp; Balance) · Dashed lines = no hands — shape only. Split-pass highlighted in amber. F4 breaking with "pressing!" call; B4 covers the gap.</div>
+    </div>
+  </div>
+
+  <!-- Success / Problems -->
+  <div style="padding:0 0 0">
+    <div class="sc" style="border-top-color:var(--gold)">
+      <div class="sc-header"><span class="stag stag-s">Success Indicators</span><span class="sc-title">Practice 2 — What to observe</span></div>
+      <div class="sc-body">
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#4ade80"><span class="dot-g"></span>&nbsp;Working Well</div>
+          <div class="si si-g">Front bank holding shape without hands — gaps not opening passively</div>
+          <div class="si si-g">Back bank visibly deeper than front and shifting to mirror them</div>
+          <div class="si si-g">"Pressing!" calls heard — back bank reacting to cover the gap</div>
+          <div class="si si-g">GK calling positions and gaps continuously without prompting</div>
+          <div class="si si-g">In Stage 3, players organise themselves into two lines without being told</div>
+          <div class="si si-g">Fewer splits in P2 than at the start of P1 — learning is transferring</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#fbbf24"><span class="dot-a"></span>&nbsp;Needs Attention</div>
+          <div class="si si-a">Shape collapses in first 5 min — expected, use R1 briefly then remove hands again</div>
+          <div class="si si-a">Back bank pushing up alongside front — depth disappears. Ask: "where was the back bank in the handball game?"</div>
+          <div class="si si-a">"Pressing!" calls not happening — silent breaks. Stage 3 rule makes this costly; enforce the silent-break penalty</div>
+          <div class="si si-a">GK reactive only — shouting after the goal, not before. Coach directly</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#f87171"><span class="dot-r"></span>&nbsp;Not Working — Act Now</div>
+          <div class="si si-r">Complete shape breakdown → R1 (hands back for 2 min), reestablish, remove</div>
+          <div class="si si-r">Players don't know where to stand without the bank structure → R2 (one bank first), add second bank once front is established</div>
+          <div class="si si-r">No connection between P1 and P2 → reference the handball explicitly: "remember breaking hands in the rondo? That's what's happening now — feel it"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-header"><span class="stag stag-p">Problems &amp; Solutions</span><span class="sc-title">Practice 2</span></div>
+      <div class="pb">
+        <div class="prob">
+          <div class="prob-q">Front bank presses immediately without delay — team stretched</div>
+          <div class="prob-a">Call "too early!" live without stopping. At next break: "what were you waiting for in the handball game? A trigger. What's the trigger here?" Let player identify (heavy touch, turned back). Then replay.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Back bank not covering when front bank presses — both banks flat</div>
+          <div class="prob-a">After the split: pull back bank aside (30 seconds, play continues around them): "when your front player steps up — what is your job?" They identify: step back and cover. Return to play immediately.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Wide neutral ignored — no shift happens when they receive</div>
+          <div class="prob-a">Pause briefly: "wide player has the ball here. Where is your bank?" Banks identify they haven't shifted. "What did you do in the handball game when the wide player received?" — direct reference back to P1. The memory is recent and physical.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Stage 3 (free organisation) produces chaotic individual defending</div>
+          <div class="prob-a">This is valuable information — the structure hasn't been fully internalised yet. Don't correct it. Let it play for 3 minutes. At the debrief: "when we removed the banks — what happened? Why do you think the two-bank shape worked better?" Players identify the principle from comparing the two experiences.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FULL SESSION FOOTER ════════════════════════════════════════ --><!-- ════════════════════════════════════════════════════════════
+     BRIDGE P2 → P3
+════════════════════════════════════════════════════════════ -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--green-hi);padding:12px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px">
+  <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--green-hi);flex-shrink:0;line-height:1;margin-top:2px">→</div>
+  <div>
+    <div style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-hi);margin-bottom:4px">Bridge — P2 to P3 (60 seconds)</div>
+    <div style="font-size:11.5px;color:rgba(240,237,230,.72);line-height:1.6">Gather all three teams. Ask: <em style="color:var(--white)">"In the last two practices we gave you a structure — two banks. Now there's no structure. You decide how to defend. But you've felt what a connected unit does. You've felt the gap when it breaks. How you apply that is up to you — the three principles still exist, you just own them now."</em> No further instruction. Let them go.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PRACTICE 3
+════════════════════════════════════════════════════════════ -->
+<div class="sh">
+  <div class="sh-text">Practice 3 — 3-Team Rotating Game</div>
+  <div class="sh-line"></div>
+</div>
+
+<div class="card" style="border-top-color:var(--lime)">
+  <div class="card-header">
+    <span class="c-tag" style="background:var(--lime-dim);color:var(--lime)">Full Integration · Player-Led</span>
+    <div>
+      <div class="c-name">3-Team Rotating 6v6+GK — Losers Off</div>
+      <div class="c-sub">Quarter Pitch · All Principles · Player-Defined Organisation · 20 Players</div>
+    </div>
+    <div class="c-dur" style="color:var(--lime)">25–30<span>MIN</span></div>
+  </div>
+
+  <div class="c-body">
+    <div class="c-left">
+
+      <!-- What carries over -->
+      <div style="background:rgba(132,204,22,.06);border:1px solid rgba(132,204,22,.2);border-left:2px solid var(--lime);padding:9px 13px;margin-bottom:12px;border-radius:0 3px 3px 0">
+        <div style="font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:5px">What carries over — now player-owned</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px">
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>Delay — hold shape before committing</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>Cover &amp; Balance — depth and lateral shape</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>Pressing — triggered by a moment, called aloud</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">✓</span>GK organises the unit verbally</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">NEW</span>No prescribed bank structure — players decide</div>
+          <div style="font-size:11px;color:rgba(240,237,230,.72);display:flex;gap:5px"><span style="color:var(--lime);font-weight:700;flex-shrink:0">NEW</span>Competitive rotation — score to stay on</div>
+        </div>
+      </div>
+
+      <div class="obj" style="background:rgba(132,204,22,.06);border-left-color:var(--lime)">
+        <div class="obj-l" style="color:var(--lime)">Objective</div>
+        <div class="obj-t">Three teams of 6 + 2 GKs rotating. Two teams play a 6v6+GK game on a quarter of the 11v11 pitch. The team that concedes a goal rotates off and the waiting team comes on. The team that scores stays on. All three principles remain active but there is no imposed structure — players organise their own defensive shape, choose their own roles, and apply the principles through their own understanding. Coaches observe only, asking questions at rotations.</div>
+      </div>
+
+      <div class="pdist">
+        <div class="pd-h">Player Distribution — 20 Players · 3 Teams + 2 GKs</div>
+        <div class="pd-grid">
+          <div class="pd-item"><div class="pd-l">Team A</div><div class="pd-v">6 outfield</div></div>
+          <div class="pd-item"><div class="pd-l">Team B</div><div class="pd-v">6 outfield</div></div>
+          <div class="pd-item"><div class="pd-l">Team C</div><div class="pd-v">6 outfield</div></div>
+          <div class="pd-item"><div class="pd-l">GKs</div><div class="pd-v">2 (stay on all game)</div></div>
+          <div class="pd-item"><div class="pd-l">Active at once</div><div class="pd-v">12 outfield + 2 GKs</div></div>
+          <div class="pd-item"><div class="pd-l">Waiting</div><div class="pd-v">6 outfield — rotate on goal</div></div>
+        </div>
+      </div>
+
+      <div class="setup-g">
+        <div class="sl">Pitch</div><div class="sv">Quarter of 11v11 — full width, edge of box to halfway</div>
+        <div class="sl">Goals</div><div class="sv">Full goals each end — GK permanent</div>
+        <div class="sl">Rotation trigger</div><div class="sv">Goal scored — losing team off, waiting team on</div>
+        <div class="sl">GKs</div><div class="sv">Stay on throughout — do not rotate</div>
+        <div class="sl">Coaching</div><div class="sv">Observe only — questions at rotations</div>
+        <div class="sl">Final 5 min</div><div class="sv">No rotation — last two teams play freely</div>
+      </div>
+
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div><div>Normal football — dribble, pass, shoot. No conditions on how to play or how to defend.</div></div>
+        <div class="rule"><div class="rn">2.</div><div>The team that concedes a goal immediately rotates off. The waiting team enters from the halfway line as play restarts.</div></div>
+        <div class="rule"><div class="rn">3.</div><div>The team that scored stays on and now defends the opposite goal. The game reverses direction after each goal.</div></div>
+        <div class="rule"><div class="rn">4.</div><div>GKs are permanent — they do not rotate with teams. They play for whichever team is defending their goal at any moment.</div></div>
+        <div class="rule"><div class="rn">5.</div><div>No coach instruction during play for the first 20 minutes. Coaches ask one question per rotation at the changeover moment — no more.</div></div>
+        <div class="rule"><div class="rn">6.</div><div>Players may organise their defensive shape however they choose — no bank structure is imposed. The coach does not correct the shape unless asked.</div></div>
+      </div>
+
+      <!-- The key design intention -->
+      <div class="mechanic-box" style="background:rgba(132,204,22,.06);border-left-color:var(--lime)">
+        <div class="mb-h" style="color:var(--lime)">Why "Losers Off" — The Competitive Design Intention</div>
+        <div class="mb-t">The rotation mechanic creates genuine competitive stakes without a scoreboard or tournament format. Every defensive moment matters because conceding means your team sits out. This produces the conditions where the principles are tested under real pressure — players who have been standing and watching for one rotation re-enter with urgency and intent. The waiting team is also a coaching opportunity: as they observe, ask <em style="color:var(--white)">"what shape are they defending in? Is it working?"</em> — guided discovery without stopping play.</div>
+      </div>
+
+      <!-- Player ownership note -->
+      <div class="wide-box" style="background:rgba(132,204,22,.05);border-left-color:var(--lime)">
+        <div class="wb-h" style="color:var(--lime)">Player Ownership — Why No Structure Is Imposed</div>
+        <div class="wb-t">The shift from P2's imposed two-bank structure to P3's free organisation is the most important pedagogical step in the session. If players have internalised the principles, they will organise themselves into something resembling cover and balance — not because you told them to, but because they felt what it does in P1 and P2. If they don't, the debrief reveals exactly where the learning stopped. Either way, the coach learns more by watching than by instructing. The waiting team observing from the side is your best window into whether the principles have stuck.</div>
+      </div>
+
+      <!-- Intervention spectrum — minimal -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:10px 13px;margin-bottom:12px">
+        <div style="font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Coaching Interventions — P3 (Minimal by Design)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 16px">
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#f87171;margin-bottom:4px">Only if Essential</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Safety issue</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Complete disengagement — players not trying to defend at all</div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#fbbf24;margin-bottom:4px">At Each Rotation Only</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px"><span style="color:var(--amber)">·</span>One question to the rotating-off team as they leave</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px"><span style="color:var(--amber)">·</span>One question to the waiting team as they enter</div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Oswald',sans-serif;color:#4ade80;margin-bottom:4px">Default — Silent</div>
+            <div style="font-size:10px;color:var(--grey);line-height:1.4;margin-bottom:2px;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Game is flowing — stay completely silent</div>
+            <div style="font-size:10.5px;color:var(--grey);line-height:1.5;display:flex;gap:5px"><span style="color:var(--amber)">·</span>Good defensive shape emerges — name it once, positively, then go silent again</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rotation questions -->
+      <div class="q-block">
+        <div class="q-h">Rotation Questions — One Per Changeover</div>
+        <div class="q-item">To the team rotating off: "you just conceded — what broke down in your shape first?"<div class="q-when">Ask as they walk off. 10 seconds, one answer. They identify the failure themselves before sitting and watching.</div></div>
+        <div class="q-item">To the waiting team entering: "you've been watching — what shape are they using to defend? Is it working?"<div class="q-when">Ask as they prepare to come on. They've been observing and have an answer ready. Activates the learning from watching.</div></div>
+        <div class="q-item">To the team staying on after scoring: "you scored — what did you do in attack that found the gap?"<div class="q-when">Occasionally. Reminds the scoring team that the gap they exploited is the same gap the defending principles are designed to close.</div></div>
+      </div>
+
+      <div class="cp-h" style="color:var(--lime)">Coaching Points — For the End-of-Session Debrief Only</div>
+      <div class="cp-list">
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--lime)"></div>
+          <div>
+            <div class="cp-title">Did you delay or press immediately? What was the difference?</div>
+            <div class="cp-desc">Ask the group to compare moments where they delayed and moments where they pressed too early. Let them identify the outcomes. The debrief closes the principle — not a lecture, a conversation about what they experienced.</div>
+            <span class="cp-tag" style="background:var(--red-dim);color:var(--red-hi)">Delay</span>
+          </div>
+        </div>
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--lime)"></div>
+          <div>
+            <div class="cp-title">When someone pressed — did anyone cover the space they left?</div>
+            <div class="cp-desc">The cover question in a free game. Players will recall specific moments. If cover happened naturally without the bank structure, name it: "that was cover — and you did it without being told." This is the most powerful coaching moment of the whole session.</div>
+            <span class="cp-tag" style="background:var(--blue-dim);color:var(--blue-hi)">Cover &amp; Balance</span>
+          </div>
+        </div>
+        <div class="cp">
+          <div class="cp-dot" style="background:var(--lime)"></div>
+          <div>
+            <div class="cp-title">Did you organise into a shape? Did it look like the banks from Practice 1?</div>
+            <div class="cp-desc">Connect the three practices explicitly at the debrief. Ask players to describe the shape they used. Most groups will have organically used something resembling a midfield line and a deeper line — they have reinvented the two-bank principle through competitive play. Name it. It was theirs, not yours.</div>
+            <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Unit Organisation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- End debrief -->
+      <div class="mgmt">
+        <div class="mgmt-h">End-of-Session Debrief — 5 Min (All 20 Players)</div>
+        <div class="mgmt-t">Gather all three teams in a circle. Three questions — ask one at a time, take two or three answers each, then move on:<br><br>
+        <strong style="color:#fbbf24">1.</strong> <em>"From the handball to the last game — what changed about how you defended?"</em><br>
+        <strong style="color:#fbbf24">2.</strong> <em>"Which of the three principles — delay, cover and balance, pressing — did you find hardest to keep in the real game? Why?"</em><br>
+        <strong style="color:#fbbf24">3.</strong> <em>"If you play on Saturday — what is the one thing you'll remember from today?"</em><br><br>
+        Let players own the answers. The coach adds one observation each — focused on a specific player-led moment they witnessed, not a general principle summary.</div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div>Golden goal — next goal wins the game between those two teams, creating sudden-death pressure. The waiting team stays fresh and is desperate to get on. Maximises defensive intensity.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>GK bonus: if the GK organises a defensive action that stops a goal (communicates clearly before the shot), their team earns a free rotation — the losing team stays on for one more minute before rotating. Incentivises GK communication.</div></div>
+      </div>
+      <div class="reg">
+        <div class="reg-h">Regressions</div>
+        <div class="ri"><div class="rni">R1</div><div>Reintroduce the split-point rule from P1 and P2 for the first 5 minutes — gives defenders a concrete measurable while they find their shape in the new format.</div></div>
+        <div class="ri"><div class="rni">R2</div><div>Reduce to two teams of 8+GK if three-team rotation causes confusion — simplify the format but keep the full pitch and goal. Reintroduce the third team after 5 minutes.</div></div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT: DIAGRAM ─────────────────────────────────────── -->
+    <div class="c-right">
+      <div class="dlabel">P3 — 3-Team Rotation (6v6+GK · Quarter Pitch · Losers Off)</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 620" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p3a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+            <marker id="p3b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#84cc16"/></marker>
+            <marker id="p3c" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+            <marker id="p3d" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#eab308"/></marker>
+            <marker id="p3e" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#c084fc"/></marker>
+          </defs>
+          <rect width="400" height="620" fill="#0e150e" rx="4"/>
+
+          <!-- ── PITCH — quarter of 11v11 ── -->
+          <rect x="26" y="18" width="348" height="500" fill="rgba(22,163,74,.03)" stroke="#1d3a1d" stroke-width="1.8"/>
+
+          <!-- Halfway line (top boundary) -->
+          <line x1="26" y1="18" x2="374" y2="18" stroke="#1d4a6e" stroke-width="2"/>
+          <text x="200" y="13" fill="#2563a8" font-size="7.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="600" letter-spacing=".5">HALFWAY LINE</text>
+
+          <!-- Penalty area top -->
+          <rect x="84" y="18" width="232" height="65" fill="none" stroke="#1d3a1d" stroke-width="1.1" opacity=".7"/>
+          <!-- Goal top -->
+          <rect x="152" y="18" width="96" height="8" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <!-- GK top -->
+          <circle cx="200" cy="40" r="11" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+          <text x="200" y="43.5" fill="#22c55e" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <text x="200" y="58" fill="#22c55e" font-size="6" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">STAYS ON</text>
+
+          <!-- Edge of box (bottom boundary) -->
+          <line x1="26" y1="518" x2="374" y2="518" stroke="#e63946" stroke-width="1.2" stroke-dasharray="5,3" opacity=".6"/>
+          <text x="200" y="534" fill="#e63946" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">EDGE OF BOX</text>
+
+          <!-- Penalty area bottom -->
+          <rect x="84" y="455" width="232" height="63" fill="none" stroke="#1d3a1d" stroke-width="1.1" opacity=".7"/>
+          <!-- Goal bottom -->
+          <rect x="152" y="510" width="96" height="8" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <!-- GK bottom -->
+          <circle cx="200" cy="495" r="11" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+          <text x="200" y="498.5" fill="#22c55e" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <text x="200" y="513" fill="#22c55e" font-size="6" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">STAYS ON</text>
+
+          <!-- ══ TEAM A (red) — currently defending bottom goal ══ -->
+          <!-- Team A has organised into a loose two-line shape — player-defined -->
+          <!-- Front line (3 players) -->
+          <circle cx="122" cy="310" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:shiftR 3s ease-in-out infinite"/>
+          <text x="122" y="313.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A1</text>
+          <circle cx="200" cy="302" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="200" y="305.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A2</text>
+          <circle cx="278" cy="310" r="11" fill="#991b1b" stroke="#f87171" stroke-width="2" style="animation:shiftL 3s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="278" y="313.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A3</text>
+          <!-- Back line (3 players) — deeper, player-defined cover -->
+          <circle cx="140" cy="386" r="11" fill="#991b1b" stroke="#f87171" stroke-width="1.5" style="animation:shiftR 3s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="140" y="389.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A4</text>
+          <circle cx="200" cy="380" r="11" fill="#991b1b" stroke="#f87171" stroke-width="1.5"/>
+          <text x="200" y="383.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A5</text>
+          <circle cx="260" cy="386" r="11" fill="#991b1b" stroke="#f87171" stroke-width="1.5" style="animation:shiftL 3s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="260" y="389.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">A6</text>
+
+          <!-- Player-defined shape annotation -->
+          <rect x="28" y="295" width="78" height="30" fill="rgba(248,113,113,.08)" stroke="rgba(248,113,113,.2)" stroke-width="1" rx="2"/>
+          <text x="67" y="308" fill="#f87171" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">PLAYER-DEFINED</text>
+          <text x="67" y="318" fill="#f87171" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif">3-3 shape</text>
+          <path d="M106,310 L105,310" stroke="rgba(248,113,113,.3)" stroke-width="1"/>
+
+          <!-- Depth indicator -->
+          <path d="M88,316 L88,380" fill="none" stroke="rgba(96,165,250,.3)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#p3a)"/>
+          <text x="60" y="350" fill="#60a5fa" font-size="6" font-family="Oswald,sans-serif" opacity=".6" transform="rotate(-90,60,350)">cover depth</text>
+
+          <!-- ══ TEAM B (amber) — attacking ══ -->
+          <circle cx="100" cy="165" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:playerBob 2s ease-in-out infinite"/>
+          <text x="100" y="168.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B1</text>
+          <circle cx="160" cy="148" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="160" y="151.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B2</text>
+          <circle cx="200" cy="135" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:runFwd 2.3s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="200" y="138.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B3</text>
+          <circle cx="240" cy="148" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:playerBob 2.1s ease-in-out infinite;animation-delay:.7s"/>
+          <text x="240" y="151.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B4</text>
+          <circle cx="300" cy="165" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:playerBob 1.9s ease-in-out infinite;animation-delay:.9s"/>
+          <text x="300" y="168.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B5</text>
+          <circle cx="200" cy="220" r="11" fill="#78350f" stroke="#eab308" stroke-width="2" style="animation:playerBob 2.4s ease-in-out infinite;animation-delay:1.1s"/>
+          <text x="200" y="223.5" fill="#fff" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">B6</text>
+          <!-- Ball at B3 -->
+          <circle cx="200" cy="135" r="5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- B3 shooting — gap between A1 and A2 exploited -->
+          <path d="M200,147 L200,290" fill="none" stroke="#eab308" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#p3d)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.3s"/>
+          <!-- Through gap highlight -->
+          <rect x="156" y="287" width="88" height="28" fill="#eab308" opacity=".05" style="animation:splitPulse 1.5s ease-in-out infinite"/>
+          <text x="200" y="278" fill="#eab308" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" opacity=".7">gap between A2/A3</text>
+
+          <!-- A2 pressing B3 (delay call) -->
+          <path d="M200,290 L200,218" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#p3c)" opacity=".6" style="animation:arrowMarch 2s linear infinite"/>
+          <rect x="210" y="252" width="56" height="14" fill="#3a0a0a" rx="2" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="238" y="261.5" fill="#f87171" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">"DELAY!"</text>
+
+          <!-- ══ TEAM C — waiting on sideline ══ -->
+          <rect x="376" y="200" width="22" height="170" fill="rgba(192,132,252,.06)" stroke="rgba(192,132,252,.2)" stroke-width="1" rx="2"/>
+          <text x="387" y="288" fill="#c084fc" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700" transform="rotate(90,387,288)">TEAM C — WAITING · WATCHING</text>
+          <!-- C players stacked on side -->
+          <circle cx="387" cy="215" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.5" opacity=".7" style="animation:playerBob 2s ease-in-out infinite"/>
+          <text x="387" y="218.5" fill="#c084fc" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">C1</text>
+          <circle cx="387" cy="238" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.5" opacity=".7" style="animation:playerBob 2.2s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="387" y="241.5" fill="#c084fc" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">C2</text>
+          <circle cx="387" cy="261" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.5" opacity=".7" style="animation:playerBob 2.1s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="387" y="264.5" fill="#c084fc" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">C3</text>
+          <circle cx="387" cy="284" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.5" opacity=".5"/>
+          <text x="387" y="287.5" fill="#c084fc" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">C4</text>
+          <circle cx="387" cy="307" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.5" opacity=".5"/>
+          <text x="387" y="310.5" fill="#c084fc" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">C5</text>
+          <circle cx="387" cy="330" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.5" opacity=".5"/>
+          <text x="387" y="333.5" fill="#c084fc" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">C6</text>
+          <!-- Team C question badge -->
+          <rect x="294" y="342" width="80" height="26" fill="rgba(192,132,252,.1)" stroke="rgba(192,132,252,.25)" stroke-width="1" rx="2" style="animation:badgeFlash 3s ease-in-out infinite"/>
+          <text x="334" y="353" fill="#c084fc" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">"WHAT SHAPE</text>
+          <text x="334" y="362" fill="#c084fc" font-size="6.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">ARE THEY USING?"</text>
+
+          <!-- ══ ROTATION ARROW — Team A scores, losers off ══ -->
+          <path d="M26,400 Q10,400 10,290 Q10,182 26,182" fill="none" stroke="rgba(248,113,113,.4)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#p3c)"/>
+          <text x="14" y="300" fill="#f87171" font-size="6.5" font-family="Oswald,sans-serif" transform="rotate(-90,14,300)" opacity=".7">LOSERS OFF</text>
+
+          <!-- Team C enters arrow -->
+          <path d="M376,290 L328,290" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#p3e)" style="animation:arrowMarch 2s linear infinite;animation-delay:1s"/>
+          <text x="352" y="283" fill="#c084fc" font-size="6.5" font-family="Oswald,sans-serif" font-weight="700">ENTER</text>
+          <text x="352" y="292" fill="#c084fc" font-size="6.5" font-family="Oswald,sans-serif">on goal</text>
+
+          <!-- ══ PRINCIPLES EMERGING NATURALLY ══ -->
+          <!-- Annotation: player-defined 3-3 mirrors two-bank principle -->
+          <rect x="28" y="415" width="340" height="36" fill="rgba(132,204,22,.06)" stroke="rgba(132,204,22,.2)" stroke-width="1" rx="2"/>
+          <text x="198" y="429" fill="#84cc16" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">PLAYER-DEFINED SHAPE — SAME PRINCIPLE, THEIR DECISION</text>
+          <text x="198" y="442" fill="#6b7a60" font-size="7" text-anchor="middle" font-family="Source Sans 3,sans-serif">Team A chose a 3-3 — front 3 delay/press, back 3 cover. Nobody told them. They reinvented the two-bank principle.</text>
+
+          <!-- LEGEND -->
+          <circle cx="30" cy="565" r="8" fill="#991b1b" stroke="#f87171" stroke-width="1.8"/>
+          <text x="42" y="568.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Team A (defending)</text>
+          <circle cx="152" cy="565" r="8" fill="#78350f" stroke="#eab308" stroke-width="1.8"/>
+          <text x="164" y="568.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Team B (attacking)</text>
+          <circle cx="270" cy="565" r="8" fill="#4a1d96" stroke="#c084fc" stroke-width="1.8"/>
+          <text x="282" y="568.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Team C (waiting)</text>
+          <circle cx="30" cy="585" r="8" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+          <text x="30" y="588" fill="#22c55e" font-size="5.5" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700">GK</text>
+          <text x="42" y="588.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">GK (stays on — permanent)</text>
+          <line x1="168" y1="585" x2="188" y2="585" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#p3c)"/>
+          <text x="192" y="588.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Press / delay</text>
+          <line x1="280" y1="585" x2="300" y2="585" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#p3e)"/>
+          <text x="304" y="588.5" fill="#6b7a60" font-size="7.5" font-family="Source Sans 3,sans-serif">Team C enters</text>
+          <!-- Pitch size note -->
+          <text x="200" y="607" fill="#3a4438" font-size="7" text-anchor="middle" font-family="Oswald,sans-serif" letter-spacing=".5">QUARTER PITCH — HALFWAY LINE TO EDGE OF BOX · FULL WIDTH</text>
+        </svg>
+      </div>
+      <div class="dsub">Team A defends in a player-defined 3-3 (front 3 delay, back 3 cover) — nobody imposed this shape. Team C watches from the side, ready to enter when Team A concedes. GKs are permanent.</div>
+    </div>
+  </div>
+
+  <!-- Success / Problems -->
+  <div style="padding:0 0 0">
+    <div class="sc" style="border-top-color:var(--lime)">
+      <div class="sc-header"><span class="stag" style="background:var(--lime-dim);color:var(--lime)">Success Indicators</span><span class="sc-title">Practice 3 — What to observe</span></div>
+      <div class="sc-body">
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#4ade80"><span class="dot-g"></span>&nbsp;Working Well</div>
+          <div class="si si-g">Teams self-organising into recognisable defensive shapes — without being told</div>
+          <div class="si si-g">Verbal communication during defending — calling positions, calling pressing</div>
+          <div class="si si-g">Waiting team actively watching and able to answer the rotation question with a specific observation</div>
+          <div class="si si-g">Debrief answers reference specific principles by name — players own the language</div>
+          <div class="si si-g">GK communicating constantly — directing their team from behind</div>
+          <div class="si si-g">Teams staying on for multiple rotations — sustained defensive organisation under competitive pressure</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#fbbf24"><span class="dot-a"></span>&nbsp;Needs Attention</div>
+          <div class="si si-a">Teams not organising any recognisable shape — all 6 chasing the ball. Allow it for 3 minutes then ask the waiting team: "what shape would you use?"</div>
+          <div class="si si-a">Rotation question answered with "I don't know" — waiting team not watching actively. Give them a specific task: "watch the defending team's back three — do they hold their depth?"</div>
+          <div class="si si-a">Goals flowing freely with no defensive response — use R1 (reintroduce split-point rule)</div>
+        </div>
+        <div class="s-col">
+          <div class="sc-col-head" style="color:#f87171"><span class="dot-r"></span>&nbsp;Not Working — Act Now</div>
+          <div class="si si-r">Complete disengagement — players not defending at all → brief freeze, ask one player to describe the best defensive shape they used today, let them show the team, restart</div>
+          <div class="si si-r">Rotation confusion — teams not knowing when to come on/off → simplify: coach calls "swap!" clearly after each goal. Keep it simple.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-header"><span class="stag stag-p">Problems &amp; Solutions</span><span class="sc-title">Practice 3</span></div>
+      <div class="pb">
+        <div class="prob">
+          <div class="prob-q">No defensive shape emerging — 6 players all pressing the ball simultaneously</div>
+          <div class="prob-a">Do not stop play. Ask the waiting team: "what shape are they defending in? What would you do differently?" They identify the problem. When they come on, watch immediately whether they implement their own answer.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Competitive rotation causing frustration — losing team visibly disengaged when sitting out</div>
+          <div class="prob-a">Give the waiting team a specific observational task the moment they sit down — not passive watching. Ask one question as they come off and one as they go on. Active observation removes the frustration of sitting.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">Debrief — players can't connect today to what they'd do on Saturday</div>
+          <div class="prob-a">Ask a concrete question instead of a general one: "on Saturday when they counter-attack — which of the three principles do you use first?" One principle, one answer, one player. Keep it specific. The principle answers itself.</div>
+        </div>
+        <div class="prob">
+          <div class="prob-q">GK not communicating — silent throughout P3</div>
+          <div class="prob-a">At the next rotation break, speak directly to the GK: "your team can't see what you can see — what do you see right now?" They identify a gap or position. "Tell them." Then let play restart.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FULL SESSION FOOTER (updated with P3) ══════════════════════ -->
+<div class="footer">
+  <div style="display:flex;flex-direction:column;gap:1px"><div class="fl">Club</div><div class="fv">Essinge IK</div></div>
+  <div class="fdiv"></div>
+  <div style="display:flex;flex-direction:column;gap:1px"><div class="fl">Session</div><div class="fv">Unit Defending — Applying the Principles</div></div>
+  <div class="fdiv"></div>
+  <div style="display:flex;flex-direction:column;gap:1px"><div class="fl">Practices</div><div class="fv">P1 Handball → P2 Football → P3 Game</div></div>
+  <div class="fdiv"></div>
+  <div style="display:flex;flex-direction:column;gap:1px"><div class="fl">Players</div><div class="fv">20</div></div>
+  <div class="fdiv"></div>
+  <div style="display:flex;flex-direction:column;gap:1px"><div class="fl">Total</div><div class="fv">~85–90 min</div></div>
+  <div class="fdiv"></div>
+  <div style="display:flex;flex-direction:column;gap:1px"><div class="fl">Standard</div><div class="fv">UEFA B</div></div>
+  <div class="fpills">
+    <span class="fpill">Delay</span>
+    <span class="fpill">Cover &amp; Balance</span>
+    <span class="fpill">Pressing</span>
+    <span class="fpill">Handball → Football → Game</span>
+    <span class="fpill">Player-Led</span>
+  </div>
+</div>
+
+
+
+</div>
+</body>
+</html>

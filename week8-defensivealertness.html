@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EIK — Practices 1 &amp; 2: Defensive Alertness</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#080c10;--s1:#0d1520;--s2:#121e2c;--s3:#182636;
+  --ink:#0a1218;
+  --lime:#a3e635;--lime-hi:#d9f99d;--lime-dim:rgba(163,230,53,.13);--lime-faint:rgba(163,230,53,.05);
+  --sky:#38bdf8;--sky-dim:rgba(56,189,248,.13);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.14);
+  --red:#ef4444;--red-dim:rgba(239,68,68,.13);
+  --violet:#8b5cf6;--violet-dim:rgba(139,92,246,.13);
+  --white:#f0f6ff;--grey:#4a6070;--grey-hi:#7a98ac;
+  --mono:'IBM Plex Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --body:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--white);font-family:var(--body);font-weight:300;font-size:13px;line-height:1.6;overflow-x:hidden}
+.page{max-width:1080px;margin:0 auto;padding:20px}
+
+/* scanline texture */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.008) 2px,rgba(255,255,255,.008) 4px);pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+.header{position:relative;overflow:hidden;background:var(--s1);border:1px solid rgba(163,230,53,.3);padding:22px 28px 18px;margin-bottom:12px}
+.header::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(163,230,53,.08) 0%,transparent 45%);pointer-events:none}
+.hw{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:6px;opacity:.85}
+.title{font-family:var(--display);font-size:44px;line-height:.92;letter-spacing:1px;color:var(--white)}
+.title em{color:var(--lime);font-style:normal}
+.sub{font-family:var(--mono);font-size:10px;color:rgba(240,246,255,.45);margin-top:6px;letter-spacing:.5px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;text-align:right;min-width:160px}
+.ml{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);opacity:.7}
+.mv{font-family:var(--display);font-size:15px;letter-spacing:.5px;color:var(--white);margin-top:1px}
+
+/* ── THEME BANNER ── */
+.theme-banner{background:var(--s2);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--lime);padding:12px 18px;margin-bottom:12px;display:flex;gap:20px;align-items:stretch;flex-wrap:wrap}
+.tb-block{flex:1;min-width:180px}
+.tb-l{font-family:var(--mono);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--lime);margin-bottom:4px;opacity:.8}
+.tb-v{font-size:12px;color:rgba(240,246,255,.78);line-height:1.55}
+.tb-div{width:1px;background:rgba(255,255,255,.06);flex-shrink:0}
+
+/* ── SECTION HEAD ── */
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.sh-line{height:1px;flex:1;background:rgba(255,255,255,.06)}
+.sh-text{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--lime);flex-shrink:0;opacity:.85}
+
+/* ── OVERVIEW ── */
+.ov{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ov-game{background:var(--s2);border:1px solid rgba(255,255,255,.06);border-top:2px solid var(--gc);padding:14px 16px}
+.og-tag{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gc);margin-bottom:6px}
+.og-name{font-family:var(--display);font-size:22px;letter-spacing:.5px;color:var(--white);line-height:1}
+.og-detail{font-size:11px;color:var(--grey-hi);margin-top:4px}
+.og-teams{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.team-badge{font-family:var(--mono);font-size:8.5px;font-weight:600;padding:3px 10px;border-radius:1px;letter-spacing:1px;text-transform:uppercase}
+
+/* ── CONDITION CARDS ── */
+.conditions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.cond{border:1px solid rgba(255,255,255,.06);padding:12px 14px;border-radius:2px;position:relative;overflow:hidden}
+.cond::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cc)}
+.cond-n{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--cc);margin-bottom:5px}
+.cond-title{font-family:var(--display);font-size:18px;letter-spacing:.5px;color:var(--white);margin-bottom:5px;line-height:1}
+.cond-rule{font-size:12px;color:rgba(240,246,255,.78);line-height:1.55}
+.cond-why{font-size:11px;color:var(--grey-hi);margin-top:6px;font-style:italic;line-height:1.5;border-top:1px solid rgba(255,255,255,.05);padding-top:6px}
+
+/* ── GAME CARD ── */
+.gcard{background:var(--s2);border:1px solid rgba(255,255,255,.06);margin-bottom:12px;overflow:hidden}
+.gchead{padding:13px 20px 11px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gc-tag{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:1px;flex-shrink:0}
+.gc-name{font-family:var(--display);font-size:18px;letter-spacing:.5px;color:var(--white);flex:1;min-width:0;line-height:1.1}
+.gc-dur{font-family:var(--display);font-size:26px;color:var(--gc2);line-height:1;flex-shrink:0}
+.gc-dur span{font-family:var(--mono);font-size:8px;color:var(--grey);letter-spacing:1px;margin-left:2px}
+
+/* two-col */
+.c-body{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:0;align-items:start}
+.c-left{padding:15px 20px;border-right:1px solid rgba(255,255,255,.06);min-width:0}
+.c-right{padding:13px 15px;background:rgba(0,0,0,.18);position:sticky;top:16px;align-self:start}
+
+/* Scoring block */
+.scoring{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sc-half{padding:10px 13px;border-radius:2px}
+.sc-half-a{background:rgba(var(--ta-rgb),.08);border:1px solid rgba(var(--ta-rgb),.25)}
+.sc-half-b{background:rgba(var(--tb-rgb),.08);border:1px solid rgba(var(--tb-rgb),.25)}
+.sc-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.sc-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.sc-item:last-child{margin-bottom:0}
+.sc-pts{font-family:var(--display);font-size:22px;line-height:1;flex-shrink:0}
+.sc-desc{font-size:12px;color:var(--white);line-height:1.45}
+.sc-sub{font-size:10.5px;color:var(--grey-hi);margin-top:2px}
+
+/* How it works */
+.how{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gc2);padding:11px 14px;margin-bottom:12px}
+.how-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gc2);margin-bottom:8px;opacity:.9}
+.how-steps{display:flex;flex-direction:column;gap:5px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.step-n{font-family:var(--display);font-size:20px;line-height:1.1;color:var(--gc2);flex-shrink:0;width:22px}
+.step-t{font-size:12px;color:rgba(240,246,255,.82);line-height:1.5}
+
+/* Tension callout */
+.tension{background:rgba(163,230,53,.04);border:1px solid rgba(163,230,53,.18);border-left:2px solid var(--lime);padding:10px 14px;margin-bottom:12px}
+.tension-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:5px;opacity:.9}
+.tension-t{font-size:12px;color:rgba(240,246,255,.78);line-height:1.55}
+
+/* Rules */
+.rules-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,246,255,.35);margin-bottom:6px}
+.rules{display:flex;flex-direction:column;gap:3px;margin-bottom:12px}
+.rule{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.5}
+.rn{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--gc2);flex-shrink:0;width:16px;line-height:1.5}
+
+/* CPs */
+.cp-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gc2);margin-bottom:8px}
+.cp-list{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.cp{display:flex;align-items:flex-start;gap:9px;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,.04)}
+.cp:last-child{border-bottom:none;padding-bottom:0}
+.cp-dot{width:5px;height:5px;border-radius:50%;background:var(--gc2);flex-shrink:0;margin-top:7px}
+.cp-title{font-size:12px;font-weight:500;color:var(--white);line-height:1.3}
+.cp-desc{font-size:11px;color:var(--grey-hi);margin-top:2px;line-height:1.5}
+.cp-tag{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 6px;border-radius:1px;display:inline-block;margin-top:3px}
+
+/* Prog / Reg */
+.prog{background:rgba(163,230,53,.04);border:1px solid rgba(163,230,53,.14);padding:9px 13px;margin-bottom:9px}
+.prog-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#bef264;margin-bottom:6px}
+.pi{display:flex;gap:8px;margin-bottom:4px;font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.5}
+.pi:last-child{margin-bottom:0}
+.pn{font-family:var(--mono);font-size:10px;font-weight:500;color:#bef264;flex-shrink:0;line-height:1.6}
+.reg{background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.14);padding:9px 13px;margin-bottom:12px}
+.reg-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#fcd34d;margin-bottom:6px}
+.ri{display:flex;gap:8px;margin-bottom:4px;font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.5}
+.ri:last-child{margin-bottom:0}
+.rni{font-family:var(--mono);font-size:10px;font-weight:500;color:#fcd34d;flex-shrink:0;line-height:1.6}
+
+/* Success */
+.watch{background:var(--s2);border:1px solid rgba(255,255,255,.06);margin-bottom:11px;overflow:hidden}
+.watch-header{padding:9px 16px 8px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:9px}
+.wtag{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border-radius:1px;flex-shrink:0}
+.wtag-s{background:rgba(163,230,53,.1);color:var(--lime)}
+.watch-title{font-family:var(--display);font-size:13px;letter-spacing:.5px;color:var(--white)}
+.watch-body{display:grid;grid-template-columns:1fr 1fr 1fr}
+.w-col{padding:9px 13px;border-right:1px solid rgba(255,255,255,.05);min-width:0}
+.w-col:last-child{border-right:none}
+.w-col-h{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.dot-g{width:6px;height:6px;border-radius:50%;background:var(--lime);flex-shrink:0}
+.dot-a{background:var(--amber);width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-r{background:var(--red);width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.wi{display:flex;gap:5px;margin-bottom:3px;font-size:10.5px;color:rgba(240,246,255,.62);line-height:1.4}
+.wi::before{content:'›';font-weight:700;flex-shrink:0;margin-top:-1px}
+.wi-g::before{color:var(--lime)}.wi-a::before{color:var(--amber)}.wi-r::before{color:var(--red)}
+
+/* Diagram */
+.dlabel{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gc2);margin-bottom:5px;opacity:.85}
+.dwrap svg{width:100%;height:auto;display:block;border-radius:2px}
+.dsub{font-family:var(--mono);font-size:8px;color:var(--grey);margin-top:5px;line-height:1.4;text-align:center}
+
+/* divider between games */
+.game-divider{display:flex;align-items:center;gap:16px;margin:14px 0}
+.gd-line{height:1px;flex:1;background:rgba(255,255,255,.06)}
+.gd-label{font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--grey);flex-shrink:0}
+
+/* Setup */
+.setup-g{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:4px 10px;margin-bottom:12px;align-items:baseline}
+.sl{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--grey);white-space:nowrap}
+.sv{font-family:var(--display);font-size:13px;color:var(--white);letter-spacing:.3px}
+
+/* Footer */
+.footer{background:var(--s1);border:1px solid rgba(163,230,53,.15);padding:11px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px}
+.fl{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);opacity:.7}
+.fv{font-family:var(--display);font-size:13px;letter-spacing:.3px;color:var(--white)}
+.fdiv{width:1px;height:24px;background:rgba(255,255,255,.06)}
+.fpills{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}
+.fpill{font-family:var(--mono);font-size:8px;font-weight:500;padding:3px 9px;background:var(--lime-faint);color:var(--lime);border-radius:1px;letter-spacing:1px;text-transform:uppercase}
+
+/* Animations */
+@keyframes ballPulse{0%,100%{r:4}50%{r:5.5}}
+@keyframes dashFlow{0%{stroke-dashoffset:50}100%{stroke-dashoffset:0}}
+@keyframes arrowMarch{0%{stroke-dashoffset:90}100%{stroke-dashoffset:0}}
+@keyframes runUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+@keyframes runDn{0%,100%{transform:translateY(0)}50%{transform:translateY(11px)}}
+@keyframes shiftR{0%,100%{transform:translateX(0)}50%{transform:translateX(9px)}}
+@keyframes shiftL{0%,100%{transform:translateX(0)}50%{transform:translateX(-9px)}}
+@keyframes zonePulse{0%,100%{opacity:.05}50%{opacity:.18}}
+@keyframes badgeFlash{0%,100%{opacity:.8}50%{opacity:1}}
+@keyframes allPush{0%,100%{transform:translateY(0)}40%{transform:translateY(-28px)}}
+@keyframes warnPulse{0%,100%{opacity:.12}50%{opacity:.28}}
+@keyframes sprintBack{0%,100%{transform:translate(0,0)}50%{transform:translate(0,22px)}}
+@keyframes fadeInOut{0%,100%{opacity:0}35%,70%{opacity:1}}
+
+  .c-left{border-right:none!important;border-bottom:1px solid rgba(255,255,255,.06)}
+}
+
+/* ── P2 additional rules ── */
+.pitch-overview{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-bottom:12px;background:var(--s2);border:1px solid rgba(255,255,255,.06);overflow:hidden}
+.po-pitch{padding:13px 16px;border-right:1px solid rgba(255,255,255,.06);position:relative}
+.po-pitch:last-child{border-right:none}
+.po-pitch::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--poc)}
+.po-tag{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--poc);margin-bottom:5px}
+.po-name{font-family:var(--display);font-size:20px;letter-spacing:.5px;color:var(--white);line-height:1}
+.po-detail{font-size:11px;color:var(--grey-hi);margin-top:4px;line-height:1.5}
+.po-players{font-family:var(--display);font-size:13px;color:var(--poc);margin-top:6px;letter-spacing:.3px}
+.decision-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.dec{border:1px solid rgba(255,255,255,.06);padding:12px 14px;position:relative;overflow:hidden}
+.dec::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--dc)}
+.dec-n{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dc);margin-bottom:5px}
+.dec-title{font-family:var(--display);font-size:20px;letter-spacing:.5px;color:var(--white);margin-bottom:5px;line-height:1}
+.dec-rule{font-size:12px;color:rgba(240,246,255,.78);line-height:1.55}
+.dec-result{font-size:11px;margin-top:7px;padding-top:6px;border-top:1px solid rgba(255,255,255,.05);display:flex;gap:7px;align-items:flex-start}
+.dec-pts{font-family:var(--display);font-size:20px;line-height:1;flex-shrink:0}
+.dec-rdesc{font-size:11px;color:var(--white);line-height:1.45}
+.dilemma{background:rgba(163,230,53,.04);border:1px solid rgba(163,230,53,.2);border-left:2px solid var(--lime);padding:11px 15px;margin-bottom:12px}
+.dilemma-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:5px;opacity:.9}
+.dilemma-t{font-size:12px;color:rgba(240,246,255,.78);line-height:1.6}
+.pcard{background:var(--s2);border:1px solid rgba(255,255,255,.06);margin-bottom:12px;overflow:hidden}
+.pchead{padding:13px 20px 11px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pc-tag{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:1px;flex-shrink:0}
+.pc-name{font-family:var(--display);font-size:18px;letter-spacing:.5px;color:var(--white);flex:1;min-width:0;line-height:1.1}
+.pc-sub{font-size:10px;color:var(--grey-hi)}
+.pc-dur{font-family:var(--display);font-size:26px;color:var(--pcc);line-height:1;flex-shrink:0}
+.pc-dur span{font-family:var(--mono);font-size:8px;color:var(--grey);letter-spacing:1px;margin-left:2px}
+.obj{border-left:2px solid var(--pcc);padding:8px 13px;margin-bottom:12px;border-radius:0 3px 3px 0;background:rgba(var(--pccrgb),.05)}
+.obj-l{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pcc);margin-bottom:3px}
+.obj-t{font-size:12px;color:rgba(240,246,255,.82);line-height:1.55}
+.pitch-variants{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.pv{border:1px solid rgba(255,255,255,.06);overflow:hidden}
+.pv-head{padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;background:rgba(var(--pvcrgb),.04)}
+.pv-tag{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pvc);padding:2px 8px;border-radius:1px;background:rgba(var(--pvcrgb),.1);flex-shrink:0}
+.pv-name{font-family:var(--display);font-size:14px;letter-spacing:.3px;color:var(--white)}
+.pv-body{padding:10px 14px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:baseline}
+.pv-l{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--grey);white-space:nowrap}
+.pv-v{font-size:12px;color:rgba(240,246,255,.82)}
+.rot-note{background:rgba(var(--pccrgb),.05);border:1px solid rgba(var(--pccrgb),.18);border-left:2px solid var(--pcc);padding:9px 13px;margin-bottom:12px}
+.rot-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pcc);margin-bottom:5px}
+.rot-t{font-size:11.5px;color:rgba(240,246,255,.75);line-height:1.55}
+.how-grid{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;align-items:baseline}
+.how-n{font-family:var(--display);font-size:16px;line-height:1.2;color:var(--pcc);flex-shrink:0;width:22px}
+.how-t{font-size:12px;color:rgba(240,246,255,.82);line-height:1.5}
+@media(max-width:860px){
+  .c-body,.ov,.scoring,.watch-body,.conditions,.pitch-overview,.decision-strip{grid-template-columns:1fr!important}
+  .c-left{border-right:none!important;border-bottom:1px solid rgba(255,255,255,.06)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="page">
+
+<!-- ── HEADER ─────────────────────────────────────────────── -->
+<div class="header">
+  <div class="hw">
+    <div>
+      <div class="eyebrow">EIK · Practices 1 &amp; 2 · Defensive Alertness &amp; Positioning · 22 Players</div>
+      <div class="title">Defensive<br><em>Alertness</em></div>
+      <div class="sub">// P1: dual SSG · P2: server decision game · defensive alertness &amp; positioning</div>
+    </div>
+    <div class="meta">
+      <div><div class="ml">Last result</div><div class="mv" style="color:var(--lime)">11–2 W</div></div>
+      <div><div class="ml">Players</div><div class="mv">22</div></div>
+      <div><div class="ml">Practices</div><div class="mv">1 &amp; 2 of 3</div></div>
+      <div><div class="ml">P1 Format</div><div class="mv">5v5 + 6v6</div></div>
+      <div><div class="ml">Goals</div><div class="mv">Mini (no GK)</div></div>
+      <div><div class="ml">P1 Duration</div><div class="mv">~25 min</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── THEME BANNER ────────────────────────────────────────── -->
+<div class="theme-banner">
+  <div class="tb-block">
+    <div class="tb-l">Session Theme</div>
+    <div class="tb-v">Defensive alertness and positioning against long direct passes. The conditions in both games force a high defensive line — which creates exactly the exposed space that long direct balls exploit. Players must read the ball early, recover quickly, and hold their shape under pressure.</div>
+  </div>
+  <div class="tb-div"></div>
+  <div class="tb-block">
+    <div class="tb-l">Why These Conditions</div>
+    <div class="tb-v">The high-line condition forces teams to push players forward — creating real gaps in behind. The direct-ball condition rewards play that exploits those gaps. Both teams simultaneously experience defending the scenario that has been costing goals. The game design creates the problem; the players must solve it.</div>
+  </div>
+  <div class="tb-div"></div>
+  <div class="tb-block">
+    <div class="tb-l">The Core Tension</div>
+    <div class="tb-v">Push your whole team forward to score → leave space in behind → opponent plays direct ball → someone must sprint back. Defending team: read the long ball before it's played, hold position, don't get caught flat. This is the defensive alertness problem in its simplest form.</div>
+  </div>
+</div>
+
+<!-- ── CONDITIONS (shared across both games) ──────────────── -->
+<div class="sh"><div class="sh-text">Conditions — Applied to Both Games</div><div class="sh-line"></div></div>
+
+<div class="conditions">
+  <div class="cond" style="--cc:var(--sky);background:rgba(56,189,248,.04)">
+    <div class="cond-n">Condition 1 — High Line to Score</div>
+    <div class="cond-title">All Over Halfway</div>
+    <div class="cond-rule">For a goal to count, the <strong style="color:var(--white)">entire attacking team</strong> must be in the opposition's half at the moment the ball crosses the goal line. Any player behind the halfway line = no goal. Restart from the GK position.</div>
+    <div class="cond-why">Forces the team to push all players high — which creates the gap in behind that directly replicates the defensive problem from the last match. The reward (goal counts) only comes with the risk (everyone exposed). Defenders must recognise and anticipate the space they're leaving.</div>
+  </div>
+  <div class="cond" style="--cc:var(--amber);background:rgba(245,158,11,.04)">
+    <div class="cond-n">Condition 2 — Direct Ball to Score</div>
+    <div class="cond-title">Play Into Their Half First</div>
+    <div class="cond-rule">Before scoring, the attacking team must have played <strong style="color:var(--white)">at least one pass that lands in the opposition's half</strong>. The pass must travel from the defending half into the attacking half — a long ball, a driven pass, or a through ball all count. Short build-up in their own half only = no goal.</div>
+    <div class="cond-why">Rewards direct play and penalises slow possession. Players must commit to playing the ball in behind — the exact type of pass that has been causing defensive problems. Against a team with all players in their half (Condition 1), this direct ball becomes immediately threatening.</div>
+  </div>
+</div>
+
+<!-- ── BONUS CONDITION ─────────────────────────────────────── -->
+<div class="tension">
+  <div class="tension-h">Bonus Condition — Defensive Alertness Point (applied to both games)</div>
+  <div class="tension-t">If the receiving player has <strong style="color:var(--white)">clear space of at least 2m</strong> when they receive the direct ball into the opposition's half — no defender within 2m at the moment of receipt — the attacking team earn <strong style="color:var(--lime)">+1 bonus point</strong> regardless of whether a goal is scored. This directly rewards and measures defensive positioning: defenders who track runners and hold tight earn nothing for the attacking team. Defenders who are flat-footed, goal-side, or ball-watching gift the bonus. Coach calls "+1!" live when it occurs.</div>
+</div>
+
+<!-- ── GAME 1: 5v5 ──────────────────────────────────────────── -->
+<div class="sh"><div class="sh-text">Game 1 — 5v5 (10 Players)</div><div class="sh-line"></div></div>
+
+<div class="gcard" style="--gc2:var(--sky)">
+  <div class="gchead">
+    <span class="gc-tag" style="background:var(--sky-dim);color:var(--sky)">5v5 · No GK · Mini Goals</span>
+    <div class="gc-name">5v5 — High Line vs Direct Ball</div>
+    <div class="gc-dur">25<span>MIN</span></div>
+  </div>
+  <div class="c-body">
+    <div class="c-left">
+
+      <div class="how" style="--gc2:var(--sky)">
+        <div class="how-h">Game Setup</div>
+        <div class="how-steps">
+          <div class="step"><div class="step-n" style="color:var(--sky)">—</div><div class="step-t"><strong style="color:var(--white)">10 players: Team Blue (5) vs Team White (5).</strong> Mini goals at each end, no goalkeepers. Pitch approximately 30×20m — narrow enough that the direct ball creates immediate danger.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--sky)">—</div><div class="step-t">Both conditions apply to both teams. When <strong style="color:var(--white)">Team Blue attacks</strong>: all 5 players must be in the opposition's half for a goal. When <strong style="color:var(--white)">Team White attacks</strong>: same rule. Both teams simultaneously experience the exposure of pushing high and the need to track the direct ball in behind.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--sky)">—</div><div class="step-t">The narrow pitch means when all 5 push forward, there is <strong style="color:var(--white)">immediately no defensive cover</strong>. One direct ball and the opponent has an open run to a mini goal. This makes the alertness consequence instant and obvious.</div></div>
+        </div>
+      </div>
+
+      <div class="scoring" style="--ta-rgb:56,189,248;--tb-rgb:245,158,11">
+        <div class="sc-half sc-half-a">
+          <div class="sc-h" style="color:var(--sky)">⚽ Goal Counts When</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div><div class="sc-desc">Goal scored AND all 5 players were in opposition's half</div><div class="sc-sub">Any player behind halfway = no goal, keeper restart</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div><div class="sc-desc">Direct ball was played into opposition's half earlier in that possession</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--lime)">+1</div><div><div class="sc-desc">Bonus: receiver had 2m+ clear space when direct ball arrived</div><div class="sc-sub">Coach calls "+1!" live</div></div></div>
+        </div>
+        <div class="sc-half sc-half-b">
+          <div class="sc-h" style="color:var(--amber)">Why 5v5 is the Right Size</div>
+          <div class="sc-item" style="margin-bottom:0">
+            <div style="font-size:11.5px;color:rgba(240,246,255,.78);line-height:1.55">With only 5 per team, when all push forward there is <strong style="color:var(--white)">literally nobody back</strong>. The direct ball creates a 1v0 or 1v1 immediately. The consequence is immediate, visceral and undeniable. No room to hide the defensive problem in extra numbers. 5v5 is the most concentrated version of the theme.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-g">
+        <div class="sl">Pitch</div><div class="sv">~30 × 20m</div>
+        <div class="sl">Goals</div><div class="sv">Mini goals — 2 per end</div>
+        <div class="sl">GK</div><div class="sv">None</div>
+        <div class="sl">Restarts</div><div class="sv">Kick-in from sideline</div>
+        <div class="sl">Halfway check</div><div class="sv">Coach confirms live</div>
+        <div class="sl">Direct ball</div><div class="sv">Must cross halfway in the air or on the ground</div>
+      </div>
+
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div>Normal football. Both conditions apply. Both teams must meet both to score.</div>
+        <div class="rule"><div class="rn">2.</div>Goal attempt where any attacking player is behind halfway: play continues from the goalkeeper position (centre of the pitch end) — no goal, no pause.</div>
+        <div class="rule"><div class="rn">3.</div>If the direct ball is not played at any point in a possession (all passes stay in the team's own half): goal does not count even if all players are in the opposition's half.</div>
+        <div class="rule"><div class="rn">4.</div>The 2m space bonus is called by the coach — players do not self-report. Coach watches the moment of receipt and calls "+1!" immediately.</div>
+        <div class="rule"><div class="rn">5.</div>Teams can switch between pressing high and sitting deep — neither is required. The conditions only govern how goals are scored.</div>
+      </div>
+
+      <div class="cp-h">Coaching Points — Game 1</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">Defending the direct ball starts before it's played</div>
+          <div class="cp-desc">The defender giving the attacking team the 2m space bonus was not alert to the direct ball before it was played. The moment the opposing team's body shape shows a long pass is coming — the striker drops a shoulder, a midfielder lifts their head — the nearest defender must have already begun adjusting. Cue: <em style="color:var(--white)">"see the pass before it's played."</em></div>
+          <span class="cp-tag" style="background:rgba(56,189,248,.1);color:var(--sky)">Alertness</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">When your whole team pushes — you are the cover</div>
+          <div class="cp-desc">In a 5v5 where all 5 push forward, every player is simultaneously an attacker and the only cover available. The last player to arrive in the opposition's half must already be goal-side of the direct ball runner, not arriving at the same time. Arriving with them is too late — they need a head start.</div>
+          <span class="cp-tag" style="background:rgba(56,189,248,.1);color:var(--sky)">Positioning</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">Sprint back — shape later</div>
+          <div class="cp-desc">When the direct ball is played and players are out of position, the first priority is to get back between the ball and the goal — shape can be restored once goal-side. Players who try to find their position first, then sprint back, always arrive too late. Sequence: sprint → goal-side → then adjust shape.</div>
+          <span class="cp-tag" style="background:rgba(163,230,53,.1);color:var(--lime)">Recovery</span>
+        </div></div>
+      </div>
+
+    </div>
+
+    <div class="c-right">
+      <div class="dlabel">Game 1 — 5v5 · All Over Halfway to Score</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="s1a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+            <marker id="s1b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="s1c" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="s1d" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+          </defs>
+          <rect width="400" height="460" fill="#090e14" rx="3"/>
+
+          <!-- Pitch outline -->
+          <rect x="18" y="18" width="364" height="424" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+
+          <!-- Mini goals top -->
+          <rect x="130" y="18" width="44" height="8" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+          <rect x="226" y="18" width="44" height="8" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+          <!-- Mini goals bottom -->
+          <rect x="130" y="434" width="44" height="8" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+          <rect x="226" y="434" width="44" height="8" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+
+          <!-- Halfway line -->
+          <line x1="18" y1="230" x2="382" y2="230" stroke="#1a2a38" stroke-width="1.2"/>
+          <text x="200" y="225" fill="#1a2a38" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">HALFWAY</text>
+
+          <!-- TEAM BLUE — all pushed high (5 players all in opp half) -->
+          <text x="200" y="50" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="500">ALL IN OPPOSITION HALF — GOAL CAN COUNT</text>
+
+          <circle cx="80" cy="90" r="11" fill="#0c1e2e" stroke="#38bdf8" stroke-width="2" style="animation:runDn 2s ease-in-out infinite"/>
+          <text x="80" y="93.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">B1</text>
+          <circle cx="160" cy="72" r="11" fill="#0c1e2e" stroke="#38bdf8" stroke-width="2" style="animation:runDn 1.9s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="160" y="75.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">B2</text>
+          <circle cx="200" cy="62" r="11" fill="#0c1e2e" stroke="#38bdf8" stroke-width="2" style="animation:runDn 2.1s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="200" y="65.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">B3</text>
+          <circle cx="240" cy="72" r="11" fill="#0c1e2e" stroke="#38bdf8" stroke-width="2" style="animation:runDn 2s ease-in-out infinite;animation-delay:.9s"/>
+          <text x="240" y="75.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">B4</text>
+          <circle cx="320" cy="90" r="11" fill="#0c1e2e" stroke="#38bdf8" stroke-width="2" style="animation:runDn 2.2s ease-in-out infinite;animation-delay:1.2s"/>
+          <text x="320" y="93.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">B5</text>
+          <!-- Ball at B3 -->
+          <circle cx="200" cy="62" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- TEAM WHITE — also in opp half but one player attempting to hold deeper -->
+          <!-- W plays direct ball from deep -->
+          <circle cx="200" cy="310" r="11" fill="#1e2a1a" stroke="#a3e635" stroke-width="2"/>
+          <text x="200" y="313.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">W1</text>
+
+          <!-- W1 plays direct ball -->
+          <path d="M200,298 Q210,200 200,145" fill="none" stroke="#a3e635" stroke-width="2.2" stroke-dasharray="6,3" marker-end="url(#s1c)" style="animation:dashFlow 1.8s linear infinite"/>
+          <rect x="210" y="200" width="100" height="20" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.25)" stroke-width="1" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="260" y="213" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DIRECT BALL →</text>
+
+          <!-- W2 running onto the space -->
+          <circle cx="120" cy="148" r="12" fill="#1e2a1a" stroke="#f59e0b" stroke-width="2.5" style="animation:runUp 2s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="120" y="151.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">W2</text>
+          <!-- W2 run path -->
+          <path d="M130,155 Q140,148 178,148" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#s1b)" opacity=".6" style="animation:arrowMarch 2s linear infinite;animation-delay:.3s"/>
+
+          <!-- 2m space indicator around W2 — no defender within 2m -->
+          <circle cx="120" cy="148" r="22" fill="none" stroke="#a3e635" stroke-width="1" stroke-dasharray="3,2" opacity=".5" style="animation:zonePulse 1.5s ease-in-out infinite"/>
+          <rect x="22" y="136" width="72" height="20" fill="rgba(163,230,53,.12)" stroke="rgba(163,230,53,.3)" stroke-width="1" rx="1" style="animation:badgeFlash 1.5s ease-in-out infinite"/>
+          <text x="58" y="148.5" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">+1 BONUS!</text>
+          <text x="58" y="157.5" fill="#5a7080" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">2m+ clear</text>
+
+          <!-- B1 sprinting back — caught flat -->
+          <circle cx="80" cy="90" r="0"/>
+          <path d="M80,102 Q68,155 72,148" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#s1a)" opacity=".5" style="animation:arrowMarch 2.2s linear infinite;animation-delay:.8s"/>
+          <text x="32" y="115" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">B1 too far</text>
+          <text x="32" y="124" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">forward!</text>
+
+          <!-- WHITE: rest of team also needs to be in opposition half -->
+          <circle cx="100" cy="338" r="10" fill="#1e2a1a" stroke="#a3e635" stroke-width="1.5" opacity=".6"/>
+          <text x="100" y="341.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">W3</text>
+          <circle cx="300" cy="338" r="10" fill="#1e2a1a" stroke="#a3e635" stroke-width="1.5" opacity=".6"/>
+          <text x="300" y="341.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">W4</text>
+          <circle cx="200" cy="380" r="10" fill="#1e2a1a" stroke="#a3e635" stroke-width="1.5" opacity=".5"/>
+          <text x="200" y="383.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">W5</text>
+          <!-- W3/W4/W5 still in own half — goal won't count if they score yet -->
+          <rect x="18" y="234" width="364" height="208" fill="rgba(239,68,68,.02)" style="animation:warnPulse 2s ease-in-out infinite"/>
+          <text x="200" y="270" fill="#f87171" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".4">W3 / W4 / W5 NOT YET IN OPP HALF</text>
+          <text x="200" y="281" fill="#f87171" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".35">GOAL WON'T COUNT IF W2 SCORES NOW</text>
+
+          <!-- Legend -->
+          <circle cx="20" cy="450" r="8" fill="#0c1e2e" stroke="#38bdf8" stroke-width="2"/>
+          <text x="32" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team Blue</text>
+          <circle cx="120" cy="450" r="8" fill="#1e2a1a" stroke="#a3e635" stroke-width="2"/>
+          <text x="132" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team White</text>
+          <line x1="214" y1="450" x2="234" y2="450" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#s1c)"/>
+          <text x="238" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Direct ball</text>
+          <circle cx="320" cy="450" r="12" fill="none" stroke="#a3e635" stroke-width="1" stroke-dasharray="3,2" opacity=".5"/>
+          <text x="336" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">2m bonus zone</text>
+        </svg>
+      </div>
+      <div class="dsub">Team Blue all in opposition half — goal can count. W1 plays direct ball, W2 receives with 2m clear (bonus +1). B1 was too far forward and caught flat. W3/W4/W5 not yet in opp half — W2's goal won't count until they cross halfway.</div>
+
+      <div style="margin-top:10px">
+        <div class="watch">
+          <div class="watch-header"><span class="wtag wtag-s">Watch For</span><span class="watch-title">Game 1 — 5v5</span></div>
+          <div class="watch-body">
+            <div class="w-col"><div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+              <div class="wi wi-g">Defenders reading body shape before the direct ball is played</div>
+              <div class="wi wi-g">Last attacker already adjusting position as the team pushes forward</div>
+              <div class="wi wi-g">Sprint-back recovery route direct to goal-side, not back to zone</div>
+              <div class="wi wi-g">Fewer +1 bonuses being awarded as session progresses</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+              <div class="wi wi-a">Ball-watching — defenders' heads turned to ball not scanning runners</div>
+              <div class="wi wi-a">Sprint back is slow — no urgency when direct ball played. Call "+1!" loudly</div>
+              <div class="wi wi-a">Team not all getting over halfway — condition being forgotten</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> If Not Working</div>
+              <div class="wi wi-r">Neither team scoring (conditions too hard) → remove the direct-ball condition, keep the high-line rule only for 5 min</div>
+              <div class="wi wi-r">No bonus points being triggered → coach nudges attackers: "look for the long ball option now"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="padding:0 16px 10px">
+    <div class="prog">
+      <div class="prog-h">Progression</div>
+      <div class="pi"><div class="pn">+</div><div>The direct ball now must be played as the <em>first</em> pass from the defensive half — no build-up play allowed at all. The long ball is the only permitted route to the opposition's half. Forces constant alertness from defenders as every possession is an immediate long ball threat.</div></div>
+    </div>
+    <div class="reg">
+      <div class="reg-h">Regression</div>
+      <div class="ri"><div class="rni">−</div><div>Reduce to 4 players needing to be in the opposition's half (1 can stay back). Allows teams to score more frequently while still maintaining the alertness theme — one player can hold a defensive position, mirroring real game structure.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIVIDER ──────────────────────────────────────────────── -->
+<div class="game-divider">
+  <div class="gd-line"></div>
+  <div class="gd-label">↓ Game 2 running simultaneously on adjacent pitch ↓</div>
+  <div class="gd-line"></div>
+</div>
+
+<!-- ── GAME 2: 6v6 ──────────────────────────────────────────── -->
+<div class="sh"><div class="sh-text">Game 2 — 6v6 (12 Players)</div><div class="sh-line"></div></div>
+
+<div class="gcard" style="--gc2:var(--amber)">
+  <div class="gchead">
+    <span class="gc-tag" style="background:var(--amber-dim);color:var(--amber)">6v6 · No GK · Mini Goals</span>
+    <div class="gc-name">6v6 — Unit Shape vs Direct Threat</div>
+    <div class="gc-dur">25<span>MIN</span></div>
+  </div>
+  <div class="c-body">
+    <div class="c-left">
+
+      <div class="how" style="--gc2:var(--amber)">
+        <div class="how-h">What's Different at 6v6</div>
+        <div class="how-steps">
+          <div class="step"><div class="step-n" style="color:var(--amber)">—</div><div class="step-t">Same conditions, but with 6v6 on a larger pitch (~40×28m). The extra player per team means there is more shape to consider — teams can attempt to keep one player deeper while the other 5 push forward. This creates the genuine dilemma: <strong style="color:var(--white)">who stays back, and does that forfeit the goal?</strong></div></div>
+          <div class="step"><div class="step-n" style="color:var(--amber)">—</div><div class="step-t">The 6th player changes the tactical problem. If all 6 must push forward, the space behind is larger. If one stays back, the goal doesn't count. Teams must decide collectively how to manage this — which surfaces the unit positioning conversation naturally.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--amber)">—</div><div class="step-t"><strong style="color:var(--white)">Additional 6v6 condition:</strong> the defending team earns +1 if they win the ball back within 5 seconds of the direct ball being played. This rewards defensive alertness and immediate counter-press — not just passive positional recovery.</div></div>
+        </div>
+      </div>
+
+      <div class="scoring" style="--ta-rgb:245,158,11;--tb-rgb:163,230,53">
+        <div class="sc-half sc-half-a">
+          <div class="sc-h" style="color:var(--amber)">⚽ Scoring — Game 2</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--amber)">+1</div><div><div class="sc-desc">Goal scored with all 6 in opposition half AND direct ball played</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--lime)">+1</div><div><div class="sc-desc">Bonus: receiver had 2m+ clear when direct ball arrived</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div><div class="sc-desc">Defending team wins ball within 5 sec of direct ball being played</div><div class="sc-sub">New condition unique to Game 2 — rewards alertness and counter-press</div></div></div>
+        </div>
+        <div class="sc-half sc-half-b">
+          <div class="sc-h" style="color:var(--lime)">The 6v6 Tactical Problem</div>
+          <div class="sc-item" style="margin-bottom:0">
+            <div style="font-size:11.5px;color:rgba(240,246,255,.78);line-height:1.55">With 6 players, teams will try to send 5 forward and keep 1 back. But all 6 must cross. This creates a genuine decision: <strong style="color:var(--white)">does the deepest player abandon their defensive position to score?</strong> And when the direct ball comes, who tracks the runner — the player who just sprinted forward, or the teammate behind them? This is unit defending under real attacking pressure.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-g">
+        <div class="sl">Pitch</div><div class="sv">~40 × 28m</div>
+        <div class="sl">Goals</div><div class="sv">Mini goals — 2 per end</div>
+        <div class="sl">GK</div><div class="sv">None</div>
+        <div class="sl">Extra condition</div><div class="sv">Win ball in 5 sec of direct ball = +1</div>
+        <div class="sl">5-sec rule</div><div class="sv">Coach counts aloud: "1, 2, 3, 4, 5!"</div>
+        <div class="sl">Restarts</div><div class="sv">Kick-in from sideline</div>
+      </div>
+
+      <div class="cp-h" style="color:var(--amber)">Coaching Points — Game 2</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Who communicates the direct ball threat?</div>
+          <div class="cp-desc">In 5v5 there's no time for communication — you react. In 6v6 there are enough players that someone can read and call it. The deepest player — the last to cross halfway — has the best view of the opposition's shape. Their job is to call "direct!" when they see the long ball coming, giving teammates a fraction more time to adjust. This is the defensive alertness principle made verbal.</div>
+          <span class="cp-tag" style="background:var(--amber-dim);color:var(--amber)">Communication</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Win it in 5 seconds — don't recover to a shape first</div>
+          <div class="cp-desc">The 5-second counter-press point rewards the immediate reaction to the direct ball — not the composed defensive recovery. A team that charges at the receiver immediately has a better chance of winning the ball back than one that organises first and presses second. Alertness means action, not adjustment.</div>
+          <span class="cp-tag" style="background:rgba(56,189,248,.1);color:var(--sky)">Counter-press</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Unit shape when all 6 push — the last player's responsibility</div>
+          <div class="cp-desc">With all 6 in the opposition's half, the last player to arrive is the de facto covering defender. They must cross halfway but they don't need to sprint into the box — staying on the halfway line, facing back, watching for the direct ball over the top, is a legitimate and intelligent position. The goal counts, and they are already in the right position to defend.</div>
+          <span class="cp-tag" style="background:rgba(163,230,53,.1);color:var(--lime)">Positioning</span>
+        </div></div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progression</div>
+        <div class="pi"><div class="pn">+</div><div>After 12 minutes, the coach calls a "freeze" at random and asks: "where are your 6 players right now? Point to your deepest player." The deepest player must be able to explain their positioning. This makes defensive alertness a conscious decision rather than an accident.</div></div>
+      </div>
+      <div class="reg">
+        <div class="reg-h">Regression</div>
+        <div class="ri"><div class="rni">−</div><div>Remove the 5-second counter-press condition — keep just the two main conditions until teams are comfortable with the shape and scoring rules before adding the third reward.</div></div>
+      </div>
+
+    </div>
+
+    <div class="c-right">
+      <div class="dlabel">Game 2 — 6v6 · Deepest Player Holds at Halfway</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 490" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="s2a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="s2b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="s2c" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+            <marker id="s2d" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f87171"/></marker>
+          </defs>
+          <rect width="400" height="490" fill="#090e14" rx="3"/>
+
+          <!-- Pitch -->
+          <rect x="18" y="18" width="364" height="454" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+          <!-- Mini goals top -->
+          <rect x="130" y="18" width="44" height="8" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+          <rect x="226" y="18" width="44" height="8" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+          <!-- Mini goals bottom -->
+          <rect x="130" y="464" width="44" height="8" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+          <rect x="226" y="464" width="44" height="8" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+
+          <!-- Halfway -->
+          <line x1="18" y1="245" x2="382" y2="245" stroke="#1a2a38" stroke-width="1.5"/>
+          <text x="200" y="240" fill="#1a2a38" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">HALFWAY</text>
+
+          <!-- AMBER TEAM — 5 pushed into opp half, 1 (A6) sitting at halfway alert -->
+          <text x="200" y="56" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".8">AMBER: 5 FORWARD · A6 HOLDS HALFWAY (alert to direct ball)</text>
+          <circle cx="70" cy="90" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:runDn 2s ease-in-out infinite"/>
+          <text x="70" y="93.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A1</text>
+          <circle cx="145" cy="72" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:runDn 1.9s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="145" y="75.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A2</text>
+          <circle cx="200" cy="60" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:runDn 2.1s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="200" y="63.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A3</text>
+          <circle cx="255" cy="72" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:runDn 2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="255" y="75.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A4</text>
+          <circle cx="330" cy="90" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:runDn 2.2s ease-in-out infinite;animation-delay:.8s"/>
+          <text x="330" y="93.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A5</text>
+          <!-- A6 — sits at halfway, facing back, ALERT -->
+          <circle cx="200" cy="244" r="13" fill="#2a1a00" stroke="#f59e0b" stroke-width="3"/>
+          <text x="200" y="247.5" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A6</text>
+          <rect x="214" y="228" width="110" height="22" fill="rgba(245,158,11,.12)" stroke="rgba(245,158,11,.35)" stroke-width="1.2" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="269" y="237" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A6 AT HALFWAY</text>
+          <text x="269" y="246" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">alert · facing play</text>
+          <!-- Ball at A3 -->
+          <circle cx="200" cy="60" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- GREEN TEAM — playing from deep, direct ball threat -->
+          <circle cx="100" cy="340" r="11" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="100" y="343.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">G1</text>
+          <circle cx="200" cy="320" r="11" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="200" y="323.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">G2</text>
+          <circle cx="300" cy="340" r="11" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="300" y="343.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">G3</text>
+          <circle cx="80" cy="398" r="11" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="80" y="401.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">G4</text>
+          <circle cx="200" cy="415" r="11" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="200" y="418.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">G5</text>
+          <circle cx="320" cy="398" r="11" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="320" y="401.5" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">G6</text>
+
+          <!-- G5 plays direct ball over/through -->
+          <path d="M200,403 Q200,320 200,270" fill="none" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#s2b)" opacity=".7" style="animation:dashFlow 2s linear infinite"/>
+          <text x="212" y="350" fill="#a3e635" font-size="7.5" font-family="IBM Plex Mono,monospace" opacity=".7">direct ball</text>
+          <text x="212" y="359" fill="#a3e635" font-size="7.5" font-family="IBM Plex Mono,monospace" opacity=".7">into opp half</text>
+
+          <!-- A6 reads it — cuts off the runner -->
+          <path d="M200,231 Q200,210 200,180" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#s2a)" opacity=".7" style="animation:arrowMarch 1.8s linear infinite"/>
+          <rect x="210" y="155" width="80" height="20" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.25)" stroke-width="1" rx="1" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="250" y="168" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A6 READS IT →</text>
+
+          <!-- 5-second counter-press timer -->
+          <rect x="18" y="258" width="120" height="28" fill="rgba(56,189,248,.08)" stroke="rgba(56,189,248,.25)" stroke-width="1.2" rx="1" style="animation:badgeFlash 3s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="78" y="270" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">WIN BALL IN</text>
+          <text x="78" y="281" fill="#38bdf8" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">5 SEC = +1 PT</text>
+
+          <!-- Legend -->
+          <circle cx="18" cy="478" r="8" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8"/>
+          <text x="30" y="481.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team Amber</text>
+          <circle cx="134" cy="478" r="8" fill="#102010" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="146" y="481.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team Green</text>
+          <circle cx="254" cy="478" r="11" fill="#2a1a00" stroke="#f59e0b" stroke-width="3"/>
+          <text x="269" y="481.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Deepest player (alert)</text>
+        </svg>
+      </div>
+      <div class="dsub">Amber's A6 sits at halfway — goal still counts (all 6 in opp half), but A6 faces play and reads the direct ball. Green plays direct from deep. A6 reads it early and cuts off the run. 5-sec counter-press point available to Green if they win it back quickly.</div>
+
+      <div style="margin-top:10px">
+        <div class="watch">
+          <div class="watch-header"><span class="wtag wtag-s">Watch For</span><span class="watch-title">Game 2 — 6v6</span></div>
+          <div class="watch-body">
+            <div class="w-col"><div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+              <div class="wi wi-g">Deepest attacker holding halfway instead of running into the box</div>
+              <div class="wi wi-g">"Direct!" being called by the deepest player before the ball is played</div>
+              <div class="wi wi-g">5-second counter-press being won — immediate reaction to direct ball</div>
+              <div class="wi wi-g">Fewer 2m bonuses as session progresses — defenders tracking better</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+              <div class="wi wi-a">All 6 sprinting into box — no cover at halfway. Freeze and ask: "who stays?"</div>
+              <div class="wi wi-a">5-sec counter-press being missed — reaction too slow after direct ball</div>
+              <div class="wi wi-a">No communication — direct ball arrives without any call</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> If Not Working</div>
+              <div class="wi wi-r">Teams not pushing all 6 → remind them the goal doesn't count otherwise. Let a goal be disallowed live</div>
+              <div class="wi wi-r">3 conditions too complex → remove 5-sec rule for first 8 minutes, add it after</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="padding:0 16px 10px">
+    <div class="prog">
+      <div class="prog-h">Progression — Both Games After 15 Minutes</div>
+      <div class="pi"><div class="pn">→</div><div>Swap 2 players between Game 1 and Game 2 — the players entering the bigger game must quickly adapt their understanding of the conditions. The players entering the smaller game must apply the more sophisticated 6v6 thinking to the more intense 5v5 environment. Cross-pollination of ideas and intensity.</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ BRIDGE P1 → P2 ══════════════════════════════════════════ -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--lime);padding:11px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start">
+  <div style="font-family:var(--display);font-size:20px;color:var(--lime);flex-shrink:0;line-height:1.2">→</div>
+  <div>
+    <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:3px;opacity:.85">Bridge — Practice 1 to Practice 2 · 90 seconds</div>
+    <div style="font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.6">Ask: <em style="color:var(--white)">"In both games just now — when the ball was played in behind you, did you see it coming or did it surprise you? What told you it was coming?"</em> Take two answers. Then: <em style="color:var(--white)">"In this next practice the server makes that same decision — short or long. Your job is to read that decision before the ball leaves their hands. Watch the body, not the ball."</em></div>
+  </div>
+</div>
+
+
+
+<!-- ══ PRACTICE 2 HEADER ══════════════════════════════════════ -->
+<div style="background:var(--s1);border:1px solid rgba(163,230,53,.25);border-top:none;padding:14px 20px 12px;margin-bottom:10px">
+  <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:4px;opacity:.8">Practice 2 of 3</div>
+  <div style="font-family:var(--display);font-size:32px;letter-spacing:.5px;color:var(--white);line-height:1">Server <em style="color:var(--lime);font-style:normal">Decision</em></div>
+  <div style="font-family:var(--mono);font-size:10px;color:rgba(240,246,255,.4);margin-top:4px">// short or long · three pitches simultaneous · 6-pass = 1pt · goal = 3pts</div>
+</div>
+
+<!-- ── PITCH LAYOUT OVERVIEW ── -->
+<div class="sh"><div class="sh-text">Pitch Layout — Three Simultaneous Pitches</div><div class="sh-line"></div></div>
+
+<div class="pitch-overview">
+  <div class="po-pitch" style="--poc:var(--amber)">
+    <div class="po-tag">Pitch A — Your Group</div>
+    <div class="po-name">Half Pitch · 3v3</div>
+    <div class="po-detail">Full half of the 11v11 pitch. 3 attackers vs 3 defenders. Full goal + GK at one end. Server at the other. 2 rotating substitutes.</div>
+    <div class="po-players">3 att · 3 def · GK · Server · 2 subs = 10</div>
+  </div>
+  <div class="po-pitch" style="--poc:var(--sky)">
+    <div class="po-tag">Pitch B — Quarter</div>
+    <div class="po-name">Quarter Pitch · 2v2</div>
+    <div class="po-detail">One quarter of the pitch. 2 attackers vs 2 defenders. Mini goal + GK at one end. Server at the other.</div>
+    <div class="po-players">2 att · 2 def · GK · Server = 6</div>
+  </div>
+  <div class="po-pitch" style="--poc:var(--violet)">
+    <div class="po-tag">Pitch C — Quarter</div>
+    <div class="po-name">Quarter Pitch · 2v2</div>
+    <div class="po-detail">Adjacent to Pitch B, same format. 2 attackers vs 2 defenders. Mini goal + GK. Server at far end.</div>
+    <div class="po-players">2 att · 2 def · GK · Server = 6</div>
+  </div>
+</div>
+
+<!-- Visual pitch layout diagram -->
+<div style="margin-bottom:14px">
+  <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:6px;opacity:.7">Pitch Arrangement — Top View</div>
+  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#090e14;border-radius:3px;border:1px solid rgba(255,255,255,.06)">
+    <!-- Pitch A — half pitch (left) -->
+    <rect x="12" y="12" width="290" height="176" fill="rgba(245,158,11,.04)" stroke="#f59e0b" stroke-width="1.5" rx="2"/>
+    <text x="30" y="28" fill="#f59e0b" font-size="8" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">PITCH A — HALF PITCH · YOUR GROUP</text>
+    <!-- Goal at top of A -->
+    <rect x="120" y="12" width="54" height="7" fill="none" stroke="#22c55e" stroke-width="2"/>
+    <text x="147" y="34" fill="#22c55e" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL + GK</text>
+    <!-- Server at bottom of A -->
+    <rect x="120" y="178" width="54" height="10" fill="rgba(163,230,53,.15)" stroke="rgba(163,230,53,.4)" stroke-width="1" rx="1"/>
+    <text x="147" y="187" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+    <!-- Player dots A -->
+    <text x="147" y="95" fill="#f59e0b" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">3 ATT</text>
+    <text x="147" y="145" fill="#38bdf8" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">3 DEF</text>
+    <!-- Halfway line A -->
+    <line x1="12" y1="120" x2="302" y2="120" stroke="#f59e0b" stroke-width=".8" stroke-dasharray="4,3" opacity=".3"/>
+
+    <!-- Pitch B — top quarter (middle) -->
+    <rect x="314" y="12" width="180" height="88" fill="rgba(56,189,248,.04)" stroke="#38bdf8" stroke-width="1.2" rx="2"/>
+    <text x="404" y="26" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing=".5">PITCH B — QUARTER</text>
+    <rect x="372" y="12" width="46" height="6" fill="none" stroke="#22c55e" stroke-width="1.8"/>
+    <text x="395" y="34" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+    <text x="404" y="62" fill="#38bdf8" font-size="8.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".6">2v2</text>
+    <rect x="372" y="93" width="46" height="7" fill="rgba(163,230,53,.12)" stroke="rgba(163,230,53,.35)" stroke-width="1" rx="1"/>
+    <text x="395" y="100" fill="#a3e635" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+
+    <!-- Pitch C — bottom quarter (middle) -->
+    <rect x="314" y="112" width="180" height="76" fill="rgba(139,92,246,.04)" stroke="#8b5cf6" stroke-width="1.2" rx="2"/>
+    <text x="404" y="126" fill="#8b5cf6" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing=".5">PITCH C — QUARTER</text>
+    <text x="404" y="152" fill="#8b5cf6" font-size="8.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".6">2v2</text>
+    <rect x="372" y="180" width="46" height="8" fill="rgba(163,230,53,.12)" stroke="rgba(163,230,53,.35)" stroke-width="1" rx="1"/>
+    <text x="395" y="188" fill="#a3e635" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+    <rect x="372" y="112" width="46" height="6" fill="none" stroke="#22c55e" stroke-width="1.8"/>
+    <text x="395" y="128" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+
+    <!-- Pitch divider line B/C -->
+    <line x1="314" y1="110" x2="494" y2="110" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+
+    <!-- Label area right -->
+    <text x="520" y="50" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">22 players total:</text>
+    <text x="520" y="64" fill="#f59e0b" font-size="7.5" font-family="IBM Plex Mono,monospace">Pitch A: 10 players</text>
+    <text x="520" y="78" fill="#38bdf8" font-size="7.5" font-family="IBM Plex Mono,monospace">Pitch B:  6 players</text>
+    <text x="520" y="92" fill="#8b5cf6" font-size="7.5" font-family="IBM Plex Mono,monospace">Pitch C:  6 players</text>
+    <line x1="514" y1="103" x2="688" y2="103" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>
+    <text x="520" y="118" fill="#a3e635" font-size="7.5" font-family="IBM Plex Mono,monospace">Total:   22 ✓</text>
+    <text x="520" y="148" fill="#4a6070" font-size="7" font-family="IBM Plex Mono,monospace">GK rotates on Pitch A.</text>
+    <text x="520" y="160" fill="#4a6070" font-size="7" font-family="IBM Plex Mono,monospace">Dedicated GKs on B &amp; C</text>
+    <text x="520" y="172" fill="#4a6070" font-size="7" font-family="IBM Plex Mono,monospace">(or use field players).</text>
+  </svg>
+</div>
+
+<!-- ── SERVER DECISIONS ── -->
+<div class="sh"><div class="sh-text">The Server's Two Decisions — Applied Across All Pitches</div><div class="sh-line"></div></div>
+
+<div class="decision-strip">
+  <div class="dec" style="--dc:var(--sky);background:rgba(56,189,248,.04)">
+    <div class="dec-n">Option A — Short Pass</div>
+    <div class="dec-title">Into the Feet</div>
+    <div class="dec-rule">Server plays a grounded pass to an attacker's feet. The attacking team now have an alternative scoring route: <strong style="color:var(--white)">complete 6 consecutive passes between themselves</strong> without losing possession — worth <strong style="color:var(--sky)">1 point</strong>. Scoring in the goal is worth <strong style="color:var(--amber)">3 points</strong>. Shooting is always the higher priority — 6 passes is the consolation route that keeps defenders honest.</div>
+    <div class="dec-result">
+      <div class="dec-pts" style="color:var(--sky)">+1</div>
+      <div class="dec-rdesc">6 consecutive passes completed (Pitch A) · 4 passes (Pitches B &amp; C)</div>
+    </div>
+  </div>
+  <div class="dec" style="--dc:var(--amber);background:rgba(245,158,11,.04)">
+    <div class="dec-n">Option B — Long Ball</div>
+    <div class="dec-title">Over the Top</div>
+    <div class="dec-rule">Server throws or plays a high, direct ball over the defensive line — into the space behind the defenders. The attackers must read the ball in flight, get goal-side of the defender, and finish. Defenders who have stepped high to prevent the 6-pass must now recover.</div>
+    <div class="dec-result">
+      <div class="dec-pts" style="color:var(--amber)">+3</div>
+      <div class="dec-rdesc">Score in the goal (any route) — goal is always the priority<br><span style="font-size:10.5px;color:var(--grey-hi)">+1 bonus if defender is caught flat — 2m+ clear</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DILEMMA ── -->
+<div class="dilemma">
+  <div class="dilemma-h">The Defensive Dilemma — Why This Works</div>
+  <div class="dilemma-t">The 6-pass reward for the short option forces defenders to make a <strong style="color:var(--white)">conscious choice</strong>: press high to deny the passes and risk being exposed by the long ball, or sit deep and allow easy passes to accumulate. There is no safe option. Defenders who step high show their positioning — and the server reads that step and plays long immediately. This trains the exact alertness problem: defenders cannot just react to the ball, they must read the server's body position and make an anticipatory decision about whether to hold or press.</div>
+</div>
+
+<!-- ── MAIN PRACTICE (PITCH A) ── -->
+<div class="sh"><div class="sh-text">Pitch A — Half Pitch 3v3 · Your Group (10 Players)</div><div class="sh-line"></div></div>
+
+<div class="pcard" style="--pcc:var(--amber);--pccrgb:245,158,11">
+  <div class="pchead">
+    <span class="pc-tag" style="background:var(--amber-dim);color:var(--amber)">Main Group · Half Pitch · 3v3</span>
+    <div>
+      <div class="pc-name">Server → 3v3 — Short or Long Decision</div>
+      <div class="pc-sub">Full goal + GK at goal end · server at far end · 2 rotating subs</div>
+    </div>
+    <div class="pc-dur">25<span>MIN</span></div>
+  </div>
+  <div class="c-body">
+    <div class="c-left">
+
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">The server decides whether to play short (feet) or long (over the top). The short option offers attackers a 6-pass alternative to shooting — this is the trap. Defenders who recognise the 6-pass route and step up to press it are exactly where the server wants them: high, exposed, vulnerable to the long ball. The practice forces defenders to read the server's intent before the ball is played, hold their position under the 6-pass pressure, and react instantly when the long ball comes.</div>
+      </div>
+
+      <div class="how">
+        <div class="how-h">Sequence of Play</div>
+        <div class="how-grid">
+          <div class="how-n" style="color:var(--lime)">1.</div><div class="how-t">Server starts with the ball at the far end of the pitch. Defender and attacker units set up in their halves. <strong style="color:var(--white)">Three defenders hold a compact line</strong> — they should be watching the server's body shape, not just waiting.</div>
+          <div class="how-n" style="color:var(--sky)">2A.</div><div class="how-t"><strong style="color:var(--white)">Short option:</strong> Server passes to an attacker's feet. Attackers try to count 6 consecutive passes (worth 1 pt). Defenders must press and disrupt — but if they step too high they leave space for the long ball and a 3-point goal. If defenders press so high that the space opens, the attacker lays back to the server who plays long immediately.</div>
+          <div class="how-n" style="color:var(--amber)">2B.</div><div class="how-t"><strong style="color:var(--white)">Long option:</strong> Server plays a high ball over the defenders into space behind. Attackers must time their run to receive on the move and finish. Defenders must have read this and already be dropping — not reacting after the ball is in the air.</div>
+          <div class="how-n" style="color:var(--lime)">3.</div><div class="how-t">The <strong style="color:var(--white)">goal is always worth 3 points</strong> — the 6-pass route scores only 1. This mirrors real football: protecting the goal is the primary defensive task. Defenders who press too high to stop the pass count gift the more valuable 3-point option.</div>
+          <div class="how-n" style="color:var(--lime)">4.</div><div class="how-t">When possession changes, the server immediately delivers the next ball. Rotating subs come on when coach calls "swap!" — the two subs replace any two players of the coach's choice.</div>
+        </div>
+      </div>
+
+      <div class="pitch-variants">
+        <div class="pv" style="--pvc:var(--amber);--pvcrgb:245,158,11">
+          <div class="pv-head">
+            <span class="pv-tag">Setup — Pitch A</span>
+            <div class="pv-name">Half Pitch · 3v3 + GK + Server + 2 Subs</div>
+          </div>
+          <div class="pv-body">
+            <div class="pv-l">Pitch size</div><div class="pv-v">Half of 11v11 — full width, half length</div>
+            <div class="pv-l">Goal</div><div class="pv-v">Full size goal with GK</div>
+            <div class="pv-l">Server position</div><div class="pv-v">Far end from goal — at the edge of the pitch, with multiple balls</div>
+            <div class="pv-l">Short option</div><div class="pv-v">Grounded pass into attackers' feet</div>
+            <div class="pv-l">Long option</div><div class="pv-v">Thrown or driven high ball over defensive line</div>
+            <div class="pv-l">Subs</div><div class="pv-v">2 players waiting — coach calls swap, no pause</div>
+            <div class="pv-l">Ball supply</div><div class="pv-v">5+ balls at server's feet — instant restart</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rot-note">
+        <div class="rot-h">Rotation — Pitch A (3v3 + 2 Subs)</div>
+        <div class="rot-t">The two subs rotate in on a coach call — approximately every 90 seconds. They replace any two active players (coach chooses, mixing attacker and defender roles so every player experiences both). The server role stays fixed — use a technically confident player and rotate the server position at the 12-minute mark only. GK rotates at the same point.</div>
+      </div>
+
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div>Server starts every sequence. Play begins only when the server plays the ball — no free attacking play from kick-off.</div>
+        <div class="rule"><div class="rn">2.</div>Short pass → attackers can attempt 6 consecutive passes (= 1 point) or shoot (= 3 points). Goal always more valuable. Both valid at any time.</div>
+        <div class="rule"><div class="rn">3.</div>If defenders win possession from the short pass, they can immediately counter and score in mini goals at the server end (or the server end line) — earning 1 point for the defending team. This rewards the press.</div>
+        <div class="rule"><div class="rn">4.</div>Long ball → receiver must control and finish. If a defender is caught flat (2m+ clear space at receipt) — coach calls "+1 bonus!" and that point is awarded even if no goal is scored.</div>
+        <div class="rule"><div class="rn">5.</div>After any outcome (goal, turnover, 6 passes, ball out) — server plays a new ball immediately. No delay.</div>
+        <div class="rule"><div class="rn">6.</div>Defenders may not position themselves behind the halfway line — they must hold a line at least in the middle third of the pitch. They cannot drop to the goal line to defend.</div>
+      </div>
+
+      <div class="cp-h">Coaching Points — Pitch A (Your Focus)</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Read the server — not the first attacker</div>
+          <div class="cp-desc">Defenders who watch the first attacker receiving the short pass lose sight of the real threat. The server is the decision-maker. When a defender has their head fully turned to the ball in a short sequence, the server reads that and immediately plays long. Defenders should always have peripheral vision back to the server. Cue: <em style="color:var(--white)">"half your attention on the ball — half on the server's hands."</em></div>
+          <span class="cp-tag" style="background:var(--amber-dim);color:var(--amber)">Alertness</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Hold the line when the short pass is played — don't all step</div>
+          <div class="cp-desc">When the server plays short, the instinct is for all three defenders to press the ball together. This is the trap. One defender presses; the other two hold the line. If all three step, the space behind opens and one long ball wins the point. The two holding defenders must resist the instinct — they are protecting against the ball that hasn't been played yet.</div>
+          <span class="cp-tag" style="background:rgba(56,189,248,.1);color:var(--sky)">Unit shape</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Count the passes — know when the threat changes</div>
+          <div class="cp-desc">Defenders should count the passes aloud. At 4 passes, the team knows the scoring route is close — the intensity of the press must increase. At 5 passes, all three press to stop the 6th. Before 4, one presses, two hold. This is a tactical decision made on information, not panic. Cue: <em style="color:var(--white)">"call the number — change the press at four."</em></div>
+          <span class="cp-tag" style="background:rgba(163,230,53,.1);color:var(--lime)">Decision-making</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--amber)"></div><div>
+          <div class="cp-title">Long ball: drop the moment you see the server's arm go back</div>
+          <div class="cp-desc">A thrown long ball is telegraphed — the server's throwing arm goes back a full second before the ball is released. That second is enough time to drop two steps and get goal-side. Defenders who start dropping on the visual cue (arm back) will always arrive in time. Defenders who wait for the ball to be in the air will always arrive late. This is the anticipation skill the whole session is building.</div>
+          <span class="cp-tag" style="background:var(--amber-dim);color:var(--amber)">Anticipation</span>
+        </div></div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div><strong style="color:var(--white)">Server enters as active player</strong> immediately after delivering the first service — they join the attacking team and the practice becomes a 4v3 (Pitch A) or 3v2 (Pitches B/C). The server's knowledge of the delivery they just played makes them a dangerous extra attacker. Rotate the server role after each possession ends.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>Combined with P1: once the server enters the game, the defending team earn the right to use the GK as an outfield player for the rest of that sequence if they win the ball — temporary numerical equaliser that rewards the defensive action.</div></div>
+      </div>
+      <div class="reg">
+        <div class="reg-h">Regression</div>
+        <div class="ri"><div class="rni">−</div><div>Server announces the option before playing: "short!" or "long!" — removes the reading element but allows defenders to establish the correct physical response to each option before the deception is added.</div></div>
+      </div>
+
+    </div>
+
+    <div class="c-right">
+      <div class="dlabel">Pitch A — Short Option · Defenders Holding Line</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="pa1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="pa2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="pa3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+            <marker id="pa4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+          </defs>
+          <rect width="400" height="460" fill="#090e14" rx="3"/>
+          <!-- Pitch -->
+          <rect x="18" y="14" width="364" height="432" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+          <!-- Goal top -->
+          <rect x="152" y="14" width="96" height="8" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <!-- GK -->
+          <circle cx="200" cy="38" r="11" fill="#0a2010" stroke="#22c55e" stroke-width="2"/>
+          <text x="200" y="41.5" fill="#22c55e" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">GK</text>
+          <!-- Halfway line -->
+          <line x1="18" y1="232" x2="382" y2="232" stroke="#1a2a38" stroke-width="1.2"/>
+          <text x="200" y="228" fill="#1a2a38" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">HALFWAY</text>
+          <!-- Server box -->
+          <rect x="156" y="430" width="88" height="16" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)" stroke-width="1.2" rx="1"/>
+          <text x="200" y="441" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+          <!-- Multiple balls at server -->
+          <circle cx="170" cy="422" r="4" fill="rgba(255,255,255,.3)"/>
+          <circle cx="180" cy="420" r="4" fill="rgba(255,255,255,.5)"/>
+          <circle cx="190" cy="421" r="4" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- === SHORT OPTION SCENARIO === -->
+          <!-- Short pass to A1 -->
+          <path d="M200,429 Q180,390 165,360" fill="none" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#pa2)" style="animation:dashFlow 1.6s linear infinite"/>
+          <rect x="18" y="388" width="80" height="18" fill="rgba(163,230,53,.08)" stroke="rgba(163,230,53,.2)" stroke-width="1" rx="1"/>
+          <text x="58" y="398.5" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SHORT PASS</text>
+          <text x="58" y="407.5" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">into feet</text>
+
+          <!-- 3 ATTACKERS -->
+          <circle cx="155" cy="348" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="2"/>
+          <text x="155" y="351.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A1</text>
+          <circle cx="155" cy="348" r="4" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <circle cx="230" cy="335" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="2" style="animation:bobFwd 2s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="230" y="338.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A2</text>
+          <circle cx="290" cy="355" r="11" fill="#1e1400" stroke="#f59e0b" stroke-width="2" style="animation:bobFwd 2.2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="290" y="358.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A3</text>
+          <!-- Pass between attackers (building to 6) -->
+          <path d="M166,345 Q198,332 219,332" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#pa1)" opacity=".6" style="animation:dashFlow 1.4s linear infinite"/>
+
+          <!-- 6-pass counter -->
+          <rect x="300" y="330" width="80" height="36" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.3)" stroke-width="1.2" rx="2" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="340" y="343" fill="#f59e0b" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">PASS: 2</text>
+          <text x="340" y="355" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">NEED 6 → +1</text>
+          <text x="340" y="364" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">or shoot</text>
+
+          <!-- 3 DEFENDERS — holding line, one pressing -->
+          <text x="200" y="268" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">DEFENSIVE LINE — HOLDING SHAPE</text>
+          <!-- D1 stepping to press A1 -->
+          <circle cx="155" cy="295" r="11" fill="#0c1a2e" stroke="#38bdf8" stroke-width="2.5" style="animation:runDn 2s ease-in-out infinite"/>
+          <text x="155" y="298.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D1</text>
+          <text x="102" y="285" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".7">pressing →</text>
+          <!-- D2 + D3 holding line, watching server -->
+          <circle cx="230" cy="276" r="11" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="230" y="279.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D2</text>
+          <circle cx="305" cy="278" r="11" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="305" y="281.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D3</text>
+          <!-- D2/D3 watching SERVER box -->
+          <line x1="222" y1="265" x2="204" y2="250" stroke="#38bdf8" stroke-width=".8" stroke-dasharray="2,2" opacity=".3"/>
+          <line x1="297" y1="266" x2="210" y2="252" stroke="#38bdf8" stroke-width=".8" stroke-dasharray="2,2" opacity=".3"/>
+          <text x="200" y="263" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".5">watching server</text>
+
+          <!-- WHAT IF D2/D3 both step? — warning zone -->
+          <rect x="160" y="240" width="220" height="28" fill="none" stroke="rgba(239,68,68,.25)" stroke-width="1" stroke-dasharray="3,2" rx="2" style="animation:warnPulse 2s ease-in-out infinite"/>
+          <text x="270" y="252" fill="#ef4444" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">IF D2+D3 STEP → SPACE OPENS</text>
+          <text x="270" y="261" fill="#ef4444" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".5">server plays long immediately</text>
+
+          <!-- Long ball ghost arc (what happens if defenders step) -->
+          <path d="M200,429 Q260,340 290,130" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3" opacity=".25" style="animation:dashFlow 2.5s linear infinite;animation-delay:.5s"/>
+          <text x="306" y="155" fill="#ef4444" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".4">long ball</text>
+          <text x="306" y="164" fill="#ef4444" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".4">threat</text>
+
+          <!-- 2 subs waiting -->
+          <circle cx="360" cy="370" r="9" fill="#1a1a2a" stroke="#8b5cf6" stroke-width="1.5" opacity=".6"/>
+          <text x="360" y="373.5" fill="#8b5cf6" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">S1</text>
+          <circle cx="374" cy="355" r="9" fill="#1a1a2a" stroke="#8b5cf6" stroke-width="1.5" opacity=".5"/>
+          <text x="374" y="358.5" fill="#8b5cf6" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">S2</text>
+          <text x="385" y="388" fill="#8b5cf6" font-size="7" font-family="IBM Plex Mono,monospace" transform="rotate(90,385,388)" opacity=".6">SUBS</text>
+
+          <!-- Legend -->
+          <circle cx="18" cy="452" r="8" fill="#1e1400" stroke="#f59e0b" stroke-width="2"/>
+          <text x="30" y="455.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Attackers</text>
+          <circle cx="118" cy="452" r="8" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="130" y="455.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Defenders</text>
+          <circle cx="218" cy="452" r="8" fill="#0a2010" stroke="#22c55e" stroke-width="2"/>
+          <text x="230" y="455.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">GK</text>
+          <rect x="290" y="444" width="56" height="16" fill="rgba(163,230,53,.08)" stroke="rgba(163,230,53,.25)" stroke-width="1" rx="1"/>
+          <text x="318" y="455" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">SERVER</text>
+        </svg>
+      </div>
+      <div class="dsub">Short pass to A1 · D1 presses · D2 and D3 hold the line watching the server. Pass count: 2 of 6. If D2/D3 also step up, space opens — server plays the long ball immediately.</div>
+      <div class="dlabel" style="color:var(--amber)">Pitch A — Long Option · Defender Caught Flat</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="pb1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="pb2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="pb3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#ef4444"/></marker>
+            <marker id="pb4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+          </defs>
+          <rect width="400" height="360" fill="#090e14" rx="3"/>
+          <!-- Pitch (compressed) -->
+          <rect x="18" y="14" width="364" height="332" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+          <!-- Goal top -->
+          <rect x="152" y="14" width="96" height="7" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <circle cx="200" cy="32" r="10" fill="#0a2010" stroke="#22c55e" stroke-width="2"/>
+          <text x="200" y="35.5" fill="#22c55e" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">GK</text>
+
+          <!-- Server at bottom -->
+          <rect x="156" y="336" width="88" height="10" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)" stroke-width="1" rx="1"/>
+          <text x="200" y="344" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+
+          <!-- HIGH BALL ARC — over the defenders -->
+          <path d="M200,334 Q240,240 270,115" fill="none" stroke="#a3e635" stroke-width="2.5" stroke-dasharray="7,3" marker-end="url(#pb2)" style="animation:dashFlow 2s linear infinite"/>
+          <!-- Arm back cue indicator -->
+          <rect x="210" y="290" width="110" height="22" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 1.5s ease-in-out infinite"/>
+          <text x="265" y="300.5" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">ARM BACK = CUE</text>
+          <text x="265" y="309.5" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">drop now — don't wait</text>
+
+          <!-- Attacker reading and running to receive -->
+          <circle cx="265" cy="140" r="12" fill="#1e1400" stroke="#f59e0b" stroke-width="2.5" style="animation:runUp 1.8s ease-in-out infinite"/>
+          <text x="265" y="143.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A1</text>
+
+          <!-- D3 caught high (failed to drop) -->
+          <circle cx="265" cy="188" r="11" fill="#0c1a2e" stroke="#ef4444" stroke-width="2.5"/>
+          <text x="265" y="191.5" fill="#ef4444" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D3</text>
+          <rect x="276" y="175" width="98" height="22" fill="rgba(239,68,68,.12)" stroke="rgba(239,68,68,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 1.8s ease-in-out infinite"/>
+          <text x="325" y="185" fill="#ef4444" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">CAUGHT HIGH!</text>
+          <text x="325" y="194" fill="#ef4444" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">didn't read arm cue</text>
+
+          <!-- 2m space circle -->
+          <circle cx="265" cy="140" r="24" fill="none" stroke="#a3e635" stroke-width="1" stroke-dasharray="3,2" opacity=".5" style="animation:zonePulse 1.5s ease-in-out infinite"/>
+          <rect x="18" y="110" width="86" height="22" fill="rgba(163,230,53,.12)" stroke="rgba(163,230,53,.3)" stroke-width="1" rx="1" style="animation:badgeFlash 1.5s ease-in-out infinite"/>
+          <text x="61" y="121" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">+1 BONUS!</text>
+          <text x="61" y="130" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">2m+ clear</text>
+
+          <!-- D1 and D2 who were holding correctly drop back fine -->
+          <circle cx="120" cy="162" r="11" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8" style="animation:runUp 2.2s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="120" y="165.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D1</text>
+          <circle cx="195" cy="172" r="11" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="195" y="175.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D2</text>
+          <text x="110" y="200" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">D1 + D2 dropped</text>
+          <text x="110" y="209" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">correctly on cue</text>
+
+          <!-- A1 shoots -->
+          <path d="M262,128 Q228,80 200,46" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#pb1)" style="animation:arrowMarch 2s linear infinite;animation-delay:1s"/>
+
+          <!-- Legend -->
+          <circle cx="18" cy="352" r="7" fill="#1e1400" stroke="#f59e0b" stroke-width="2"/>
+          <text x="29" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Attacker</text>
+          <circle cx="110" cy="352" r="7" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="121" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">D — correct</text>
+          <circle cx="206" cy="352" r="7" fill="#0c1a2e" stroke="#ef4444" stroke-width="2.2"/>
+          <text x="217" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">D — caught high</text>
+          <line x1="310" y1="352" x2="330" y2="352" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#pb2)"/>
+          <text x="334" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">High ball</text>
+        </svg>
+      </div>
+      <div class="dsub">Server's arm goes back — that's the cue. D1 and D2 read it and drop. D3 failed to watch the server and was caught high. A1 receives with 2m+ clear: bonus +1 awarded even before the shot. D3 must learn to watch the server, not just the ball.</div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── PITCHES B & C ── -->
+<div class="sh"><div class="sh-text">Pitches B &amp; C — Quarter Pitch 2v2 (12 Players)</div><div class="sh-line"></div></div>
+
+<div class="pcard" style="--pcc:var(--sky);--pccrgb:56,189,248">
+  <div class="pchead">
+    <span class="pc-tag" style="background:var(--sky-dim);color:var(--sky)">Pitches B + C · Quarter Pitch · 2v2</span>
+    <div>
+      <div class="pc-name">Same Format — Smaller Pitch, Faster Decisions</div>
+      <div class="pc-sub">6 players each pitch · mini goal + GK · identical conditions to Pitch A</div>
+    </div>
+    <div class="pc-dur">25<span>MIN</span></div>
+  </div>
+  <div class="c-body">
+    <div class="c-left">
+
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">Same practice as Pitch A but in a 2v2 context on a quarter-sized pitch. The smaller space makes the long ball even more dangerous — there are only 2 defenders, so if one is caught flat there is no cover. Defenders must be individually responsible for reading the server. The 6-pass count drops to 4 (fewer players to pass between) but the logic is identical. Both pitches run simultaneously — same rotation rhythm, same server structure.</div>
+      </div>
+
+      <div class="pitch-variants">
+        <div class="pv" style="--pvc:var(--sky);--pvcrgb:56,189,248">
+          <div class="pv-head">
+            <span class="pv-tag">Setup — Pitches B &amp; C (identical)</span>
+            <div class="pv-name">Quarter Pitch · 2v2 + GK + Server</div>
+          </div>
+          <div class="pv-body">
+            <div class="pv-l">Pitch size</div><div class="pv-v">Quarter of 11v11</div>
+            <div class="pv-l">Goal</div><div class="pv-v">Mini goal with GK (or field player acting as GK)</div>
+            <div class="pv-l">Pass count</div><div class="pv-v">4 passes = 1 pt · Goal = 3 pts</div>
+            <div class="pv-l">Short option</div><div class="pv-v">Ground pass into feet — attackers attempt 4 passes</div>
+            <div class="pv-l">Long option</div><div class="pv-v">Thrown or driven high ball over both defenders</div>
+            <div class="pv-l">Bonus point</div><div class="pv-v">2m+ clear on receipt — coach calls "+1!" live</div>
+            <div class="pv-l">Rotation</div><div class="pv-v">All 4 outfield players rotate as server after every 4 sequences</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how">
+        <div class="how-h">Key Difference — 2v2 vs 3v3</div>
+        <div class="how-grid">
+          <div class="how-n" style="color:var(--sky)">→</div><div class="how-t"><strong style="color:var(--white)">4 passes not 6.</strong> With only 2 attackers, 6 passes is too slow — 4 creates the same dilemma at the right difficulty level.</div>
+          <div class="how-n" style="color:var(--sky)">→</div><div class="how-t"><strong style="color:var(--white)">No cover.</strong> In a 2v2 there is no covering defender behind. If one defender steps, the other is alone. This creates maximum individual responsibility.</div>
+          <div class="how-n" style="color:var(--sky)">→</div><div class="how-t"><strong style="color:var(--white)">Faster rotation.</strong> Each sequence is shorter — the server immediately plays the next ball. Higher volume of reps per player in the same time.</div>
+          <div class="how-n" style="color:var(--sky)">→</div><div class="how-t"><strong style="color:var(--white)">Server rotates in.</strong> All 4 outfield players take a turn as server — experiencing the decision-making from the other side builds understanding of the server's read.</div>
+        </div>
+      </div>
+
+      <div class="cp-h" style="color:var(--sky)">Key Point — Pitches B &amp; C</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">When you become the server — what do you look for?</div>
+          <div class="cp-desc">After rotating into the server role, players should be asked: "what made you choose short or long?" The answer should be: the defender's body position and depth. If both defenders are high and narrow — long ball. If they're deep and compact — short pass. Experiencing the server role builds the defender's understanding of exactly what they must not show.</div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Perspective</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">One goes, one holds — even in a 2v2</div>
+          <div class="cp-desc">Even with only 2 defenders, the rule is the same: when the short pass is played, one defender presses and one holds the space in behind. Two defenders stepping simultaneously leaves the goal completely open to the long ball. The discipline is harder to maintain with fewer players — which is exactly why it's valuable.</div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Unit shape</span>
+        </div></div>
+      </div>
+
+    </div>
+
+    <div class="c-right">
+      <div class="dlabel">Pitches B &amp; C — 2v2 Layout (Same Both Pitches)</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="pc1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+            <marker id="pc2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="pc3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="pc4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#ef4444"/></marker>
+          </defs>
+          <rect width="400" height="360" fill="#090e14" rx="3"/>
+          <!-- Pitch B (left) -->
+          <rect x="14" y="14" width="178" height="332" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="103" y="28" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">PITCH B</text>
+          <!-- Goal B -->
+          <rect x="68" y="14" width="68" height="7" fill="none" stroke="#22c55e" stroke-width="2"/>
+          <circle cx="103" cy="34" r="9" fill="#0a2010" stroke="#22c55e" stroke-width="1.8"/>
+          <text x="103" y="37.5" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+          <!-- Server B -->
+          <rect x="68" y="335" width="68" height="11" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)" stroke-width="1" rx="1"/>
+          <text x="103" y="344" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+          <!-- 2 attackers B -->
+          <circle cx="70" cy="250" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:bobFwd 2s ease-in-out infinite"/>
+          <text x="70" y="253.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A1</text>
+          <circle cx="136" cy="255" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:bobFwd 2.2s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="136" y="258.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A2</text>
+          <!-- 2 defenders B -->
+          <circle cx="70" cy="195" r="10" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="70" y="198.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D1</text>
+          <circle cx="136" cy="192" r="10" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="136" y="195.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D2</text>
+          <!-- short pass B -->
+          <path d="M103,333 L73,262" fill="none" stroke="#a3e635" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#pc2)" style="animation:dashFlow 1.6s linear infinite" opacity=".7"/>
+          <!-- 4-pass counter B -->
+          <rect x="20" y="155" width="74" height="26" fill="rgba(56,189,248,.1)" stroke="rgba(56,189,248,.25)" stroke-width="1" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="57" y="166" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">4 PASSES=+1</text>
+          <text x="57" y="175" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL=+3 pts</text>
+
+          <!-- Long ball B (ghost) -->
+          <path d="M103,333 Q126,260 145,95" fill="none" stroke="#a3e635" stroke-width="1.5" stroke-dasharray="5,3" opacity=".3" marker-end="url(#pc2)" style="animation:dashFlow 2.5s linear infinite;animation-delay:.6s"/>
+          <text x="152" y="100" fill="#a3e635" font-size="6.5" font-family="IBM Plex Mono,monospace" opacity=".4">long opt.</text>
+
+          <!-- Pitch C (right) -->
+          <rect x="208" y="14" width="178" height="332" fill="none" stroke="#8b5cf6" stroke-width="1.2"/>
+          <text x="297" y="28" fill="#8b5cf6" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">PITCH C</text>
+          <!-- Goal C -->
+          <rect x="262" y="14" width="68" height="7" fill="none" stroke="#22c55e" stroke-width="2"/>
+          <circle cx="297" cy="34" r="9" fill="#0a2010" stroke="#22c55e" stroke-width="1.8"/>
+          <text x="297" y="37.5" fill="#22c55e" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+          <!-- Server C -->
+          <rect x="262" y="335" width="68" height="11" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)" stroke-width="1" rx="1"/>
+          <text x="297" y="344" fill="#a3e635" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">SERVER</text>
+          <!-- 2 attackers C -->
+          <circle cx="268" cy="250" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:bobFwd 1.9s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="268" y="253.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A3</text>
+          <circle cx="326" cy="258" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:bobFwd 2.1s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="326" y="261.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A4</text>
+          <!-- 2 defenders C — long ball scenario: D4 caught high -->
+          <circle cx="268" cy="188" r="10" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="268" y="191.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D3</text>
+          <circle cx="326" cy="165" r="10" fill="#0c1a2e" stroke="#ef4444" stroke-width="2.5"/>
+          <text x="326" y="168.5" fill="#ef4444" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D4</text>
+          <!-- Long ball C — exploiting D4 -->
+          <path d="M297,333 Q332,240 340,112" fill="none" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#pc2)" style="animation:dashFlow 1.8s linear infinite"/>
+          <!-- A running onto it -->
+          <circle cx="345" cy="118" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="2" style="animation:runUp 2s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="345" y="121.5" fill="#f59e0b" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">A4</text>
+          <!-- D4 caught high badge -->
+          <rect x="216" y="152" width="78" height="22" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.25)" stroke-width="1" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="255" y="162.5" fill="#ef4444" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D4 CAUGHT!</text>
+          <text x="255" y="171.5" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">stepped too high</text>
+
+          <!-- Bottom legend -->
+          <circle cx="14" cy="352" r="7" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8"/>
+          <text x="25" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Attacker</text>
+          <circle cx="108" cy="352" r="7" fill="#0c1a2e" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="119" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Def (correct)</text>
+          <circle cx="214" cy="352" r="7" fill="#0c1a2e" stroke="#ef4444" stroke-width="2.2"/>
+          <text x="225" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Def (caught)</text>
+          <line x1="314" y1="352" x2="334" y2="352" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#pc2)"/>
+          <text x="338" y="355.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Long ball</text>
+        </svg>
+      </div>
+      <div class="dsub">Pitch B (left): short pass played, D1 presses, D2 holds. Pitch C (right): long option — D4 stepped too high and is exposed. A4 runs onto the high ball. 4 passes to score on both quarter pitches.</div>
+
+      <div style="margin-top:10px">
+        <div class="watch">
+          <div class="watch-header"><span class="wtag wtag-s">Watch For — All Pitches</span><span class="watch-title">Practice 2</span></div>
+          <div class="watch-body">
+            <div class="w-col"><div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+              <div class="wi wi-g">Defenders watching server body shape — not just the ball</div>
+              <div class="wi wi-g">One presses on short pass, one holds every time</div>
+              <div class="wi wi-g">Drop beginning before ball is released on long option</div>
+              <div class="wi wi-g">Defenders calling the pass count aloud ("three!", "four!")</div>
+              <div class="wi wi-g">Fewer bonus +1s awarded as session progresses</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+              <div class="wi wi-a">Both defenders stepping on short pass — only one should go</div>
+              <div class="wi wi-a">Defenders reacting to long ball after release — watching ball not server</div>
+              <div class="wi wi-a">Pass count reaching 4–5 without pressure changing — defenders not counting</div>
+              <div class="wi wi-a">Server telegraphing the option clearly — encourage them to disguise</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> If Not Working</div>
+              <div class="wi wi-r">Server option confusing → R1: announce choice before playing until pattern clear</div>
+              <div class="wi wi-r">Long ball too easy → defenders allowed to position deeper (lower trigger line)</div>
+              <div class="wi wi-r">6/4-pass count too easy for attackers → reduce to 3 passes to score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="padding:0 16px 10px">
+    <div class="prog">
+      <div class="prog-h">Progressions (All Pitches)</div>
+      <div class="pi"><div class="pn">P1</div><div>Server can now play a second short pass into a different attacker while the pass count is live — forcing defenders to track two attacking threats simultaneously. The count continues from where it was.</div></div>
+      <div class="pi"><div class="pn">P2</div><div>After 15 minutes, merge Pitch A with one quarter pitch — 5v5 with one server. The game now has more attackers to track and the long ball from the server must go over a more organised defence. Bridges toward P3.</div></div>
+    </div>
+    <div class="reg">
+      <div class="reg-h">Regression</div>
+      <div class="ri"><div class="rni">−</div><div>Remove the 6/4-pass scoring route entirely — server only plays long balls. Defenders only have to read the long option. Simplest version of the alertness problem: every ball from the server is a high direct pass. Once the drop-and-read habit is established, reintroduce the short option.</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ BRIDGE P2 → P3 ══════════════════════════════════════════ -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--lime);padding:11px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start">
+  <div style="font-family:var(--display);font-size:20px;color:var(--lime);flex-shrink:0;line-height:1.2">→</div>
+  <div>
+    <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:3px;opacity:.85">Bridge — Practice 2 to Practice 3 · 60 seconds</div>
+    <div style="font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.6">Ask: <em style="color:var(--white)">"When the server played long and the defenders stepped — how much space opened up? What did you need to do to deal with it?"</em> Then: <em style="color:var(--white)">"Same problem, full game now. The defending team are rewarded for pushing all six high — but every player they send forward is space you can attack. Attacking midfielders: six passes between you earns a point. Forwards: the moment the defending forwards step to press, play in behind them."</em></div>
+  </div>
+</div>
+
+<!-- ══ PRACTICE 3 HEADER ══════════════════════════════════════ -->
+<div style="background:var(--s1);border:1px solid rgba(163,230,53,.25);border-top:none;padding:14px 20px 12px;margin-bottom:10px">
+  <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:4px;opacity:.8">Practice 3 of 3</div>
+  <div style="font-family:var(--display);font-size:32px;letter-spacing:.5px;color:var(--white);line-height:1">Full Game <em style="color:var(--lime);font-style:normal">Progression</em></div>
+  <div style="font-family:var(--mono);font-size:10px;color:rgba(240,246,255,.4);margin-top:4px">// 6v6+GK · 4-2 both teams · variable kick-off · back-4 pass trap · full quarter pitch</div>
+</div>
+
+<!-- ── SH ── -->
+<div class="sh"><div class="sh-text">Practice 3 — 6v6 + GK · Full Quarter Pitch</div><div class="sh-line"></div></div>
+
+<div class="pcard" style="--pcc:var(--lime);--pccrgb:163,230,53">
+  <div class="pchead">
+    <span class="pc-tag" style="background:var(--lime-dim);color:var(--lime)">Full Game · All 22 · 4-2 Formation</span>
+    <div>
+      <div class="pc-name">6v6+GK — High Line vs Back-4 Pass Trap</div>
+      <div class="pc-sub">Quarter pitch · variable goal-line start · all P1 &amp; P2 themes in a full game context</div>
+    </div>
+    <div class="pc-dur" style="color:var(--lime)">20<span>MIN</span></div>
+  </div>
+  <div class="c-body">
+    <div class="c-left">
+
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">All three session themes — high-line exposure, direct-ball danger, and defensive alertness — now operate simultaneously in a full game. The defending team push high to score and are rewarded for doing so (high risk, high reward). The attacking team exploit the space that creates via either a direct ball or a composed back-4 build. The ball starting from anywhere along the goal line gives each sequence a different angle, preventing either team from settling into a fixed defensive or attacking pattern.</div>
+      </div>
+
+      <!-- FORMATION DISPLAY -->
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);padding:10px 14px;margin-bottom:12px">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;opacity:.85">Formation — Both Teams Play 4-2</div>
+        <div style="display:grid;grid-template-columns:1fr 24px 1fr;gap:0;align-items:start">
+          <!-- Attacking team: GK + 4 midfielders + 2 forwards = 7 -->
+          <div>
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:6px">Attacking Team — 7 players</div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;gap:5px;justify-content:center">
+                <span style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);padding:3px 9px;border-radius:1px;font-family:var(--mono);font-size:9px;color:#f87171">FW</span>
+                <span style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);padding:3px 9px;border-radius:1px;font-family:var(--mono);font-size:9px;color:#f87171">FW</span>
+              </div>
+              <div style="display:flex;gap:3px;justify-content:center">
+                <span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--amber)">MF</span>
+                <span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--amber)">MF</span>
+                <span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--amber)">MF</span>
+                <span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--amber)">MF</span>
+              </div>
+              <div style="display:flex;gap:5px;justify-content:center">
+                <span style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);padding:3px 12px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--green)">GK</span>
+              </div>
+              <div style="font-size:10px;color:var(--grey-hi);margin-top:3px;text-align:center">GK + 4 MF + 2 FW = 7</div>
+              <div style="font-size:10px;color:var(--amber);text-align:center">4 midfielders count passes</div>
+            </div>
+          </div>
+          <!-- Divider -->
+          <div style="display:flex;align-items:center;justify-content:center"><div style="font-family:var(--mono);font-size:10px;color:var(--grey);writing-mode:vertical-rl">vs</div></div>
+          <!-- Defending team: 4 defenders + 2 forwards = 6 -->
+          <div>
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet);margin-bottom:6px">Defending Team — 6 players</div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;gap:5px;justify-content:center">
+                <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);padding:3px 9px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--violet)">FW</span>
+                <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);padding:3px 9px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--violet)">FW</span>
+              </div>
+              <div style="display:flex;gap:3px;justify-content:center">
+                <span style="background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.18);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--violet)">DF</span>
+                <span style="background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.18);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--violet)">DF</span>
+                <span style="background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.18);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--violet)">DF</span>
+                <span style="background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.18);padding:3px 7px;border-radius:1px;font-family:var(--mono);font-size:9px;color:var(--violet)">DF</span>
+              </div>
+              <div style="font-size:10px;color:var(--grey-hi);margin-top:3px;text-align:center">4 DF + 2 FW = 6 outfield</div>
+              <div style="font-size:10px;color:var(--violet);text-align:center">All 6 in opp half to score +3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCORING -->
+      <div class="scoring" style="--ta-rgb:56,189,248;--tb-rgb:139,92,246">
+        <div class="sc-half sc-half-a">
+          <div class="sc-h" style="color:var(--sky)">⚽ Attacking Team Scores</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div><div class="sc-desc">Score a goal — any route, any player</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div><div class="sc-desc">4 midfielders complete 6 consecutive passes between themselves (forwards &amp; GK excluded)</div><div class="sc-sub">Players count aloud · any touch from a forward or GK resets to zero</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--lime)">+1</div><div><div class="sc-desc">First pass after winning possession travels into the defending half</div><div class="sc-sub">Mirrors P1 &amp; P2 direct-ball condition — same constraint, now in a game</div></div></div>
+        </div>
+        <div class="sc-half sc-half-b" style="background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.22)">
+          <div class="sc-h" style="color:var(--violet)">🛡 Defending Team Scores</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--violet)">+3</div><div><div class="sc-desc">Score a goal when all 6 outfield players were in the attacking team's half at the moment of scoring</div><div class="sc-sub">High-line commitment = high reward. One player behind halfway = goal counts only +1</div></div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--violet)">+1</div><div><div class="sc-desc">Win possession in the attacking team's half and play the ball back across halfway within 5 seconds</div></div></div>
+        </div>
+      </div>
+
+      <!-- VARIABLE START -->
+      <div class="tension">
+        <div class="tension-h">Variable Start — Ball from Anywhere on the Goal Line</div>
+        <div class="tension-t">Each sequence begins with the attacking team. The ball can be placed anywhere along their goal line — left post, centre, right post, or anywhere between. The coach or the attacking GK decides. This means the defending team's pressing shape must adapt to the angle of attack rather than expecting the ball to always come from the same position. <strong style="color:var(--white)">Left-side start:</strong> tests the defending team's right-side press and cover. <strong style="color:var(--white)">Central start:</strong> the back-4 pass count is most direct threat — defenders must decide whether to press or hold. <strong style="color:var(--white)">Right-side start:</strong> tests left-side press, and the right-back is free to carry forward if the defence overloads left.</div>
+      </div>
+
+      <!-- THE TRAP -->
+      <div class="dilemma">
+        <div class="dilemma-h">The Back-4 Pass Trap — Why It Works</div>
+        <div class="dilemma-t">The defending team's 2 forwards are incentivised to press the 4 midfielders hard to prevent the 6-pass count. If they succeed — fine. But if both forwards press aggressively, their back 4 are left in a deeper block — and the attacking team's 2 forwards have space ahead of them. The attacking GK can also play long over the pressing line. The tension is identical to the server decision in P2: press the short option and surrender the long-ball threat, or hold and allow the pass count. <strong style="color:var(--white)">Six passes earns 1 point — a goal in behind earns 3.</strong></div>
+      </div>
+
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div>Ball starts anywhere on the attacking team's goal line. GK or coach places it. Defending team sets their shape before each restart — they are told the ball's starting position.</div>
+        <div class="rule"><div class="rn">2.</div>Pass count: only the 4 attacking midfielders may pass between each other. A pass to or from a forward or the GK resets the count to zero. Players call the count aloud: "one!", "two!" etc.</div>
+        <div class="rule"><div class="rn">3.</div>The back-4 count is live at all times — even while attackers are moving forward. The defending team must track both the count and the forward threat simultaneously.</div>
+        <div class="rule"><div class="rn">4.</div>Defending team high-line rule: all 6 outfield players must be in the attacking team's half when the ball crosses the goal line for a +3 goal. If any player is behind halfway at the moment of scoring, the goal counts only +1.</div>
+        <div class="rule"><div class="rn">5.</div>After possession change: first pass must travel into the defensive half to access full scoring. Ball kept in own half = no pass-count, no back-4 bonus, and any goal scored counts only +1.</div>
+        <div class="rule"><div class="rn">6.</div>Final 5 minutes: remove all conditions — open game. Watch whether high-line habits, direct-ball responses and back-4 awareness carry over without enforcement.</div>
+      </div>
+
+      <div class="cp-h">Coaching Points</div>
+      <div class="cp-list">
+        <div class="cp"><div class="cp-dot" style="background:var(--lime)"></div><div>
+          <div class="cp-title">Defending strikers: press the count or hold the line — decide together</div>
+          <div class="cp-desc">The two defending forwards must make a shared decision on every back-4 sequence: press together, one presses/one holds, or hold both. They must call it before the ball moves. Cue: <em style="color:var(--white)">"call it — both in or both out. Never one of each."</em></div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Defensive decision</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--lime)"></div><div>
+          <div class="cp-title">Attacking midfielders: invite the press — then play over it</div>
+          <div class="cp-desc">The back 4 should be deliberate in making the pass count visible — slow it down, make it easy, draw the press in. Once the defending forwards commit to the press, the pass goes directly to the GK or an attacking forward over the top of the pressing line. The pass count is a decoy, not the primary objective.</div>
+          <span class="cp-tag" style="background:rgba(56,189,248,.1);color:var(--sky)">Attacking build</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--lime)"></div><div>
+          <div class="cp-title">Variable start: defending shape before the ball moves</div>
+          <div class="cp-desc">The defending team must set their press shape based on where the ball starts — before it moves. Right-side ball start should trigger a right-tilted press with left-side cover. Central start needs a compact central block. Teams who react to ball movement rather than ball position will always be a step behind. Cue: <em style="color:var(--white)">"look at the ball's position, not the ball's movement."</em></div>
+          <span class="cp-tag" style="background:var(--amber-dim);color:var(--amber)">Alertness</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--lime)"></div><div>
+          <div class="cp-title">GK as an attacker — use the extra player</div>
+          <div class="cp-desc">The attacking team's GK creates a 7v6 overload. In a 4-2 shape, the GK behind the back 4 is the free player — they can drive forward, take the back-4 pass count at number 7 to break pressure, or play the long ball over pressing strikers. Defenders cannot press the back 4 and mark the advancing GK simultaneously. The GK must be coached to read when to advance.</div>
+          <span class="cp-tag" style="background:rgba(34,197,94,.1);color:var(--green)">GK involvement</span>
+        </div></div>
+      </div>
+
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div>Defending team's strikers may now join the back-4 press at any moment — but if both strikers cross halfway, the attacking team earns an immediate free pass to a striker in behind. This makes the decision to press even more consequential and forces both teams to track the commitment level of the press in real time.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>Final 3 minutes: no conditions, no formations — free game. Players choose their own shape and scoring route. Observe whether the session's core habits (reading direct-ball cues, tracking the press, staying alert to the space behind) persist without structure. This is the diagnostic moment of the whole session.</div></div>
+      </div>
+      <div class="reg">
+        <div class="reg-h">Regression</div>
+        <div class="ri"><div class="rni">−</div><div>Remove the back-4 pass count for the first 5 minutes — let both teams establish the high-line scoring rule and the direct-ball condition before adding the third layer. Reintroduce the pass count once teams are comfortable with the basic constraints.</div></div>
+      </div>
+
+    </div>
+
+    <div class="c-right">
+      <div class="dlabel">P3 — Correct Formations: 7 Attackers vs 6 Defenders</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 490" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p3a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+            <marker id="p3b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#8b5cf6"/></marker>
+            <marker id="p3c" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="p3d" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+            <marker id="p3e" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#ef4444"/></marker>
+          </defs>
+          <rect width="400" height="490" fill="#090e14" rx="3"/>
+
+          <!-- Pitch -->
+          <rect x="18" y="14" width="364" height="462" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+          <!-- Defending goal (top) -->
+          <rect x="152" y="14" width="96" height="8" fill="none" stroke="#8b5cf6" stroke-width="2.5"/>
+          <text x="200" y="10" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">DEF GOAL</text>
+          <!-- Attacking goal line (bottom) -->
+          <line x1="18" y1="476" x2="382" y2="476" stroke="#38bdf8" stroke-width="2"/>
+          <text x="200" y="488" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">ATT GOAL LINE — VARIABLE START (L · C · R)</text>
+          <!-- Start markers -->
+          <circle cx="28" cy="476" r="5" fill="#a3e635" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="28" y="472" fill="#a3e635" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">L</text>
+          <circle cx="200" cy="476" r="5" fill="#a3e635" style="animation:badgeFlash 2s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="200" y="472" fill="#a3e635" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+          <circle cx="372" cy="476" r="5" fill="#a3e635" style="animation:badgeFlash 2s ease-in-out infinite;animation-delay:1s"/>
+          <text x="372" y="472" fill="#a3e635" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">R</text>
+          <!-- Halfway -->
+          <line x1="18" y1="245" x2="382" y2="245" stroke="#1a2a38" stroke-width="1"/>
+          <text x="200" y="241" fill="#1a2a38" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">HALFWAY</text>
+
+          <!-- ═══ ATTACKING TEAM (sky) — 7 players: GK + 4 MF + 2 FW ═══ -->
+
+          <!-- GK at goal line -->
+          <circle cx="200" cy="462" r="11" fill="#0a1e2e" stroke="#22c55e" stroke-width="2"/>
+          <text x="200" y="465.5" fill="#22c55e" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">GK</text>
+          <circle cx="200" cy="462" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- 4 MF (midfielders) — the pass-counting line -->
+          <circle cx="80" cy="412" r="11" fill="#0a1828" stroke="#38bdf8" stroke-width="2"/>
+          <text x="80" y="415.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">MF</text>
+          <circle cx="160" cy="406" r="11" fill="#0a1828" stroke="#38bdf8" stroke-width="2"/>
+          <text x="160" y="409.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">MF</text>
+          <circle cx="240" cy="406" r="11" fill="#0a1828" stroke="#38bdf8" stroke-width="2"/>
+          <text x="240" y="409.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">MF</text>
+          <circle cx="320" cy="412" r="11" fill="#0a1828" stroke="#38bdf8" stroke-width="2"/>
+          <text x="320" y="415.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">MF</text>
+
+          <!-- MF pass arrows — count -->
+          <path d="M91,410 L149,409" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#p3a)" style="animation:dashFlow 1.4s linear infinite"/>
+          <path d="M171,407 L229,407" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#p3a)" style="animation:dashFlow 1.4s linear infinite;animation-delay:.3s"/>
+          <path d="M251,409 L309,411" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#p3a)" style="animation:dashFlow 1.4s linear infinite;animation-delay:.6s"/>
+
+          <!-- Pass count badge -->
+          <rect x="138" y="426" width="124" height="22" fill="rgba(56,189,248,.1)" stroke="rgba(56,189,248,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="200" y="435.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">MF PASS COUNT: 3 OF 6</text>
+          <text x="200" y="444.5" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">6 PASSES = +1 · GOAL = +3</text>
+
+          <!-- 2 FW (forwards — attacking) -->
+          <circle cx="150" cy="336" r="11" fill="#0a1828" stroke="#f87171" stroke-width="1.8" style="animation:runUp 2s ease-in-out infinite"/>
+          <text x="150" y="339.5" fill="#f87171" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">FW</text>
+          <circle cx="250" cy="336" r="11" fill="#0a1828" stroke="#f87171" stroke-width="1.8" style="animation:runUp 2.1s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="250" y="339.5" fill="#f87171" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">FW</text>
+
+          <!-- GK advance arrow -->
+          <path d="M200,450 Q200,395 200,358" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#p3d)" opacity=".5" style="animation:arrowMarch 2.5s linear infinite"/>
+          <rect x="210" y="370" width="74" height="16" fill="rgba(34,197,94,.08)" stroke="rgba(34,197,94,.2)" stroke-width="1" rx="1" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="247" y="381" fill="#22c55e" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">GK ADVANCES</text>
+
+          <!-- ATT team label -->
+          <text x="18" y="302" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">ATT: GK + 4 MF + 2 FW = 7</text>
+
+          <!-- ═══ DEFENDING TEAM (violet) — 6 players: 4 DF + 2 FW ═══ -->
+          <!-- All 6 are above halfway (high line) -->
+
+          <!-- 4 DF (defenders) high line -->
+          <circle cx="68" cy="172" r="10" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="1.8" style="animation:shiftR 2.8s ease-in-out infinite"/>
+          <text x="68" y="175.5" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DF</text>
+          <circle cx="152" cy="162" r="10" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="1.8" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="152" y="165.5" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DF</text>
+          <circle cx="248" cy="162" r="10" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="1.8" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="248" y="165.5" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DF</text>
+          <circle cx="332" cy="172" r="10" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="1.8" style="animation:shiftR 2.8s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="332" y="175.5" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DF</text>
+
+          <!-- 2 FW (defending forwards) pressing high -->
+          <circle cx="152" cy="80" r="11" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="2.5" style="animation:runDn 2s ease-in-out infinite"/>
+          <text x="152" y="83.5" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">FW</text>
+          <circle cx="248" cy="80" r="11" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="2.5" style="animation:runDn 2.1s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="248" y="83.5" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">FW</text>
+
+          <!-- DEF team label -->
+          <text x="18" y="130" fill="#8b5cf6" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">DEF: 4 DF + 2 FW = 6</text>
+
+          <!-- All 6 in attacking half — dashed box -->
+          <rect x="19" y="246" width="362" height="228" fill="none" stroke="rgba(139,92,246,.15)" stroke-width="1" stroke-dasharray="4,3" rx="2" style="animation:warnPulse 2s ease-in-out infinite"/>
+          <rect x="290" y="62" width="90" height="24" fill="rgba(139,92,246,.12)" stroke="rgba(139,92,246,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="335" y="73" fill="#8b5cf6" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">ALL 6 HIGH</text>
+          <text x="335" y="82" fill="#8b5cf6" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL = +3!</text>
+
+          <!-- Def FW pressing down toward att MF -->
+          <path d="M152,92 Q150,200 158,274" fill="none" stroke="#8b5cf6" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#p3b)" opacity=".5" style="animation:arrowMarch 2s linear infinite"/>
+          <path d="M248,92 Q250,200 242,274" fill="none" stroke="#8b5cf6" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#p3b)" opacity=".5" style="animation:arrowMarch 2s linear infinite;animation-delay:.4s"/>
+          <text x="200" y="236" fill="#8b5cf6" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".6">DEF FW PRESS ATT MF</text>
+
+          <!-- GK plays long over pressing def FW -->
+          <path d="M200,450 Q200,340 200,192" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#p3e)" opacity=".6" style="animation:dashFlow 2s linear infinite;animation-delay:.8s"/>
+          <rect x="18" y="200" width="110" height="22" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.25)" stroke-width="1" rx="1" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="73" y="210.5" fill="#ef4444" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">GK PLAYS LONG</text>
+          <text x="73" y="219.5" fill="#4a6070" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">when def FW press deep</text>
+
+          <!-- Legend -->
+          <circle cx="18" cy="480" r="7" fill="#0a1828" stroke="#38bdf8" stroke-width="2"/>
+          <text x="29" y="483.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Att MF</text>
+          <circle cx="88" cy="480" r="7" fill="#0a1828" stroke="#f87171" stroke-width="1.8"/>
+          <text x="99" y="483.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Att FW</text>
+          <circle cx="158" cy="480" r="7" fill="#0a1e2e" stroke="#22c55e" stroke-width="2"/>
+          <text x="169" y="483.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Att GK</text>
+          <circle cx="230" cy="480" r="7" fill="#1a0a2e" stroke="#8b5cf6" stroke-width="1.8"/>
+          <text x="241" y="483.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Def DF/FW (violet)</text>
+          <line x1="346" y1="480" x2="364" y2="480" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#p3e)"/>
+          <text x="368" y="483.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Long</text>
+        </svg>
+      </div>
+      <div class="dsub">Att: GK + 4 MF (pass count) + 2 FW = 7. Def: 4 DF (high line) + 2 FW (pressing) = 6. All 6 def in att half = +3 goal. GK plays long when def FW press deep into att half.</div>
+
+      <div style="height:8px"></div>
+      <div class="dlabel">Variable Start Angles — 3 Key Positions</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="vs1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="vs2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="vs3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+          </defs>
+          <rect width="400" height="190" fill="#090e14" rx="3"/>
+
+          <!-- LEFT START -->
+          <rect x="10" y="12" width="116" height="168" fill="rgba(163,230,53,.03)" stroke="rgba(163,230,53,.2)" stroke-width="1" rx="2"/>
+          <text x="68" y="26" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">L — LEFT START</text>
+          <circle cx="20" cy="170" r="6" fill="#0a1828" stroke="#a3e635" stroke-width="2"/>
+          <text x="20" y="173.5" fill="#a3e635" font-size="6" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+          <!-- Left start angle arrows -->
+          <path d="M20,163 Q40,120 80,68" fill="none" stroke="#a3e635" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#vs1)" opacity=".7" style="animation:dashFlow 2s linear infinite"/>
+          <path d="M20,163 Q60,130 110,80" fill="none" stroke="#a3e635" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#vs1)" opacity=".4" style="animation:dashFlow 2.5s linear infinite;animation-delay:.3s"/>
+          <text x="68" y="100" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">press tilts right</text>
+          <text x="68" y="110" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">RB free right</text>
+          <text x="68" y="148" fill="#4a6070" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">def. must cover</text>
+          <text x="68" y="157" fill="#4a6070" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">wide left angle</text>
+
+          <!-- CENTRE START -->
+          <rect x="142" y="12" width="116" height="168" fill="rgba(245,158,11,.03)" stroke="rgba(245,158,11,.2)" stroke-width="1" rx="2"/>
+          <text x="200" y="26" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">C — CENTRE START</text>
+          <circle cx="200" cy="170" r="6" fill="#0a1828" stroke="#f59e0b" stroke-width="2"/>
+          <text x="200" y="173.5" fill="#f59e0b" font-size="6" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+          <!-- Central arrows — wider threat -->
+          <path d="M200,163 Q180,120 155,65" fill="none" stroke="#f59e0b" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#vs2)" opacity=".4" style="animation:dashFlow 2.2s linear infinite;animation-delay:.2s"/>
+          <path d="M200,163 Q200,110 200,58" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#vs2)" opacity=".7" style="animation:dashFlow 1.8s linear infinite"/>
+          <path d="M200,163 Q220,120 245,65" fill="none" stroke="#f59e0b" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#vs2)" opacity=".4" style="animation:dashFlow 2.4s linear infinite;animation-delay:.4s"/>
+          <text x="200" y="100" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">back-4 count</text>
+          <text x="200" y="110" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">most dangerous</text>
+          <text x="200" y="148" fill="#4a6070" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">compact press</text>
+          <text x="200" y="157" fill="#4a6070" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">needed centrally</text>
+
+          <!-- RIGHT START -->
+          <rect x="274" y="12" width="116" height="168" fill="rgba(56,189,248,.03)" stroke="rgba(56,189,248,.2)" stroke-width="1" rx="2"/>
+          <text x="332" y="26" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">R — RIGHT START</text>
+          <circle cx="380" cy="170" r="6" fill="#0a1828" stroke="#38bdf8" stroke-width="2"/>
+          <text x="380" y="173.5" fill="#38bdf8" font-size="6" text-anchor="middle" font-family="IBM Plex Mono,monospace">GK</text>
+          <path d="M380,163 Q360,120 320,68" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#vs3)" opacity=".7" style="animation:dashFlow 2s linear infinite;animation-delay:.5s"/>
+          <path d="M380,163 Q340,130 290,80" fill="none" stroke="#38bdf8" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#vs3)" opacity=".4" style="animation:dashFlow 2.5s linear infinite;animation-delay:.8s"/>
+          <text x="332" y="100" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">press tilts left</text>
+          <text x="332" y="110" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">LB free left</text>
+          <text x="332" y="148" fill="#4a6070" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">mirror of left</text>
+          <text x="332" y="157" fill="#4a6070" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">start scenario</text>
+        </svg>
+      </div>
+      <div class="dsub">Three key start positions — each creates a different pressing angle for the defending team. Central start: back-4 count is the main threat. Wide starts: one full-back free, press must tilt to cover.</div>
+
+      <div style="margin-top:10px">
+        <div class="watch">
+          <div class="watch-header"><span class="wtag wtag-s">Watch For</span><span class="watch-title">Practice 3 — Full Game</span></div>
+          <div class="watch-body">
+            <div class="w-col"><div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+              <div class="wi wi-g">Def strikers making a joint decision to press or hold — not individually</div>
+              <div class="wi wi-g">Att back 4 using the pass count as a deliberate invitation to press</div>
+              <div class="wi wi-g">GK advancing as an active threat — not static at goal line</div>
+              <div class="wi wi-g">Def team adapting press shape based on start position before ball moves</div>
+              <div class="wi wi-g">Open final 5 min shows alertness and direct-ball habits without conditions</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+              <div class="wi wi-a">Def strikers splitting — one presses, one holds (no shared decision)</div>
+              <div class="wi wi-a">Back-4 count reaching 4-5 without any defensive response — strikers not tracking</div>
+              <div class="wi wi-a">GK staying on goal line — remind them of the overload opportunity</div>
+              <div class="wi wi-a">Def team reacting to same start angle every time — coach varies deliberately</div>
+            </div>
+            <div class="w-col"><div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> If Not Working</div>
+              <div class="wi wi-r">Three conditions too complex → start with high-line rule only, add back-4 pass count at 8 min mark</div>
+              <div class="wi wi-r">Def team never reaching high line for +3 → remind them before each restart what the reward is</div>
+              <div class="wi wi-r">Back-4 concept confused → brief freeze, physically show which 4 players count and which don't</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div><div class="fl">Club</div><div class="fv">EIK</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">Session</div><div class="fv">Defensive Alertness &amp; Positioning — Practices 1, 2 &amp; 3</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">P1</div><div class="fv">5v5 + 6v6 · Mini Goals · Dual SSG</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">P2</div><div class="fv">3v3 Half · 2v2 Quarter ×2 · Server Decision</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">P3</div><div class="fv">6v6+GK · Quarter Pitch · 4-2 Formation</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">Total</div><div class="fv">~25 + ~25 + ~20 min</div></div>
+  <div class="fpills">
+    <span class="fpill">High Line</span>
+    <span class="fpill">Direct Ball</span>
+    <span class="fpill">2m Bonus</span>
+    <span class="fpill">Server Trap</span>
+    <span class="fpill">Back-4 Count</span>
+    <span class="fpill">Variable Start</span>
+  </div>
+</div>
+
+</div>
+</div>
+</body>
+</html>
