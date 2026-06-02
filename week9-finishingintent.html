@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EIK — Practice 1: Finishing with Intent</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c10;--s1:#0d1520;--s2:#121e2c;--s3:#182636;
+  --lime:#a3e635;--lime-hi:#d9f99d;--lime-dim:rgba(163,230,53,.13);--lime-faint:rgba(163,230,53,.05);
+  --sky:#38bdf8;--sky-dim:rgba(56,189,248,.13);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.14);
+  --red:#ef4444;--red-dim:rgba(239,68,68,.13);
+  --orange:#f97316;--orange-dim:rgba(249,115,22,.14);
+  --white:#f0f6ff;--grey:#4a6070;--grey-hi:#7a98ac;
+  --mono:'IBM Plex Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --body:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--white);font-family:var(--body);font-weight:300;font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.008) 2px,rgba(255,255,255,.008) 4px);pointer-events:none;z-index:0}
+.page{max-width:1080px;margin:0 auto;padding:20px;position:relative;z-index:1}
+
+/* ── HEADER ── */
+.header{position:relative;overflow:hidden;background:var(--s1);border:1px solid rgba(163,230,53,.3);padding:24px 28px 20px;margin-bottom:12px}
+.header::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(163,230,53,.07) 0%,transparent 50%);pointer-events:none}
+.hw{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:6px;opacity:.85}
+.title{font-family:var(--display);font-size:48px;line-height:.9;letter-spacing:1px;color:var(--white)}
+.title em{color:var(--lime);font-style:normal}
+.sub{font-family:var(--mono);font-size:10px;color:rgba(240,246,255,.45);margin-top:8px;letter-spacing:.5px;line-height:1.6}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;text-align:right;min-width:160px}
+.ml{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);opacity:.7}
+.mv{font-family:var(--display);font-size:15px;letter-spacing:.5px;color:var(--white);margin-top:1px}
+
+/* ── SECTION HEADING ── */
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sh-line{height:1px;flex:1;background:rgba(255,255,255,.06)}
+.sh-text{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--lime);flex-shrink:0;opacity:.85}
+
+/* ── SQUAD CHIPS ── */
+.squad-split{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--s2);border:1px solid rgba(255,255,255,.06);margin-bottom:12px;overflow:hidden}
+.squad-col{padding:12px 16px;border-right:1px solid rgba(255,255,255,.06)}
+.squad-col:last-child{border-right:none}
+.squad-lbl{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;opacity:.8}
+.squad-coach{font-family:var(--mono);font-size:8px;color:var(--grey-hi);float:right;opacity:.7}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--mono);font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:1px;letter-spacing:.3px}
+.chip-s{background:rgba(163,230,53,.1);color:var(--lime);border:1px solid rgba(163,230,53,.22)}
+.chip-w{background:rgba(56,189,248,.1);color:var(--sky);border:1px solid rgba(56,189,248,.22)}
+
+/* ── PRACTICE CARD ── */
+.pcard{background:var(--s2);border:1px solid rgba(255,255,255,.07);border-top:3px solid var(--pcc);margin-bottom:12px;overflow:hidden}
+.pcard-header{padding:13px 20px 11px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.p-tag{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:1px;flex-shrink:0}
+.p-name{font-family:var(--display);font-size:18px;letter-spacing:.5px;color:var(--white);flex:1;min-width:0;line-height:1.1}
+.p-sub{font-size:10px;color:var(--grey-hi)}
+.p-dur{font-family:var(--display);font-size:26px;color:var(--pcc);line-height:1;flex-shrink:0}
+.p-dur span{font-family:var(--mono);font-size:8px;color:var(--grey);letter-spacing:1px;margin-left:2px}
+
+/* two-col */
+.c-body{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:0;align-items:start}
+.c-left{padding:15px 20px;border-right:1px solid rgba(255,255,255,.06);min-width:0}
+.c-right{padding:13px 15px;background:rgba(0,0,0,.16)}
+
+/* obj */
+.obj{border-left:2px solid var(--pcc);padding:8px 13px;margin-bottom:12px;border-radius:0 3px 3px 0;background:rgba(var(--pccrgb),.05)}
+.obj-l{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pcc);margin-bottom:3px}
+.obj-t{font-size:12px;color:rgba(240,246,255,.82);line-height:1.55}
+
+/* foot rule mechanic — key callout */
+.mechanic{background:rgba(249,115,22,.05);border:1px solid rgba(249,115,22,.22);border-left:2px solid var(--orange);padding:10px 14px;margin-bottom:12px;border-radius:0 3px 3px 0}
+.mech-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;opacity:.9}
+.mech-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mech-side{padding:9px 12px;border-radius:2px}
+.mech-side-l{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2)}
+.mech-side-r{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2)}
+.mech-dir{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.mech-rule{font-size:12.5px;color:var(--white);line-height:1.45;font-weight:500}
+.mech-why{font-size:11px;color:var(--grey-hi);margin-top:4px;line-height:1.4}
+
+/* scoring */
+.scoring{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sc-col{padding:10px 13px;border-radius:2px}
+.sc-col-att{background:rgba(163,230,53,.06);border:1px solid rgba(163,230,53,.2)}
+.sc-col-def{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.2)}
+.sc-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.sc-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.sc-item:last-child{margin-bottom:0}
+.sc-pts{font-family:var(--display);font-size:22px;line-height:1;flex-shrink:0}
+.sc-desc{font-size:12px;color:var(--white);line-height:1.45}
+.sc-sub{font-size:10.5px;color:var(--grey-hi);margin-top:2px}
+
+/* how it works */
+.how{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--pcc);padding:11px 14px;margin-bottom:12px}
+.how-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pcc);margin-bottom:8px;opacity:.9}
+.how-steps{display:flex;flex-direction:column;gap:5px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.step-n{font-family:var(--display);font-size:18px;line-height:1.15;color:var(--pcc);flex-shrink:0;width:22px}
+.step-t{font-size:12px;color:rgba(240,246,255,.82);line-height:1.5}
+
+/* setup */
+.setup-g{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:4px 10px;margin-bottom:12px;align-items:baseline}
+.sl{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--grey);white-space:nowrap}
+.sv{font-family:var(--display);font-size:13px;color:var(--white);letter-spacing:.3px}
+
+/* rules */
+.rules-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,246,255,.35);margin-bottom:6px}
+.rules{display:flex;flex-direction:column;gap:3px;margin-bottom:12px}
+.rule{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.5}
+.rn{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--pcc);flex-shrink:0;width:16px;line-height:1.5}
+
+/* coaching points */
+.cp-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pcc);margin-bottom:8px}
+.cp-list{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.cp{display:flex;align-items:flex-start;gap:9px;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,.04)}
+.cp:last-child{border-bottom:none;padding-bottom:0}
+.cp-dot{width:5px;height:5px;border-radius:50%;background:var(--pcc);flex-shrink:0;margin-top:7px}
+.cp-title{font-size:12px;font-weight:500;color:var(--white);line-height:1.3}
+.cp-desc{font-size:11px;color:var(--grey-hi);margin-top:2px;line-height:1.5}
+.cp-tag{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:1px 6px;border-radius:1px;display:inline-block;margin-top:3px}
+
+/* prog / reg */
+.prog{background:rgba(163,230,53,.04);border:1px solid rgba(163,230,53,.14);padding:9px 13px;margin-bottom:9px}
+.prog-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#bef264;margin-bottom:6px}
+.pi{display:flex;gap:8px;margin-bottom:4px;font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.5}
+.pi:last-child{margin-bottom:0}
+.pn{font-family:var(--mono);font-size:10px;font-weight:500;color:#bef264;flex-shrink:0;line-height:1.6}
+.reg{background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.14);padding:9px 13px;margin-bottom:12px}
+.reg-h{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#fcd34d;margin-bottom:6px}
+.ri{display:flex;gap:8px;margin-bottom:4px;font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.5}
+.ri:last-child{margin-bottom:0}
+.rni{font-family:var(--mono);font-size:10px;font-weight:500;color:#fcd34d;flex-shrink:0;line-height:1.6}
+
+/* watch for */
+.watch{background:var(--s2);border:1px solid rgba(255,255,255,.06);overflow:hidden}
+.watch-header{padding:9px 16px 8px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:9px}
+.wtag{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border-radius:1px;flex-shrink:0;background:rgba(163,230,53,.1);color:var(--lime)}
+.watch-title{font-family:var(--display);font-size:13px;letter-spacing:.5px;color:var(--white)}
+.watch-body{display:grid;grid-template-columns:1fr 1fr 1fr}
+.w-col{padding:9px 13px;border-right:1px solid rgba(255,255,255,.05);min-width:0}
+.w-col:last-child{border-right:none}
+.w-col-h{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.dot-g{width:6px;height:6px;border-radius:50%;background:var(--lime);flex-shrink:0}
+.dot-a{background:var(--amber);width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-r{background:var(--red);width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.wi{display:flex;gap:5px;margin-bottom:3px;font-size:10.5px;color:rgba(240,246,255,.62);line-height:1.4}
+.wi::before{content:'›';font-weight:700;flex-shrink:0;margin-top:-1px}
+.wi-g::before{color:var(--lime)}.wi-a::before{color:var(--amber)}.wi-r::before{color:var(--red)}
+
+/* diagram */
+.dlabel{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--pcc);margin-bottom:5px;opacity:.85}
+.dwrap svg{width:100%;height:auto;display:block;border-radius:2px}
+.dsub{font-family:var(--mono);font-size:8px;color:var(--grey);margin-top:5px;line-height:1.4;text-align:center}
+
+/* footer */
+.footer{background:var(--s1);border:1px solid rgba(163,230,53,.15);padding:11px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px}
+.fl{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);opacity:.7}
+.fv{font-family:var(--display);font-size:13px;letter-spacing:.3px;color:var(--white)}
+.fdiv{width:1px;height:24px;background:rgba(255,255,255,.07)}
+.fpills{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}
+.fpill{font-family:var(--mono);font-size:8px;padding:3px 9px;background:var(--lime-faint);color:var(--lime);border-radius:1px;letter-spacing:1px;text-transform:uppercase}
+
+/* animations */
+@keyframes ballPulse{0%,100%{r:4}50%{r:5.5}}
+@keyframes dashFlow{0%{stroke-dashoffset:50}100%{stroke-dashoffset:0}}
+@keyframes arrowMarch{0%{stroke-dashoffset:90}100%{stroke-dashoffset:0}}
+@keyframes runUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes runDiagL{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,-20px)}}
+@keyframes runDiagR{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,-20px)}}
+@keyframes badgeFlash{0%,100%{opacity:.8}50%{opacity:1}}
+@keyframes bobSlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes zonePulse{0%,100%{opacity:.06}50%{opacity:.18}}
+
+@media(max-width:860px){
+  .c-body{grid-template-columns:1fr!important}
+  .c-left{border-right:none!important;border-bottom:1px solid rgba(255,255,255,.06)}
+  .squad-split,.scoring,.mech-grid,.watch-body{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="hw">
+    <div>
+      <div class="eyebrow">EIK · Practice 1 of 3 · Finishing with Intent · 20 Players · No GK</div>
+      <div class="title">Finishing<br><em>with Intent</em></div>
+      <div class="sub">// attack vs defence from different angles · both-feet finishing rule · rebounds live · 1/4 pitch split into 4</div>
+    </div>
+    <div class="meta">
+      <div><div class="ml">Practice</div><div class="mv">1 of 3</div></div>
+      <div><div class="ml">Players</div><div class="mv">20</div></div>
+      <div><div class="ml">Pitch</div><div class="mv">4 quarters</div></div>
+      <div><div class="ml">Format</div><div class="mv">3v3 waves</div></div>
+      <div><div class="ml">Goals</div><div class="mv">2 small per pitch</div></div>
+      <div><div class="ml">Duration</div><div class="mv">~25 min</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SQUAD SPLIT ── -->
+<div class="sh"><div class="sh-text">Squad Split — Two Groups</div><div class="sh-line"></div></div>
+<div class="squad-split">
+  <div class="squad-col">
+    <div class="squad-lbl" style="color:var(--lime)">Stronger Group — Coach (your 2 pitches) <span class="squad-coach">Pitches A &amp; B</span></div>
+    <div class="chips">
+      <span class="chip chip-s">August</span><span class="chip chip-s">Aaron</span><span class="chip chip-s">Adam G</span>
+      <span class="chip chip-s">Dante</span><span class="chip chip-s">Johannes</span><span class="chip chip-s">Knut</span>
+      <span class="chip chip-s">Pep</span><span class="chip chip-s">Mille</span><span class="chip chip-s">Oscar</span>
+      <span class="chip chip-s">Samuel A</span><span class="chip chip-s">Santi</span><span class="chip chip-s">Vidar</span>
+    </div>
+  </div>
+  <div class="squad-col">
+    <div class="squad-lbl" style="color:var(--sky)">Weaker Group — Robban (pitches C &amp; D) <span class="squad-coach">Pitches C &amp; D</span></div>
+    <div class="chips">
+      <span class="chip chip-w">Player</span><span class="chip chip-w">Player</span><span class="chip chip-w">Player</span>
+      <span class="chip chip-w">Player</span><span class="chip chip-w">Player</span><span class="chip chip-w">Player</span>
+      <span class="chip chip-w">Player</span><span class="chip chip-w">Player</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── CROSSING-FOOT MECHANIC EXPLAINER ── -->
+<div class="sh"><div class="sh-text">The Crossing-Foot Rule</div><div class="sh-line"></div></div>
+<div class="mechanic">
+  <div class="mech-h">Cone on halfway line · Attacker's direction = dictates finishing foot &amp; goal</div>
+  <div class="mech-grid">
+    <div class="mech-side mech-side-l">
+      <div class="mech-dir" style="color:var(--sky)">← Attacker goes LEFT of cone</div>
+      <div class="mech-rule">Must finish with <strong style="color:var(--sky)">LEFT foot</strong> into the <strong style="color:var(--sky)">RIGHT goal</strong></div>
+      <div class="mech-why">Mimics the across-goal shot from the left channel — the most common missed finishing opportunity. Forces the striker to trust their weaker foot and drive across the body.</div>
+    </div>
+    <div class="mech-side mech-side-r">
+      <div class="mech-dir" style="color:var(--red)">→ Attacker goes RIGHT of cone</div>
+      <div class="mech-rule">Must finish with <strong style="color:var(--red)">RIGHT foot</strong> into the <strong style="color:var(--red)">LEFT goal</strong></div>
+      <div class="mech-why">Mimics the across-goal shot from the right channel. The near-post finish (same foot, same side) is not rewarded — only the disciplined across-goal finish counts.</div>
+    </div>
+  </div>
+  <div style="margin-top:9px;font-size:11.5px;color:rgba(240,246,255,.62);border-top:1px solid rgba(255,255,255,.06);padding-top:8px">
+    <strong style="color:var(--white)">Why this rule matters:</strong> Most youth players default to their strong foot regardless of angle, or take the near-post finish because it feels easier. This rule removes that choice and forces the technically correct decision — the one that creates the most scoring opportunity in real match situations, and the one that generates the most dangerous rebound angles for teammates.
+  </div>
+</div>
+
+<!-- ── PRACTICE CARD ── -->
+<div class="sh"><div class="sh-text">Practice 1 — 3v3 Wave Finishing</div><div class="sh-line"></div></div>
+
+<div class="pcard" style="--pcc:var(--lime);--pccrgb:163,230,53">
+  <div class="pcard-header">
+    <span class="p-tag" style="background:var(--lime-dim);color:var(--lime)">Wave Format · 3v3 · Both Groups Simultaneous</span>
+    <div>
+      <div class="p-name">1v1 Waves — Defender Feeds, Attacker Finishes</div>
+      <div class="p-sub">Defender passes to attacker · cone decides foot &amp; goal · rebounds live 3 sec · 3 defenders rotate after each set</div>
+    </div>
+    <div class="p-dur">25<span>MIN</span></div>
+  </div>
+  
+  <!-- P1 BODY -->
+  <!-- TOP ROW: layout overview (diag) + obj + scoring -->
+  <div class="ptop">
+    <div class="ptop-diag">
+      <div class="dlabel">Full Pitch Layout — 4 Quarters (Top View)</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="la1" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#a3e635"/></marker>
+            <marker id="la2" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#38bdf8"/></marker>
+          </defs>
+          <rect width="420" height="300" fill="#090e14" rx="3"/>
+          <!-- Outer boundary -->
+          <rect x="10" y="10" width="400" height="280" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+          <!-- Split lines: 4 quarters -->
+          <line x1="210" y1="10" x2="210" y2="290" stroke="#1a2a38" stroke-width="1.2"/>
+          <line x1="10" y1="150" x2="410" y2="150" stroke="#1a2a38" stroke-width="1.2"/>
+
+          <!-- PITCH A label (top-left) — stronger group -->
+          <rect x="10" y="10" width="200" height="140" fill="rgba(163,230,53,.02)"/>
+          <text x="110" y="26" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">A — STRONGER</text>
+
+          <!-- PITCH B label (bottom-left) — stronger group -->
+          <rect x="10" y="150" width="200" height="140" fill="rgba(163,230,53,.02)"/>
+          <text x="110" y="166" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">B — STRONGER</text>
+
+          <!-- PITCH C label (top-right) — weaker group -->
+          <rect x="210" y="10" width="200" height="140" fill="rgba(56,189,248,.02)"/>
+          <text x="310" y="26" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">C — WEAKER</text>
+
+          <!-- PITCH D label (bottom-right) — weaker group -->
+          <rect x="210" y="150" width="200" height="140" fill="rgba(56,189,248,.02)"/>
+          <text x="310" y="166" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">D — WEAKER</text>
+
+          <!-- Goals on Pitch A (top-left) — at the top (small, two side by side) -->
+          <rect x="60" y="10" width="24" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <rect x="120" y="10" width="24" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <!-- Cone on halfway of A -->
+          <polygon points="110,80 107,88 113,88" fill="#f59e0b"/>
+          <text x="122" y="86" fill="#f59e0b" font-size="7" font-family="IBM Plex Mono,monospace">CONE</text>
+          <!-- Attacker start (bottom of pitch A) -->
+          <circle cx="110" cy="130" r="7" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:bobSlow 2s ease-in-out infinite"/>
+          <text x="110" y="133" fill="#f59e0b" font-size="5.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">ATT</text>
+          <!-- 3 defenders on halfway A -->
+          <circle cx="78" cy="80" r="7" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="78" y="83" fill="#38bdf8" font-size="5.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">D1</text>
+          <circle cx="142" cy="80" r="7" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="142" y="83" fill="#38bdf8" font-size="5.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">D2</text>
+          <!-- Ball in D1's possession -->
+          <circle cx="78" cy="80" r="3" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <!-- Pass arrow D1→Attacker -->
+          <path d="M80,87 Q94,107 103,122" fill="none" stroke="#a3e635" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#la1)" opacity=".7" style="animation:dashFlow 1.5s linear infinite"/>
+
+          <!-- Goals on Pitch B (bottom-left) -->
+          <rect x="60" y="150" width="24" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <rect x="120" y="150" width="24" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <!-- Cone on halfway of B -->
+          <polygon points="110,220 107,228 113,228" fill="#f59e0b"/>
+          <!-- Attacker start B -->
+          <circle cx="110" cy="272" r="7" fill="#1e1400" stroke="#f59e0b" stroke-width="1.8" style="animation:bobSlow 2.3s ease-in-out infinite;animation-delay:.4s"/>
+          <text x="110" y="275" fill="#f59e0b" font-size="5.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">ATT</text>
+          <!-- Defenders B -->
+          <circle cx="78" cy="220" r="7" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="78" y="223" fill="#38bdf8" font-size="5.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">D1</text>
+          <circle cx="142" cy="220" r="7" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="142" y="223" fill="#38bdf8" font-size="5.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">D2</text>
+
+          <!-- Goals on Pitch C (top-right) -->
+          <rect x="258" y="10" width="24" height="7" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <rect x="318" y="10" width="24" height="7" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <!-- Cone C -->
+          <polygon points="310,80 307,88 313,88" fill="#f59e0b" opacity=".7"/>
+          <!-- Attacker C -->
+          <circle cx="310" cy="130" r="7" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5" opacity=".8" style="animation:bobSlow 2.1s ease-in-out infinite;animation-delay:.6s"/>
+
+          <!-- Goals on Pitch D (bottom-right) -->
+          <rect x="258" y="150" width="24" height="7" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <rect x="318" y="150" width="24" height="7" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <!-- Cone D -->
+          <polygon points="310,220 307,228 313,228" fill="#f59e0b" opacity=".7"/>
+          <!-- Attacker D -->
+          <circle cx="310" cy="272" r="7" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5" opacity=".8" style="animation:bobSlow 2.4s ease-in-out infinite;animation-delay:.9s"/>
+
+          <!-- Legend -->
+          <circle cx="12" cy="292" r="5" fill="#1e1400" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="21" y="295.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Attacker</text>
+          <circle cx="88" cy="292" r="5" fill="#0a1e28" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="97" y="295.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Defender</text>
+          <polygon points="178,287 175,296 181,296" fill="#f59e0b"/>
+          <text x="186" y="295.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Cone (halfway)</text>
+          <rect x="298" y="287" width="16" height="6" fill="none" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="318" y="294" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Small goal</text>
+        </svg>
+      </div>
+      <div class="dsub">Left half (A+B): your 12 players · right half (C+D): weaker group 8 players · goals at top of each pitch · cone on halfway · attacker starts at far end</div>
+    </div>
+    <div class="ptop-info">
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">Each wave is a 1v1 finishing duel started by the defender. The defender plays a pass to the attacker and immediately moves to defend. The attacker must choose a side of the cone — which locks in both the required foot and the target goal. The defender scores by winning the ball back in the attacker's half. The remaining two attackers watch and rotate in. After all three attackers have gone, the groups swap roles.</div>
+      </div>
+      <div class="scoring">
+        <div class="sc-col sc-col-att">
+          <div class="sc-h" style="color:var(--lime)">⚽ Attacker Scores</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--lime)">+1</div><div>
+            <div class="sc-desc">Finish with the correct foot into the correct goal</div>
+            <div class="sc-sub">Left of cone = left foot, right goal · right of cone = right foot, left goal</div>
+          </div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--lime)">+1</div><div>
+            <div class="sc-desc">Rebound goal within 3 seconds</div>
+            <div class="sc-sub">Any attacker may follow up — same foot rule applies to the finisher</div>
+          </div></div>
+        </div>
+        <div class="sc-col sc-col-def">
+          <div class="sc-h" style="color:var(--sky)">🛡 Defender Scores</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div>
+            <div class="sc-desc">Win the ball back <strong>in the attacker's half</strong> (before the cone line)</div>
+            <div class="sc-sub">High press earns the point — stopping in defending half earns nothing but prevents the goal</div>
+          </div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+0</div><div>
+            <div class="sc-desc">Stop the attacker in the defending half</div>
+            <div class="sc-sub">No point — but prevents the goal. Earns the next wave restart</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SECOND ROW: detail diagram + how it works side by side -->
+  <div class="ptop" style="border-top:none">
+    <div class="ptop-diag">
+      <div class="dlabel">Pitch A — Crossing-Foot Mechanic Detail</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 420 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="d1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#a3e635"/></marker>
+            <marker id="d2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#38bdf8"/></marker>
+            <marker id="d3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#ef4444"/></marker>
+            <marker id="d4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#f59e0b"/></marker>
+            <marker id="d5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#22c55e"/></marker>
+          </defs>
+          <rect width="420" height="460" fill="#090e14" rx="3"/>
+
+          <!-- Pitch boundary -->
+          <rect x="20" y="14" width="380" height="432" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+
+          <!-- TWO SMALL GOALS at top -->
+          <rect x="90" y="14" width="60" height="10" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+          <text x="120" y="36" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL L</text>
+          <rect x="270" y="14" width="60" height="10" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+          <text x="300" y="36" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL R</text>
+
+          <!-- Halfway line -->
+          <line x1="20" y1="232" x2="400" y2="232" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" opacity=".6"/>
+          <text x="22" y="228" fill="#f59e0b" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".7">HALFWAY</text>
+
+          <!-- CONE on halfway -->
+          <polygon points="210,218 203,232 217,232" fill="#f59e0b"/>
+          <text x="210" y="246" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">CONE</text>
+
+          <!-- LEFT ZONE label -->
+          <rect x="20" y="14" width="190" height="218" fill="rgba(56,189,248,.02)"/>
+          <text x="115" y="130" fill="#38bdf8" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".35" letter-spacing="1">LEFT CHANNEL</text>
+          <text x="115" y="142" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".25">LEFT FOOT → RIGHT GOAL</text>
+
+          <!-- RIGHT ZONE label -->
+          <rect x="210" y="14" width="190" height="218" fill="rgba(239,68,68,.015)"/>
+          <text x="305" y="130" fill="#ef4444" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".35" letter-spacing="1">RIGHT CHANNEL</text>
+          <text x="305" y="142" fill="#ef4444" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".25">RIGHT FOOT → LEFT GOAL</text>
+
+          <!-- 3 DEFENDERS on halfway line -->
+          <circle cx="120" cy="232" r="12" fill="#0a1e28" stroke="#38bdf8" stroke-width="2"/>
+          <text x="120" y="235.5" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D1</text>
+          <!-- Ball at D1 -->
+          <circle cx="120" cy="232" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <circle cx="210" cy="248" r="12" fill="#0a1e28" stroke="#38bdf8" stroke-width="2" style="animation:bobSlow 2.5s ease-in-out infinite"/>
+          <text x="210" y="251.5" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D2</text>
+
+          <circle cx="300" cy="232" r="12" fill="#0a1e28" stroke="#38bdf8" stroke-width="2"/>
+          <text x="300" y="235.5" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D3</text>
+
+          <!-- ATTACKER on start line (bottom) -->
+          <circle cx="210" cy="390" r="13" fill="#1e1400" stroke="#f59e0b" stroke-width="2.5"/>
+          <text x="210" y="393.5" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">ATT</text>
+
+          <!-- Two waiting attackers -->
+          <circle cx="155" cy="412" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="1.5" opacity=".5"/>
+          <text x="155" y="415.5" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">W</text>
+          <circle cx="265" cy="412" r="10" fill="#1e1400" stroke="#f59e0b" stroke-width="1.5" opacity=".5"/>
+          <text x="265" y="415.5" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">W</text>
+          <text x="210" y="434" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".5">waiting attackers</text>
+
+          <!-- D1 passes to attacker -->
+          <path d="M120,245 Q158,310 202,376" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#d2)" style="animation:dashFlow 1.8s linear infinite"/>
+          <rect x="20" y="295" width="80" height="18" fill="rgba(56,189,248,.08)" stroke="rgba(56,189,248,.2)" stroke-width="1" rx="1">
+          </rect>
+          <text x="60" y="307" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">D1 PASSES</text>
+
+          <!-- === LEFT ROUTE: Attacker goes LEFT, left foot, right goal === -->
+          <!-- Attacker drive left of cone -->
+          <path d="M202,377 Q155,310 130,240" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#d2)" opacity=".5" style="animation:dashFlow 2s linear infinite;animation-delay:.4s"/>
+
+          <!-- After cone: attacker goes left toward right goal — across-goal shot -->
+          <!-- Attacker in left channel -->
+          <circle cx="108" cy="115" r="12" fill="#1e1400" stroke="#38bdf8" stroke-width="2.5" style="animation:runDiagL 2s ease-in-out infinite"/>
+          <text x="108" y="118.5" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">ATT</text>
+
+          <!-- LEFT FOOT shot arrow → RIGHT GOAL (across goal) -->
+          <path d="M118,110 Q195,65 268,26" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#d2)" style="animation:dashFlow 1.5s linear infinite;animation-delay:.6s"/>
+          <rect x="152" y="52" width="120" height="22" fill="rgba(56,189,248,.1)" stroke="rgba(56,189,248,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 2s ease-in-out infinite"/>
+          <text x="212" y="61.5" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">LEFT FOOT</text>
+          <text x="212" y="70.5" fill="#38bdf8" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">→ RIGHT GOAL ✓</text>
+
+          <!-- === RIGHT ROUTE: attacker right of cone, right foot, left goal === -->
+          <!-- Attacker in right channel -->
+          <circle cx="312" cy="115" r="12" fill="#1e1400" stroke="#ef4444" stroke-width="2.5" style="animation:runDiagR 2.2s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="312" y="118.5" fill="#ef4444" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">ATT</text>
+
+          <!-- RIGHT FOOT shot arrow → LEFT GOAL (across goal) -->
+          <path d="M302,110 Q220,65 152,26" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#d3)" style="animation:dashFlow 1.5s linear infinite;animation-delay:.8s"/>
+          <rect x="148" y="76" width="124" height="22" fill="rgba(239,68,68,.1)" stroke="rgba(239,68,68,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 2.2s ease-in-out infinite"/>
+          <text x="210" y="85.5" fill="#ef4444" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">RIGHT FOOT</text>
+          <text x="210" y="94.5" fill="#ef4444" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">→ LEFT GOAL ✓</text>
+
+          <!-- Defender scoring zone annotation — attacker's half -->
+          <rect x="20" y="234" width="380" height="198" fill="rgba(56,189,248,.03)" style="animation:zonePulse 2.5s ease-in-out infinite"/>
+          <text x="400" y="300" fill="#38bdf8" font-size="7" text-anchor="end" font-family="IBM Plex Mono,monospace" opacity=".5">DEF SCORES HERE</text>
+          <text x="400" y="309" fill="#38bdf8" font-size="7" text-anchor="end" font-family="IBM Plex Mono,monospace" opacity=".35">(wins ball in att half)</text>
+
+          <!-- Rebound arrows from left goal -->
+          <path d="M140,16 Q155,55 155,85" fill="none" stroke="#22c55e" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#d5)" opacity=".5" style="animation:arrowMarch 2s linear infinite;animation-delay:1s"/>
+          <text x="162" y="68" fill="#22c55e" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">rebound</text>
+          <text x="162" y="77" fill="#22c55e" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">3 sec live</text>
+
+          <!-- Legend -->
+          <circle cx="22" cy="450" r="9" fill="#1e1400" stroke="#f59e0b" stroke-width="2"/>
+          <text x="35" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Attacker (active)</text>
+          <circle cx="22" cy="450" r="0"/>
+          <circle cx="145" cy="450" r="9" fill="#1e1400" stroke="#f59e0b" stroke-width="1.5" opacity=".5"/>
+          <text x="158" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Waiting</text>
+          <circle cx="240" cy="450" r="9" fill="#0a1e28" stroke="#38bdf8" stroke-width="2"/>
+          <text x="253" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Defender</text>
+          <line x1="330" y1="450" x2="348" y2="450" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#d5)"/>
+          <text x="352" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Rebound</text>
+        </svg>
+      </div>
+      <div class="dsub">D1 passes to the attacker to start the wave. Attacker drives left of cone → left foot, right goal. Or right of cone → right foot, left goal. Rebound live 3 sec. Defender scores only by winning ball in attacker's half.</div>
+    </div>
+    <div class="ptop-info">
+      <div class="how">
+        <div class="how-h">One Wave — Step by Step</div>
+        <div class="how-steps">
+          <div class="step"><div class="step-n" style="color:var(--lime)">1.</div><div class="step-t"><strong style="color:var(--white)">Defender plays the ball</strong> to the waiting attacker from the halfway line. The other two defenders hold their positions on the halfway line. The other two attackers wait behind the attacker's start zone.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--lime)">2.</div><div class="step-t"><strong style="color:var(--white)">Attacker receives and drives</strong> toward the cone, choosing to go left or right. That choice immediately determines the required finishing foot and the target goal.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--lime)">3.</div><div class="step-t"><strong style="color:var(--white)">Defender engages</strong> once the pass is made — they can win a point by dispossessing the attacker while still in the attacker's half (between the attacker's start line and the halfway cone line).</div></div>
+          <div class="step"><div class="step-n" style="color:var(--lime)">4.</div><div class="step-t"><strong style="color:var(--white)">Once the attacker crosses halfway</strong> — the defending zone begins. No point for the defender here, but they still try to prevent the shot. If they stop the attacker in the defending zone, the wave ends with no score for either team.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--lime)">5.</div><div class="step-t"><strong style="color:var(--white)">Shot: rebounds are live for 3 seconds.</strong> Any attacker (including those waiting) may follow up a rebound in those 3 seconds — rebound goals count. After 3 seconds or a goal, the wave ends. Next attacker steps up.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--lime)">6.</div><div class="step-t"><strong style="color:var(--white)">Wrong foot = no goal.</strong> If the attacker finishes with the wrong foot (near-post side instead of across-goal), the wave ends with no point — even if the ball goes in. Coach calls it live: "wrong foot — no goal."</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- THREE-COL: setup | rules | coaching points -->
+  <div class="p3col">
+    <div class="p3col-block">
+      <div class="p3col-h">Setup</div>
+      <div class="setup-g">
+        <div class="sl">Pitch size</div><div class="sv">Quarter of a quarter pitch (~20×15m)</div>
+        <div class="sl">Goals</div><div class="sv">2 small goals at the defending end</div>
+        <div class="sl">Cone</div><div class="sv">Centre of the halfway line</div>
+        <div class="sl">Stronger group</div><div class="sv">3v3 on each of Pitches A &amp; B</div>
+        <div class="sl">Weaker group</div><div class="sv">2v2 on each of Pitches C &amp; D</div>
+        <div class="sl">Rebound window</div><div class="sv">3 seconds from shot contact</div>
+        <div class="sl">Swap</div><div class="sv">After all 3 attackers have gone — full group swap</div>
+      </div>
+    </div>
+    <div class="p3col-block">
+      <div class="p3col-h">Rules</div>
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div>Defender starts with the ball on the halfway line and plays a pass to begin each wave.</div>
+        <div class="rule"><div class="rn">2.</div>Attacker must commit to a side of the cone before entering the defending half — no switching sides after the cone.</div>
+        <div class="rule"><div class="rn">3.</div>Wrong-foot finish: wave ends, no goal. Coach calls it live. No debate — the rule trains the habit.</div>
+        <div class="rule"><div class="rn">4.</div>Defender earns +1 only by winning the ball in the attacker's half. Stopping in the defending half = no score, wave ends.</div>
+        <div class="rule"><div class="rn">5.</div>Rebound window: 3 seconds from the moment the ball contacts the goal frame, goalkeeper (if used in later progressions) or goes out of play off the defending end.</div>
+        <div class="rule"><div class="rn">6.</div>All three attackers complete their wave before groups swap. Running total on both sides.</div>
+        <div class="rule"><div class="rn">7.</div>Waiting attackers must stay behind the start line until it is their wave. They may enter the rebound zone on any shot.</div>
+      </div>
+    </div>
+    <div class="p3col-block">
+      <div class="p3col-h">Coaching Points</div>
+      <div class="cp-h" style="display:none">Coaching Points</div>
+      
+      <div class="cp-list compact">
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Commit to the direction early — then execute without hesitation</div>
+          <div class="cp-desc">The attacker who drifts toward the cone and then decides is always late. The decision should be made before receiving the pass — read the defending position and choose the side where there's the most space. Arriving at the cone with a decision already made means the first touch takes you there at pace.</div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Decision speed</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Across-goal finish: plant foot level with the ball, drive through the centre</div>
+          <div class="cp-desc">The across-goal finish fails most often because the standing foot lands behind the ball — producing a scooped shot that rises. Plant the non-kicking foot level with (not behind) the ball, lock the ankle, and drive through the centre. The ball should travel low across the goal. Cue: <em style="color:var(--white)">"plant, don't lean."</em></div>
+          <span class="cp-tag" style="background:var(--orange-dim);color:var(--orange)">Technique</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Rebound positioning: the two waiting attackers must move on every shot</div>
+          <div class="cp-desc">The 3-second rebound window is wasted if the other two attackers are standing watching. On every shot, both should be moving toward the likely rebound zone — near post, far post, edge of area. Rebounds from across-goal shots most often go to the far side. Train the movement habit now so it's automatic in match conditions.</div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Rebound intent</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot"></div><div>
+          <div class="cp-title">Defenders: the pass decides your first step — read the attacker's body, not just the ball</div>
+          <div class="cp-desc">The defender starts the wave by passing — then must immediately read which side of the cone the attacker is driving toward. A defender who watches the ball after their own pass is a step late. The first movement after releasing the pass should be toward the attacker's strong side, cutting the angle before the cone is reached.</div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Defensive read</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <!-- PROG + REG side by side -->
+  <div class="p2col">
+    <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div>After 10 minutes: reduce the rebound window to 1 second — only immediate rebounds count. Forces sharper anticipatory movement from waiting attackers and quicker defensive recovery.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>Defender can choose to press immediately (to earn +1 in the attacker's half) or drop to protect the goals. This makes the defender's decision explicit — announce before each wave: "pressing" or "dropping." Both must become habits.</div></div>
+        <div class="pi"><div class="pn">P3</div><div>Remove the cone — attacker chooses their own side and foot freely. The rule still applies: if you go right, finish right foot, left goal. No cone to guide it — pure decision-making. The technique must now be automatic.</div></div>
+      </div>
+    <div class="reg">
+        <div class="reg-h">Regression</div>
+        <div class="ri"><div class="rni">−</div><div>No defender — attacker takes 3 reps per side of the cone at walking pace, focusing only on the foot placement and shot direction. Establishes the body shape before adding defensive pressure. Reintroduce defender after 5 minutes.</div></div>
+      </div>
+  </div>
+
+
+<div style="padding:0 16px 12px;border-top:1px solid rgba(255,255,255,.06)">
+        <div class="watch">
+          <div class="watch-header"><span class="wtag">Watch For</span><span class="watch-title">Practice 1</span></div>
+          <div class="watch-body">
+            <div class="w-col">
+              <div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+              <div class="wi wi-g">Attacker deciding direction before receiving the pass</div>
+              <div class="wi wi-g">First touch directing the ball to the chosen channel</div>
+              <div class="wi wi-g">Standing foot landing level with the ball on the finish</div>
+              <div class="wi wi-g">Waiting attackers moving to rebound zones on every shot</div>
+              <div class="wi wi-g">Defenders stepping to high press immediately after passing</div>
+            </div>
+            <div class="w-col">
+              <div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+              <div class="wi wi-a">Decision made too late — drifting to cone then choosing</div>
+              <div class="wi wi-a">Standing foot behind the ball — shot rises, not driven</div>
+              <div class="wi wi-a">Near-post finish attempted — call "wrong foot" immediately</div>
+              <div class="wi wi-a">Waiting attackers static — not moving to rebounds</div>
+            </div>
+            <div class="w-col">
+              <div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> If Not Working</div>
+              <div class="wi wi-r">Wrong-foot rule causing total confusion → remove the defender, do 5 slow reps each side, re-establish the rule, reintroduce</div>
+              <div class="wi wi-r">Attacker always choosing same side → coach specifies the side for each wave for 5 minutes to force variety</div>
+            </div>
+          </div>
+        </div>
+</div>
+</div>
+
+
+<!-- BRIDGE P1 → P2 -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--lime);padding:11px 16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start">
+  <div style="font-family:var(--display);font-size:20px;color:var(--lime);flex-shrink:0;line-height:1.2">→</div>
+  <div>
+    <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:3px;opacity:.85">Bridge — Practice 1 to Practice 2 · Merge pitches · 60 seconds</div>
+    <div style="font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.6">Bring all 12 together. Ask: <em style="color:var(--white)">"When you hit the across-goal shot — where did the ball go when it rebounded? Did anyone move to that space?"</em> Take two answers. Then: <em style="color:var(--white)">"In this practice, attackers arrive from three different angles. The same foot rule applies to your first shot. After that — every rebound, every second ball, is live. Two of you will already be in position when the next attacker activates. Use that."</em></div>
+  </div>
+</div>
+
+<!-- ── P2 SECTION HEADING ── -->
+<div class="sh"><div class="sh-text">Practice 2 — Escalating Wave · 1v1 → 2v1 → 3v1</div><div class="sh-line"></div></div>
+
+<div class="pcard" style="--pcc:var(--orange);--pccrgb:249,115,22">
+  <div class="pcard-header">
+    <span class="p-tag" style="background:var(--orange-dim);color:var(--orange)">Escalating Wave · Half Pitch · Full Goal · All 12</span>
+    <div>
+      <div class="p-name">Three-Station Wave — Left → Middle → Right</div>
+      <div class="p-sub">Pitches A+B merged · one full goal · 1v1 builds to 2v1 builds to 3v1 · right attacker becomes next defender</div>
+    </div>
+    <div class="p-dur">25<span>MIN</span></div>
+  </div>
+  
+  <!-- P2 BODY -->
+  <!-- TOP ROW: setup diagram + obj + scoring -->
+  <div class="ptop">
+    <div class="ptop-diag">
+      <div class="dlabel" style="color:var(--orange)">P2 — Half-Pitch Setup · Three Stations</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p2a" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#f97316"/></marker>
+            <marker id="p2b" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#38bdf8"/></marker>
+            <marker id="p2c" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#a3e635"/></marker>
+          </defs>
+          <rect width="420" height="320" fill="#090e14" rx="3"/>
+
+          <!-- Half pitch outline -->
+          <rect x="14" y="14" width="392" height="292" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+
+          <!-- Full goal at top -->
+          <rect x="142" y="14" width="136" height="10" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+          <text x="210" y="36" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">FULL GOAL</text>
+
+          <!-- Penalty area suggestion -->
+          <rect x="90" y="14" width="240" height="70" fill="rgba(163,230,53,.02)" stroke="#1a2a38" stroke-width=".8" stroke-dasharray="3,3"/>
+
+          <!-- Station dividers (dotted) -->
+          <line x1="153" y1="140" x2="153" y2="306" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="267" y1="140" x2="267" y2="306" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" opacity=".4"/>
+
+          <!-- Station labels -->
+          <text x="84" y="305" fill="#f97316" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">LEFT</text>
+          <text x="210" y="305" fill="#f97316" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">MIDDLE</text>
+          <text x="336" y="305" fill="#f97316" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".7">RIGHT</text>
+
+          <!-- Cone markers on halfway (~middle of pitch) -->
+          <line x1="14" y1="180" x2="406" y2="180" stroke="#f97316" stroke-width=".8" stroke-dasharray="4,3" opacity=".3"/>
+          <polygon points="84,172 80,182 88,182" fill="#f59e0b"/>
+          <polygon points="210,172 206,182 214,182" fill="#f59e0b"/>
+          <polygon points="336,172 332,182 340,182" fill="#f59e0b"/>
+          <text x="210" y="176" fill="#f59e0b" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".6">CONE · CONE · CONE</text>
+
+          <!-- DEFENDER (single, central) -->
+          <circle cx="210" cy="88" r="12" fill="#0a1e28" stroke="#38bdf8" stroke-width="2.2"/>
+          <text x="210" y="91.5" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DEF</text>
+
+          <!-- LEFT ATTACKER — active first, drives to left of cone -->
+          <circle cx="84" cy="215" r="12" fill="#1e1400" stroke="#f97316" stroke-width="2.5"/>
+          <text x="84" y="218.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">L</text>
+          <circle cx="84" cy="215" r="4.5" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <!-- Stage 1 badge -->
+          <rect x="14" y="200" width="52" height="16" fill="rgba(249,115,22,.12)" stroke="rgba(249,115,22,.3)" stroke-width="1" rx="1" style="animation:badgeFlash 1.5s ease-in-out infinite"/>
+          <text x="40" y="211" fill="#f97316" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">STAGE 1</text>
+          <!-- L drive path -->
+          <path d="M84,202 Q84,130 108,90" fill="none" stroke="#f97316" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#p2a)" opacity=".6" style="animation:dashFlow 2s linear infinite"/>
+
+          <!-- MIDDLE ATTACKER — waiting, activates on stage 2 -->
+          <circle cx="210" cy="230" r="12" fill="#1e1400" stroke="#f97316" stroke-width="1.8" opacity=".6"/>
+          <text x="210" y="233.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">M</text>
+          <rect x="160" y="247" width="100" height="16" fill="rgba(249,115,22,.07)" stroke="rgba(249,115,22,.18)" stroke-width="1" rx="1"/>
+          <text x="210" y="258" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".6">activates: stage 2</text>
+
+          <!-- RIGHT ATTACKER — waiting, activates on stage 3 -->
+          <circle cx="336" cy="215" r="12" fill="#1e1400" stroke="#f97316" stroke-width="1.8" opacity=".4"/>
+          <text x="336" y="218.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">R</text>
+          <rect x="284" y="232" width="104" height="16" fill="rgba(249,115,22,.04)" stroke="rgba(249,115,22,.12)" stroke-width="1" rx="1"/>
+          <text x="336" y="243" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".4">activates: stage 3</text>
+          <!-- Right becomes next defender arrow -->
+          <path d="M344,203 Q380,155 380,100" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#p2b)" opacity=".4"/>
+          <text x="388" y="155" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".5">→ next</text>
+          <text x="388" y="164" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".5">defender</text>
+
+          <!-- Waiting players -->
+          <text x="14" y="290" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Waiting:</text>
+          <circle cx="80" cy="288" r="6" fill="#1a1a1a" stroke="#f97316" stroke-width="1" opacity=".4"/>
+          <circle cx="96" cy="288" r="6" fill="#1a1a1a" stroke="#f97316" stroke-width="1" opacity=".35"/>
+          <circle cx="112" cy="288" r="6" fill="#1a1a1a" stroke="#f97316" stroke-width="1" opacity=".3"/>
+
+          <!-- Legend -->
+          <circle cx="200" cy="310" r="8" fill="#1e1400" stroke="#f97316" stroke-width="2.2"/>
+          <text x="212" y="313.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Active att</text>
+          <circle cx="280" cy="310" r="8" fill="#1e1400" stroke="#f97316" stroke-width="1.5" opacity=".5"/>
+          <text x="292" y="313.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Waiting att</text>
+          <circle cx="360" cy="310" r="8" fill="#0a1e28" stroke="#38bdf8" stroke-width="2"/>
+          <text x="372" y="313.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Def</text>
+        </svg>
+      </div>
+      <div class="dsub">Three stations across the half pitch. One cone per station on the halfway line. L activates first, M activates at Stage 2, R at Stage 3. Right attacker rotates to become next defender after each wave.</div>
+    </div>
+    <div class="ptop-info">
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">Three attackers (left, middle, right) attack one defender in sequence — but each attacker stays live after their turn, so the pressure on the defender builds from 1v1 to 2v1 to 3v1 within a single wave. The crossing-foot rule applies to each attacker's first shot. After that, the pitch is open — rebounds, second balls and combination play are all live. The practice creates the specific scenario the session is designed to train: a shot from one angle creates an opportunity for a teammate already positioned at a different angle.</div>
+      </div>
+      <div class="scoring">
+        <div class="sc-col sc-col-att">
+          <div class="sc-h" style="color:var(--orange)">⚽ Attackers Score</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--orange)">+1</div><div>
+            <div class="sc-desc">Goal scored with the correct foot on first shot (crossing-foot rule)</div>
+          </div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--orange)">+1</div><div>
+            <div class="sc-desc">Any goal from a rebound or second ball</div>
+            <div class="sc-sub">No foot restriction on rebounds — finish instinctively</div>
+          </div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--lime)">+2</div><div>
+            <div class="sc-desc">Combination goal — attacker assists directly from a rebound or through-ball to a teammate who scores</div>
+            <div class="sc-sub">Rewards the positional awareness the practice is designed to build</div>
+          </div></div>
+        </div>
+        <div class="sc-col sc-col-def">
+          <div class="sc-h" style="color:var(--sky)">🛡 Defender Scores</div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+1</div><div>
+            <div class="sc-desc">Win the ball back in the attacker's half during any stage</div>
+          </div></div>
+          <div class="sc-item"><div class="sc-pts" style="color:var(--sky)">+2</div><div>
+            <div class="sc-desc">Win the ball and successfully dribble it back to the halfway line</div>
+            <div class="sc-sub">Rewards the defender who holds shape across all three stages</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SECOND ROW: stages diagram + wave structure -->
+  <div class="ptop" style="border-top:none">
+    <div class="ptop-diag">
+      <div class="dlabel" style="color:var(--orange)">Escalating Pressure — How Stages Build</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 420 390" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="s1a" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#f97316"/></marker>
+            <marker id="s1b" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#22c55e"/></marker>
+            <marker id="s1c" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#38bdf8"/></marker>
+          </defs>
+          <rect width="420" height="390" fill="#090e14" rx="3"/>
+
+          <!-- STAGE 1: 1v1 (top third) -->
+          <rect x="10" y="10" width="400" height="110" fill="rgba(249,115,22,.03)" stroke="rgba(249,115,22,.2)" stroke-width="1" rx="2"/>
+          <text x="20" y="26" fill="#f97316" font-size="8" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">STAGE 1 — 1v1</text>
+          <rect x="340" y="14" width="64" height="20" fill="rgba(249,115,22,.12)" stroke="rgba(249,115,22,.3)" stroke-width="1" rx="1"/>
+          <text x="372" y="27" fill="#f97316" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">1v1</text>
+          <!-- Goal -->
+          <rect x="172" y="10" width="76" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <!-- Defender -->
+          <circle cx="210" cy="48" r="10" fill="#0a1e28" stroke="#38bdf8" stroke-width="2"/>
+          <text x="210" y="51.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DEF</text>
+          <!-- Left attacker driving in -->
+          <circle cx="98" cy="88" r="10" fill="#1e1400" stroke="#f97316" stroke-width="2.2"/>
+          <text x="98" y="91.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">L</text>
+          <circle cx="98" cy="88" r="4" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+          <!-- L shot -->
+          <path d="M106,82 Q158,52 198,26" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#s1a)" style="animation:dashFlow 1.8s linear infinite"/>
+          <!-- Rebound -->
+          <path d="M242,18 Q270,50 290,82" fill="none" stroke="#22c55e" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#s1b)" opacity=".5" style="animation:dashFlow 2.2s linear infinite;animation-delay:.5s"/>
+          <text x="296" y="76" fill="#22c55e" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">rebound</text>
+          <text x="296" y="85" fill="#22c55e" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">zone</text>
+          <!-- M waiting, moving to rebound -->
+          <circle cx="310" cy="95" r="10" fill="#1e1400" stroke="#f97316" stroke-width="1.5" opacity=".55"/>
+          <text x="310" y="98.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">M</text>
+          <text x="356" y="98" fill="#f97316" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".5">reading</text>
+          <text x="356" y="107" fill="#f97316" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".5">rebound</text>
+
+          <!-- STAGE 2: 2v1 (middle third) -->
+          <rect x="10" y="133" width="400" height="110" fill="rgba(249,115,22,.05)" stroke="rgba(249,115,22,.28)" stroke-width="1" rx="2"/>
+          <text x="20" y="149" fill="#f97316" font-size="8" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">STAGE 2 — 2v1 · Middle Activates</text>
+          <rect x="332" y="137" width="72" height="20" fill="rgba(249,115,22,.18)" stroke="rgba(249,115,22,.4)" stroke-width="1" rx="1"/>
+          <text x="368" y="150" fill="#f97316" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">2v1</text>
+          <!-- Goal -->
+          <rect x="172" y="133" width="76" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <!-- Defender stretched -->
+          <circle cx="210" cy="170" r="10" fill="#0a1e28" stroke="#38bdf8" stroke-width="2" style="animation:bobSlow 2.2s ease-in-out infinite"/>
+          <text x="210" y="173.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DEF</text>
+          <!-- Left attacker — now positioned, live from S1 -->
+          <circle cx="270" cy="180" r="10" fill="#1e1400" stroke="#f97316" stroke-width="1.8" opacity=".8"/>
+          <text x="270" y="183.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">L</text>
+          <text x="284" y="176" fill="#f97316" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">still live</text>
+          <!-- Middle activating with ball -->
+          <circle cx="115" cy="212" r="11" fill="#1e1400" stroke="#f97316" stroke-width="2.5"/>
+          <text x="115" y="215.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">M</text>
+          <circle cx="115" cy="212" r="4" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite;animation-delay:.3s"/>
+          <!-- M shot across goal -->
+          <path d="M123,206 Q164,172 192,148" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#s1a)" style="animation:dashFlow 1.8s linear infinite;animation-delay:.3s"/>
+          <!-- L following rebound -->
+          <path d="M256,177 Q238,160 220,148" fill="none" stroke="#f97316" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#s1a)" opacity=".5" style="animation:dashFlow 2s linear infinite;animation-delay:.7s"/>
+          <text x="18" y="238" fill="#f97316" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".5">Def must cover both</text>
+          <text x="18" y="247" fill="#38bdf8" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".5">→ hold shape, don't chase</text>
+
+          <!-- STAGE 3: 3v1 (bottom third) -->
+          <rect x="10" y="256" width="400" height="120" fill="rgba(249,115,22,.07)" stroke="rgba(249,115,22,.35)" stroke-width="1" rx="2"/>
+          <text x="20" y="272" fill="#f97316" font-size="8" font-family="IBM Plex Mono,monospace" font-weight="600" letter-spacing="1">STAGE 3 — 3v1 · Right Activates</text>
+          <rect x="328" y="260" width="80" height="20" fill="rgba(249,115,22,.22)" stroke="rgba(249,115,22,.5)" stroke-width="1" rx="1"/>
+          <text x="368" y="273" fill="#f97316" font-size="9" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">3v1</text>
+          <!-- Goal -->
+          <rect x="172" y="256" width="76" height="7" fill="none" stroke="#a3e635" stroke-width="2"/>
+          <!-- Defender under pressure -->
+          <circle cx="210" cy="296" r="10" fill="#0a1e28" stroke="#ef4444" stroke-width="2.2"/>
+          <text x="210" y="299.5" fill="#ef4444" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">DEF</text>
+          <!-- L positioned left post -->
+          <circle cx="162" cy="302" r="10" fill="#1e1400" stroke="#f97316" stroke-width="1.8" opacity=".8"/>
+          <text x="162" y="305.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">L</text>
+          <!-- M positioned far post -->
+          <circle cx="258" cy="298" r="10" fill="#1e1400" stroke="#f97316" stroke-width="1.8" opacity=".8"/>
+          <text x="258" y="301.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">M</text>
+          <!-- R driving in from right -->
+          <circle cx="342" cy="340" r="11" fill="#1e1400" stroke="#f97316" stroke-width="2.5"/>
+          <text x="342" y="343.5" fill="#f97316" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">R</text>
+          <circle cx="342" cy="340" r="4" fill="#fff" style="animation:ballPulse 1.1s ease-in-out infinite;animation-delay:.5s"/>
+          <!-- R shot across goal -->
+          <path d="M333,334 Q278,300 238,270" fill="none" stroke="#f97316" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#s1a)" style="animation:dashFlow 1.6s linear infinite;animation-delay:.5s"/>
+          <!-- Or pass to L -->
+          <path d="M330,338 Q240,330 172,310" fill="none" stroke="#a3e635" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#s1b)" opacity=".5" style="animation:dashFlow 2s linear infinite;animation-delay:1s"/>
+          <text x="220" y="348" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace" opacity=".6">or pass for +2 combo goal</text>
+          <!-- Progression badge -->
+          <rect x="14" y="356" width="148" height="16" fill="rgba(249,115,22,.1)" stroke="rgba(249,115,22,.25)" stroke-width="1" rx="1" style="animation:badgeFlash 2.5s ease-in-out infinite"/>
+          <text x="88" y="367" fill="#f97316" font-size="7.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">PROGRESSION: ADD 2ND DEF</text>
+
+          <!-- Legend -->
+          <circle cx="200" cy="382" r="8" fill="#1e1400" stroke="#f97316" stroke-width="2.2"/>
+          <text x="212" y="385.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Attacker</text>
+          <circle cx="278" cy="382" r="8" fill="#0a1e28" stroke="#38bdf8" stroke-width="2"/>
+          <text x="290" y="385.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Defender</text>
+          <line x1="340" y1="382" x2="356" y2="382" stroke="#a3e635" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#s1b)"/>
+          <text x="360" y="385.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Combo</text>
+        </svg>
+      </div>
+      <div class="dsub">Stage 1: L attacks, M reads rebound. Stage 2: M activates, L still live — defender must cover both. Stage 3: R drives, L and M positioned — defender outnumbered. Green dashed = +2 combo pass option.</div>
+    </div>
+    <div class="ptop-info">
+      <div style="background:rgba(249,115,22,.05);border:1px solid rgba(249,115,22,.2);border-left:2px solid var(--orange);padding:11px 14px;margin-bottom:12px;border-radius:0 3px 3px 0">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;opacity:.9">Wave Structure — Three Stages</div>
+
+        <!-- Stage 1 -->
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:6px 12px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.05)">
+          <div style="display:flex;align-items:center;justify-content:center;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);border-radius:2px;padding:4px">
+            <span style="font-family:var(--display);font-size:20px;color:var(--orange);line-height:1">1v1</span>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px">Stage 1 — Left Attacker Activates</div>
+            <div style="font-size:12px;color:rgba(240,246,255,.82);line-height:1.5">Left attacker starts with the ball and attacks the single defender. <strong style="color:var(--white)">Crossing-foot rule applies</strong> — goes left of centre, finishes left foot into the right side of the goal. Wave continues until the ball is dead (goal, defender wins it, ball out). Left attacker then holds their position in the pitch — they are still active.</div>
+          </div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:6px 12px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.05)">
+          <div style="display:flex;align-items:center;justify-content:center;background:rgba(249,115,22,.18);border:1px solid rgba(249,115,22,.4);border-radius:2px;padding:4px">
+            <span style="font-family:var(--display);font-size:20px;color:var(--orange);line-height:1">2v1</span>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px">Stage 2 — Middle Attacker Activates</div>
+            <div style="font-size:12px;color:rgba(240,246,255,.82);line-height:1.5">Middle attacker activates with the ball. Left attacker is still live — now a second option for combination play or a positioned target for a rebound. Defender must manage two attackers. <strong style="color:var(--white)">Middle attacker: crossing-foot rule on their first shot only.</strong> Left attacker free to finish with any foot on follow-up. Stage ends when ball is dead. Both attackers hold position.</div>
+          </div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:6px 12px">
+          <div style="display:flex;align-items:center;justify-content:center;background:rgba(249,115,22,.24);border:1px solid rgba(249,115,22,.5);border-radius:2px;padding:4px">
+            <span style="font-family:var(--display);font-size:20px;color:var(--orange);line-height:1">3v1</span>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px">Stage 3 — Right Attacker Activates</div>
+            <div style="font-size:12px;color:rgba(240,246,255,.82);line-height:1.5">Right attacker activates with the ball. All three attackers and the single defender are now live. This is the highest pressure moment for the defender and the richest opportunity for attackers to create rebounds. <strong style="color:var(--white)">Right attacker: crossing-foot rule on their first shot.</strong> Left and middle free to finish any foot. Wave ends when ball is dead. Full wave complete — rotate.</div>
+          </div>
+        </div>
+      </div>
+      <div class="how">
+        <div class="how-h">Rotation After Each Wave</div>
+        <div class="how-steps">
+          <div class="step"><div class="step-n" style="color:var(--orange)">→</div><div class="step-t"><strong style="color:var(--white)">The right attacker becomes the next defender</strong> after each wave ends. This means every player in the group will defend — and every player who has just experienced the 3v1 as the hardest attacking scenario will know what the defender faces.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--orange)">→</div><div class="step-t">Left and middle attackers rotate stations each wave: left → middle → right → defender → left. Everyone cycles through all three positions and the defender role.</div></div>
+          <div class="step"><div class="step-n" style="color:var(--orange)">→</div><div class="step-t">With 12 players and 4 active per wave (3 att + 1 def), the remaining 8 wait in two groups at the side — split by station (left waiters, middle waiters, right waiters). No player waits more than 3 waves.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- THREE-COL: setup | rules | coaching points -->
+  <div class="p3col">
+    <div class="p3col-block">
+      <div class="p3col-h">Setup</div>
+      <div class="setup-g">
+        <div class="sl">Pitch</div><div class="sv">Full half of the quarter pitch (A+B merged)</div>
+        <div class="sl">Goal</div><div class="sv">One full goal at defending end</div>
+        <div class="sl">Stations</div><div class="sv">Left · Centre · Right (each ~1/3 width)</div>
+        <div class="sl">Active per wave</div><div class="sv">3 attackers + 1 defender</div>
+        <div class="sl">Foot rule</div><div class="sv">Applies to each attacker's first shot only</div>
+        <div class="sl">Rebounds</div><div class="sv">Live throughout — no time limit between stages</div>
+        <div class="sl">Rotation</div><div class="sv">Right attacker → defender · all others shift left</div>
+      </div>
+    </div>
+    <div class="p3col-block">
+      <div class="p3col-h">Rules</div>
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div>Left attacker starts Stage 1. Middle activates at the start of Stage 2 (ball dead from Stage 1). Right activates at the start of Stage 3 (ball dead from Stage 2).</div>
+        <div class="rule"><div class="rn">2.</div>Crossing-foot rule applies to each attacker's first shot in their stage. Rebounds and follow-ups: any foot.</div>
+        <div class="rule"><div class="rn">3.</div>Attackers hold their position in the pitch after their stage ends — they are still active for rebounds and combination play.</div>
+        <div class="rule"><div class="rn">4.</div>Defender may not leave the defensive half at any point. They defend the full three stages alone.</div>
+        <div class="rule"><div class="rn">5.</div>Ball dead = goal scored, defender wins it, or ball leaves the pitch. Next stage activates from the side (station player holds their start position until activated).</div>
+        <div class="rule"><div class="rn">6.</div>Combination goal (+2): direct assist from a rebound or pass to a scoring teammate. Coach calls it live.</div>
+        <div class="rule"><div class="rn">7.</div>After the full wave (all three stages): right attacker becomes next defender. Everyone else rotates left one station. New wave begins.</div>
+      </div>
+    </div>
+    <div class="p3col-block">
+      <div class="p3col-h">Coaching Points</div>
+      <div class="cp-list compact">
+        <div class="cp"><div class="cp-dot" style="background:var(--orange)"></div><div>
+          <div class="cp-title">Left attacker: your shot starts the rebound chain — aim with intent</div>
+          <div class="cp-desc">The left attacker isn't just trying to score. Their shot should be driven to a zone that creates the most dangerous rebound for the middle attacker who is activating next. Across-goal to the right side of the goal means the rebound typically goes to the middle or far post — directly where the middle attacker should be positioned. Cue: <em style="color:var(--white)">"shoot to score, but know where the rebound goes."</em></div>
+          <span class="cp-tag" style="background:var(--orange-dim);color:var(--orange)">Rebound intent</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--orange)"></div><div>
+          <div class="cp-title">Middle attacker in Stage 2: you have two jobs before the ball arrives</div>
+          <div class="cp-desc">While the left attacker takes their shot, the middle attacker should already be: (1) reading where the rebound is likely to go, and (2) positioning to be the best second option. If the shot goes in, they immediately think about their own activation. If it rebounds, they're already in the right place. They should never be watching the shot — they should be moving during it.</div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Anticipation</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--orange)"></div><div>
+          <div class="cp-title">Right attacker in Stage 3: read the defender's position — not the ball</div>
+          <div class="cp-desc">By Stage 3 the defender has been working for two stages and may be pulled toward one side or out of position. The right attacker should drive to the space the defender is not — the opposite side from where the defender has been drawn. Two teammates are already in the box. The right attacker's job may be to create the assist, not the goal.</div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Decision-making</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--orange)"></div><div>
+          <div class="cp-title">Defender: the hardest moment is Stage 2 — hold shape, don't chase</div>
+          <div class="cp-desc">When the middle attacker activates, the instinct is to step toward the new ball. But the left attacker is still live in the box. The defender must hold a position that covers both threats simultaneously — goal-side of both attackers, not fully committed to either. The 3v1 in Stage 3 is less dangerous for the defender who has maintained good positioning than it is for the one who has been pulled all over the pitch.</div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Defensive shape</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <!-- PROG + REG -->
+  <div class="p2col">
+    <div class="prog">
+        <div class="prog-h">Progression — Stage 3 becomes 2v2</div>
+        <div class="pi"><div class="pn">+</div><div>When Stage 3 feels too easy for attackers: a second defender activates at the same moment as the right attacker — creating a 3v2 (or effectively 2v2 at the point of the right attacker's first contact). The second defender comes from the waiting group. This shifts the emphasis from free finishing to combination play under defensive pressure. Call it when you see the defender being overwhelmed with no defensive resistance remaining.</div></div>
+      </div>
+    <div class="reg">
+        <div class="reg-h">Regression</div>
+        <div class="ri"><div class="rni">−</div><div>Pause the practice between stages — allow players to set their positions before the next attacker activates. Slows the wave down but lets players consciously experience and discuss the positioning decisions before full pace is reintroduced.</div></div>
+      </div>
+  </div>
+
+
+<div style="padding:0 16px 12px;border-top:1px solid rgba(255,255,255,.06)">
+        <div class="watch">
+          <div class="watch-header"><span class="wtag">Watch For</span><span class="watch-title">Practice 2 — All Stages</span></div>
+          <div class="watch-body">
+            <div class="w-col">
+              <div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+              <div class="wi wi-g">M already moving to rebound zone during L's shot</div>
+              <div class="wi wi-g">R reading defender's position before driving — going to open space</div>
+              <div class="wi wi-g">Combination goals — pass to positioned teammate instead of shooting</div>
+              <div class="wi wi-g">Defender holding central position across all three stages</div>
+            </div>
+            <div class="w-col">
+              <div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+              <div class="wi wi-a">L and M bunching — not spreading across width of goal</div>
+              <div class="wi wi-a">Waiting attackers watching shots instead of moving</div>
+              <div class="wi wi-a">R always shooting — not seeing the two positioned teammates</div>
+              <div class="wi wi-a">Defender chasing the ball — getting pulled wide and leaving the middle</div>
+            </div>
+            <div class="w-col">
+              <div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> If Not Working</div>
+              <div class="wi wi-r">Stages feel disconnected → pause between each stage for 5 minutes, let players consciously position themselves before the next attacker activates</div>
+              <div class="wi wi-r">3v1 too easy → trigger the 2v2 progression immediately — add second defender at Stage 3</div>
+            </div>
+          </div>
+        </div>
+</div>
+</div>
+
+
+<!-- BRIDGE P2 → P3 -->
+<div style="background:var(--s2);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--lime);padding:11px 16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start">
+  <div style="font-family:var(--display);font-size:20px;color:var(--lime);flex-shrink:0;line-height:1.2">→</div>
+  <div>
+    <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:3px;opacity:.85">Bridge — Practice 2 to Practice 3 · All 20 together · 60 seconds</div>
+    <div style="font-size:11.5px;color:rgba(240,246,255,.72);line-height:1.6">Bring both groups together. Ask: <em style="color:var(--white)">"When you scored across goal in P2 — where did the rebound go? Did anyone call for it?"</em> Then: <em style="color:var(--white)">"In this game, that rebound counts double if it's struck across goal. Two points. So every shot is also a pass. Position yourselves like there's a teammate waiting at the far post — because there will be."</em></div>
+  </div>
+</div>
+
+<!-- ── P3 SECTION HEADING ── -->
+<div class="sh"><div class="sh-text">Practice 3 — Three-Team Rotating Game</div><div class="sh-line"></div></div>
+
+<div class="pcard" style="--pcc:var(--sky);--pccrgb:56,189,248">
+  <div class="pcard-header">
+    <span class="p-tag" style="background:var(--sky-dim);color:var(--sky)">Full Game · All 20 · Three Teams · Winner Stays</span>
+    <div>
+      <div class="p-name">Rotating Game — Winner Stays On · Rebound Bonus</div>
+      <div class="p-sub">Teams of 7, 7, 6 · one team rests · rebound across-goal = 2 goals · full quarter pitch</div>
+    </div>
+    <div class="p-dur" style="color:var(--sky)">20<span>MIN</span></div>
+  </div>
+  
+  <!-- P3 BODY -->
+  <!-- TOP ROW: diagram + obj + rebound rule -->
+  <div class="ptop">
+    <div class="ptop-diag">
+      <div class="dlabel" style="color:var(--sky)">P3 — Three-Team Rotation · Winner Stays</div>
+      <div class="dwrap">
+        <svg viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p3a" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#a3e635"/></marker>
+            <marker id="p3b" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#38bdf8"/></marker>
+            <marker id="p3c" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#f59e0b"/></marker>
+            <marker id="p3d" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#22c55e"/></marker>
+          </defs>
+          <rect width="400" height="460" fill="#090e14" rx="3"/>
+
+          <!-- Pitch -->
+          <rect x="16" y="14" width="310" height="400" fill="none" stroke="#1a2a38" stroke-width="1.5"/>
+          <!-- Goals both ends -->
+          <rect x="108" y="14" width="126" height="10" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+          <text x="171" y="36" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL</text>
+          <rect x="108" y="404" width="126" height="10" fill="none" stroke="#a3e635" stroke-width="2.5"/>
+          <text x="171" y="427" fill="#a3e635" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace">GOAL</text>
+          <!-- Halfway -->
+          <line x1="16" y1="214" x2="326" y2="214" stroke="#1a2a38" stroke-width="1"/>
+          <text x="171" y="210" fill="#1a2a38" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">HALFWAY</text>
+
+          <!-- TEAM A (lime) — upper half -->
+          <circle cx="80" cy="80" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8" style="animation:runDiagR 2s ease-in-out infinite"/>
+          <text x="80" y="83.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <circle cx="160" cy="65" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8" style="animation:runUp 2.1s ease-in-out infinite;animation-delay:.3s"/>
+          <text x="160" y="68.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <circle cx="240" cy="80" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8" style="animation:runDiagL 2.2s ease-in-out infinite;animation-delay:.6s"/>
+          <text x="240" y="83.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <circle cx="100" cy="138" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="100" y="141.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <circle cx="200" cy="125" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="200" y="128.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <circle cx="270" cy="145" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="270" y="148.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <circle cx="170" cy="100" r="10" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="170" y="103.5" fill="#a3e635" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">A</text>
+          <!-- Ball at A -->
+          <circle cx="160" cy="65" r="4" fill="#fff" style="animation:ballPulse 1s ease-in-out infinite"/>
+
+          <!-- TEAM B (sky) — lower half -->
+          <circle cx="80" cy="350" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8" style="animation:runDiagL 2s ease-in-out infinite;animation-delay:.2s"/>
+          <text x="80" y="353.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+          <circle cx="160" cy="365" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8" style="animation:runUp 1.9s ease-in-out infinite;animation-delay:.5s"/>
+          <text x="160" y="368.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+          <circle cx="240" cy="350" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8" style="animation:runDiagR 2.1s ease-in-out infinite;animation-delay:.8s"/>
+          <text x="240" y="353.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+          <circle cx="100" cy="295" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="100" y="298.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+          <circle cx="200" cy="308" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="200" y="311.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+          <circle cx="270" cy="290" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="270" y="293.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+          <circle cx="170" cy="335" r="10" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="170" y="338.5" fill="#38bdf8" font-size="7" text-anchor="middle" font-family="IBM Plex Mono,monospace">B</text>
+
+          <!-- TEAM C (amber) resting — right side panel -->
+          <rect x="336" y="80" width="58" height="262" fill="rgba(245,158,11,.05)" stroke="rgba(245,158,11,.2)" stroke-width="1" rx="2"/>
+          <text x="365" y="165" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" transform="rotate(90,365,165)">TEAM C — RESTING</text>
+          <circle cx="365" cy="104" r="8" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5" opacity=".7"/>
+          <text x="365" y="107" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+          <circle cx="365" cy="126" r="8" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5" opacity=".7"/>
+          <text x="365" y="129" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+          <circle cx="365" cy="148" r="8" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5" opacity=".6"/>
+          <text x="365" y="151" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+          <circle cx="365" cy="170" r="8" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5" opacity=".6"/>
+          <text x="365" y="173" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+          <circle cx="365" cy="192" r="8" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5" opacity=".5"/>
+          <text x="365" y="195" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+          <circle cx="365" cy="214" r="8" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5" opacity=".5"/>
+          <text x="365" y="217" fill="#f59e0b" font-size="6.5" text-anchor="middle" font-family="IBM Plex Mono,monospace">C</text>
+
+          <!-- Shot and rebound bonus annotation -->
+          <!-- A1 shoots across goal -->
+          <path d="M78,72 Q120,42 138,26" fill="none" stroke="#a3e635" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#p3a)" style="animation:dashFlow 1.8s linear infinite"/>
+          <!-- Rebound from goal -->
+          <path d="M170,24 Q195,55 238,72" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#p3d)" opacity=".7" style="animation:dashFlow 2.2s linear infinite;animation-delay:.5s"/>
+          <!-- A3 at far post ready for rebound -->
+          <rect x="246" y="56" width="70" height="22" fill="rgba(34,197,94,.12)" stroke="rgba(34,197,94,.3)" stroke-width="1.2" rx="1" style="animation:badgeFlash 1.8s ease-in-out infinite"/>
+          <text x="281" y="65.5" fill="#22c55e" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">REBOUND</text>
+          <text x="281" y="74.5" fill="#22c55e" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace">ACROSS = ×2!</text>
+
+          <!-- Winner stays arrow -->
+          <rect x="16" y="436" width="310" height="22" fill="rgba(56,189,248,.06)" stroke="rgba(56,189,248,.18)" stroke-width="1" rx="1"/>
+          <text x="171" y="449" fill="#38bdf8" font-size="8" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">WINNER STAYS · LOSER RESTS · TEAM C ENTERS</text>
+
+          <!-- Rotation arrows -->
+          <path d="M326,320 Q350,290 350,260 Q350,240 336,214" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#p3c)" opacity=".6" style="animation:arrowMarch 2s linear infinite;animation-delay:.5s"/>
+          <text x="356" y="270" fill="#f59e0b" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">enters</text>
+          <text x="356" y="279" fill="#f59e0b" font-size="7" font-family="IBM Plex Mono,monospace" opacity=".6">on loss</text>
+
+          <!-- Legend -->
+          <circle cx="16" cy="450" r="7" fill="#0f1e0a" stroke="#a3e635" stroke-width="1.8"/>
+          <text x="27" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team A</text>
+          <circle cx="95" cy="450" r="7" fill="#0a1828" stroke="#38bdf8" stroke-width="1.8"/>
+          <text x="106" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team B</text>
+          <circle cx="174" cy="450" r="7" fill="#1e1500" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="185" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Team C (rest)</text>
+          <line x1="274" y1="450" x2="290" y2="450" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#p3d)"/>
+          <text x="294" y="453.5" fill="#4a6070" font-size="7.5" font-family="IBM Plex Mono,monospace">Rebound ×2</text>
+        </svg>
+      </div>
+      <div class="dsub">Teams A and B play. Team C rests and watches. A shoots across goal — rebound struck across = ×2. Winner stays. Loser rests, Team C enters. First to 5 goals wins the game.</div>
+    </div>
+    <div class="ptop-info">
+      <div class="obj">
+        <div class="obj-l">Objective</div>
+        <div class="obj-t">A free game that rewards everything the session has built: shooting with intent across goal, generating rebounds, and positioning to attack second balls. Three rotating teams — the winning team stays on, the losing team rests and the resting team enters. The rebound bonus (2 goals for a rebound struck across goal) keeps all players alive and moving after every shot, not just the scorer.</div>
+      </div>
+      <div class="mechanic">
+        <div class="mech-h">The Rebound Rule — Across-Goal Rebound = 2 Goals</div>
+        <div style="font-size:12.5px;color:rgba(240,246,255,.82);line-height:1.6;margin-bottom:8px">A goal scored from a rebound that is struck <strong style="color:var(--white)">across the goal</strong> (same rule as P1 and P2 — feet to far side) counts as <strong style="color:var(--orange)">2 goals</strong>. A rebound tapped in near-post or straight counts as 1 goal. This keeps the across-goal technique alive in a free game context and rewards players who position themselves correctly at the far post.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(163,230,53,.07);border:1px solid rgba(163,230,53,.2);padding:8px 12px;border-radius:2px">
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--lime);margin-bottom:5px">Rebound across goal</div>
+            <div style="font-family:var(--display);font-size:28px;color:var(--lime);line-height:1">2 goals</div>
+            <div style="font-size:11px;color:var(--grey-hi);margin-top:3px">Ball struck across the goal from a rebound position — far post, across body finish</div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:8px 12px;border-radius:2px">
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey-hi);margin-bottom:5px">Normal goal or near-post rebound</div>
+            <div style="font-family:var(--display);font-size:28px;color:var(--white);line-height:1">1 goal</div>
+            <div style="font-size:11px;color:var(--grey-hi);margin-top:3px">Any standard goal or same-side rebound tap-in</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FULL WIDTH: team split -->
+  <div class="pfull">
+    <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);padding:11px 14px;margin-bottom:12px">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--sky);margin-bottom:10px;opacity:.85">Team Split — 20 Players · 3 Teams</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;overflow:hidden;border:1px solid rgba(255,255,255,.06)">
+          <div style="padding:10px 13px;border-right:1px solid rgba(255,255,255,.06)">
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--lime);margin-bottom:7px">Team A · 7 players</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">August</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">Santi</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">Knut</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">Vidar</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">Aaron</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">Oscar</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px">Player</span>
+            </div>
+          </div>
+          <div style="padding:10px 13px;border-right:1px solid rgba(255,255,255,.06)">
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sky);margin-bottom:7px">Team B · 7 players</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Dante</span>
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Johannes</span>
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Pep</span>
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Mille</span>
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Samuel A</span>
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Adam G</span>
+              <span class="chip chip-w" style="font-size:9.5px;padding:2px 7px">Player</span>
+            </div>
+          </div>
+          <div style="padding:10px 13px">
+            <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:7px">Team C · 6 players</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px;background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.22)">Player</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px;background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.22)">Player</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px;background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.22)">Player</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px;background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.22)">Player</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px;background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.22)">Player</span>
+              <span class="chip chip-s" style="font-size:9.5px;padding:2px 7px;background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.22)">Player</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--grey-hi);margin-top:8px;letter-spacing:.3px">Fill in Team C and the remaining Player slots with the weaker group players once names are confirmed. Balance the teams so neither strong-group heavy team faces the weaker group team disproportionately.</div>
+      </div>
+  </div>
+  <!-- THREE-COL: rules | coaching points | prog+reg -->
+  <div class="p3col">
+    <div class="p3col-block">
+      <div class="p3col-h">Rules</div>
+      <div class="rules-h">Rules</div>
+      <div class="rules">
+        <div class="rule"><div class="rn">1.</div>Normal football. No GK. Two teams play, one rests. Winner stays on — losing team rests, resting team enters.</div>
+        <div class="rule"><div class="rn">2.</div>A rebound goal struck across the goal (far post, opposite foot) counts as 2 goals. Coach calls "two!" when it happens.</div>
+        <div class="rule"><div class="rn">3.</div>No crossing-foot requirement on initial shots — players choose freely. The rule only applies to the rebound bonus: to earn 2 goals the rebound must be an across-goal finish.</div>
+        <div class="rule"><div class="rn">4.</div>Game length: first to 5 goals (or 2-goal lead after 4 minutes, whichever comes first). Keeps rotation frequent and intensity high.</div>
+        <div class="rule"><div class="rn">5.</div>Resting team may not advise or coach during the game — they observe and prepare.</div>
+        <div class="rule"><div class="rn">6.</div>If a team wins 3 games in a row, they rotate off and the longest-resting team enters — prevents dominance killing competitive intensity.</div>
+      </div>
+    </div>
+    <div class="p3col-block">
+      <div class="p3col-h">Coaching Points</div>
+      <div class="cp-list compact">
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">Every shot is a potential assist — move to the rebound before you know if it's needed</div>
+          <div class="cp-desc">The player who moves to the far post before the shot lands will score the 2-goal rebound. The player who watches the shot and reacts after will always arrive a step too late. The habit of moving on every shot — not waiting to see if it goes in — is what this game is training. Cue: <em style="color:var(--white)">"shoot and move, not shoot and watch."</em></div>
+          <span class="cp-tag" style="background:var(--sky-dim);color:var(--sky)">Rebound positioning</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">Across-goal finishes from rebounds create the best chance — even if harder</div>
+          <div class="cp-desc">A near-post tap-in is 1 goal. An across-goal rebound is 2. In a game to 5, that difference wins games. Players who see that rebounding correctly is the highest-percentage route to winning will start to take the harder finish deliberately, not accidentally — exactly the technical habit from P1 and P2 carried into a competitive context.</div>
+          <span class="cp-tag" style="background:var(--orange-dim);color:var(--orange)">Technique under pressure</span>
+        </div></div>
+        <div class="cp"><div class="cp-dot" style="background:var(--sky)"></div><div>
+          <div class="cp-title">Observe the resting team — who is talking? Who is watching nothing?</div>
+          <div class="cp-desc">The resting team reveals a lot. Players who are engaged, tracking the game and thinking about what they'll do when they enter are building mental models even without the ball. Players who have switched off the moment they're not playing are losing development time. Note who is watching and who isn't — it's worth a brief observation comment after the session.</div>
+          <span class="cp-tag" style="background:var(--lime-dim);color:var(--lime)">Player engagement</span>
+        </div></div>
+      </div>
+    </div>
+    <div class="p3col-block">
+      <div class="p3col-h">Progressions &amp; Regression</div>
+      <div class="prog">
+        <div class="prog-h">Progressions</div>
+        <div class="pi"><div class="pn">P1</div><div>Increase rebound bonus to 3 goals for an across-goal rebound — teams will explicitly set up to generate rebounds, creating the tactical awareness the session has been building all along.</div></div>
+        <div class="pi"><div class="pn">P2</div><div>A goal from a direct across-goal shot (not just a rebound) also earns 2 goals. This ties the entire session together — every across-goal finish is rewarded, whether first shot or rebound.</div></div>
+      </div>
+      <div class="reg">
+        <div class="reg-h">Regression</div>
+        <div class="ri"><div class="rni">−</div><div>Remove the rebound bonus entirely — play freely to 5 goals. If the session themes (across-goal finishing, rebound positioning) are still appearing naturally, the habits are embedding. If not, name it in the debrief and plan to revisit in the next session.</div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="padding:0 16px 12px;border-top:1px solid rgba(255,255,255,.06)">
+    <div class="watch">
+      <div class="watch-header"><span class="wtag">Watch For</span><span class="watch-title">Practice 3 — Rotating Game</span></div>
+      <div class="watch-body">
+        <div class="w-col">
+          <div class="w-col-h" style="color:var(--lime)"><span class="dot-g"></span> Good Signs</div>
+          <div class="wi wi-g">Players calling "rebound!" before the shot and moving to position</div>
+          <div class="wi wi-g">Across-goal rebounds being attempted — not just near-post tap-ins</div>
+          <div class="wi wi-g">Resting team actively watching — not switched off</div>
+          <div class="wi wi-g">Teams specifically setting up shots to create rebound opportunities</div>
+        </div>
+        <div class="w-col">
+          <div class="w-col-h" style="color:var(--amber)"><span class="dot-a"></span> Fix These</div>
+          <div class="wi wi-a">Nobody moving to rebounds — players stopping after their own shot</div>
+          <div class="wi wi-a">Rebound rule being forgotten mid-game — coach call "two!" loudly to reinforce</div>
+          <div class="wi wi-a">All shots from same angle — players not using width of pitch</div>
+        </div>
+        <div class="w-col">
+          <div class="w-col-h" style="color:var(--red)"><span class="dot-r"></span> End of Session Debrief</div>
+          <div class="wi wi-r">Ask: "How many times did someone score a 2-goal rebound — why did it happen?"</div>
+          <div class="wi wi-r">Ask: "What was different about your shooting today vs how you normally finish?"</div>
+          <div class="wi wi-r">Note: if across-goal habit is still absent, open P1 in the next session</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div><div class="fl">Club</div><div class="fv">EIK</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">Session</div><div class="fv">Finishing with Intent — Practices 1, 2 &amp; 3</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">P1</div><div class="fv">3v3 waves · 4 quarter pitches · crossing-foot rule</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">P2</div><div class="fv">Escalating wave · half pitch · 1v1→2v1→3v1</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">P3</div><div class="fv">3-team rotation · winner stays · rebound ×2</div></div>
+  <div class="fdiv"></div>
+  <div><div class="fl">Players</div><div class="fv">20 (no GK)</div></div>
+  <div class="fpills">
+    <span class="fpill">Finishing</span>
+    <span class="fpill">Both Feet</span>
+    <span class="fpill">Rebound Intent</span>
+    <span class="fpill">Across Goal</span>
+    <span class="fpill">Winner Stays</span>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
